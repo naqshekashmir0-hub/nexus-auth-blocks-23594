@@ -1,7 +1,7 @@
 import { LayoutDashboard, Package, ShoppingCart, List, ChevronRight, FolderOpen } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, useSidebar } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProfileMenu } from "./ProfileMenu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 const dashboardItems = [{
   title: "Dashboard",
@@ -74,27 +74,9 @@ export function AppSidebar() {
       <SidebarFooter className="border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="h-auto p-3 hover:bg-sidebar-accent">
-              <div className={`flex items-center gap-3 w-full ${!open && "justify-center"}`}>
-                <Avatar className="h-10 w-10 border-2 border-primary/20">
-                  <AvatarImage src="/placeholder.svg" alt="User" />
-                  <AvatarFallback className="bg-primary text-primary-foreground font-medium">
-                    JD
-                  </AvatarFallback>
-                </Avatar>
-                {open && <>
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-sidebar-foreground truncate">
-                        John Doe
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        UI/UX Designer
-                      </p>
-                    </div>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                  </>}
-              </div>
-            </SidebarMenuButton>
+            <div className={`p-3 ${!open && "flex justify-center"}`}>
+              <ProfileMenu />
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

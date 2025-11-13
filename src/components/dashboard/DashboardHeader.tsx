@@ -2,7 +2,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Bell, Search, Maximize2, Settings, MessageSquare, Grid3x3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProfileMenu } from "./ProfileMenu";
 export function DashboardHeader() {
   return <header className="sticky top-0 z-10 flex h-16 items-center border-b bg-background">
       <div className="flex items-center gap-4 px-4 md:px-6">
@@ -21,14 +21,7 @@ export function DashboardHeader() {
         </Button>
         
         <div className="ml-2 pl-2 border-l">
-          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full p-0">
-            <Avatar className="h-10 w-10 border-2 border-primary/20">
-              <AvatarImage src="/placeholder.svg" alt="User" />
-              <AvatarFallback className="bg-primary text-primary-foreground">
-                JD
-              </AvatarFallback>
-            </Avatar>
-          </Button>
+          <ProfileMenu />
         </div>
       </div>
     </header>;
