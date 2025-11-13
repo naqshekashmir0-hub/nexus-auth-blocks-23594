@@ -18,7 +18,7 @@ export const AuthCard = ({
     background: 'var(--gradient-auth)'
   }}>
       <Card className="w-full max-w-md p-8 shadow-xl rounded-lg min-h-[600px]">
-        <div className="mb-16 text-center">
+        <div className="pt-8 mb-16 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
             {isLogin ? <LogIn className="w-8 h-8 text-primary" /> : <UserPlus className="w-8 h-8 text-primary" />}
           </div>
