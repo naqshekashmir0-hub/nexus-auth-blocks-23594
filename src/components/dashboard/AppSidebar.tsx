@@ -26,8 +26,16 @@ const dashboardItems = [{
 }];
 export function AppSidebar() {
   const {
-    open
+    open,
+    isMobile,
+    setOpenMobile
   } = useSidebar();
+
+  const handleItemClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
   return <Sidebar collapsible="icon" className="border-r border-border/10 shadow-lg bg-card data-[state=collapsed]:w-20 data-[state=expanded]:w-48">
       <SidebarContent>
         {/* Logo/Brand Section */}
@@ -51,7 +59,7 @@ export function AppSidebar() {
             <SidebarMenu className="space-y-2">
               {dashboardItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title} className="h-11">
-                    <NavLink to={item.url} end={item.url === "/dashboard"} className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors" activeClassName="bg-sidebar-accent text-primary font-medium">
+                    <NavLink to={item.url} end={item.url === "/dashboard"} className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors" activeClassName="bg-sidebar-accent text-primary font-medium" onClick={handleItemClick}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
