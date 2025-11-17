@@ -74,8 +74,8 @@ export function AppSidebar() {
       <SidebarFooter className="border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-            <div className={`p-3 ${!open && "flex justify-center"}`}>
-              <ProfileMenu />
+            <div className={`p-2 ${!open && "flex justify-center"}`}>
+              <ProfileMenu variant={open ? "full" : "icon"} />
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
