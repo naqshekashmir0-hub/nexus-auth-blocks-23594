@@ -8,7 +8,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-export function ProfileMenu() {
+interface ProfileMenuProps {
+  variant?: "icon" | "full";
+}
+
+export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
   const handleLogout = () => {
     // TODO: Implement logout logic
     console.log("Logout clicked");
@@ -17,14 +21,31 @@ export function ProfileMenu() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full p-0">
-          <Avatar className="h-10 w-10 border-2 border-primary/20">
-            <AvatarImage src="/placeholder.svg" alt="User" />
-            <AvatarFallback className="bg-primary text-primary-foreground">
-              JD
-            </AvatarFallback>
-          </Avatar>
-        </Button>
+        {variant === "icon" ? (
+          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full p-0">
+            <Avatar className="h-10 w-10 border-2 border-primary/20">
+              <AvatarImage src="/placeholder.svg" alt="User" />
+              <AvatarFallback className="bg-primary text-primary-foreground">
+                JD
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        ) : (
+          <Button variant="ghost" className="w-full justify-start p-2 h-auto hover:bg-sidebar-accent">
+            <div className="flex items-center gap-3">
+              <Avatar className="h-10 w-10 border-2 border-primary/20">
+                <AvatarImage src="/placeholder.svg" alt="User" />
+                <AvatarFallback className="bg-primary text-primary-foreground">
+                  JD
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 text-left">
+                <p className="font-semibold text-sm">JWT User</p>
+                <p className="text-xs text-muted-foreground">UI/UX Designer</p>
+              </div>
+            </div>
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent className="w-64 p-4" align="end">
         <div className="flex items-center gap-3 mb-3">
