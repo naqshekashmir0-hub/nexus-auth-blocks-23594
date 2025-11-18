@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import Products from "./pages/dashboard/Products";
+import ProductForm from "./pages/dashboard/ProductForm";
 import Orders from "./pages/dashboard/Orders";
 import Categories from "./pages/dashboard/Categories";
 import Items from "./pages/dashboard/Items";
@@ -29,6 +30,8 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="products" element={<Products />} />
+            <Route path="products/add" element={<ProductForm />} />
+            <Route path="products/edit" element={<ProductForm />} />
             <Route path="orders" element={<Orders />} />
             <Route path="categories" element={<Categories />} />
             <Route path="items" element={<Items />} />

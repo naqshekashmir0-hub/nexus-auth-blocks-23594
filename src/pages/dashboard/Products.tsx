@@ -1,10 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -27,18 +26,9 @@ const mockProducts: Product[] = [
 ];
 
 export default function Products() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>(mockProducts);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState<Omit<Product, "id">>({
-    name: "",
-    sku: "",
-    category: "",
-    price: 0,
-    stock: 0,
-    status: "active",
-  });
   const { toast } = useToast();
 
   const filteredProducts = products.filter((product) =>
@@ -47,57 +37,12 @@ export default function Products() {
     product.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleAddProduct = () => {
-    setEditingProduct(null);
-    setFormData({ name: "", sku: "", category: "", price: 0, stock: 0, status: "active" });
-    setIsDialogOpen(true);
-  };
-
-  const handleEditProduct = (product: Product) => {
-    setEditingProduct(product);
-    setFormData({
-      name: product.name,
-      sku: product.sku,
-      category: product.category,
-      price: product.price,
-      stock: product.stock,
-      status: product.status,
-    });
-    setIsDialogOpen(true);
-  };
-
   const handleDeleteProduct = (id: string) => {
     setProducts(products.filter((p) => p.id !== id));
     toast({
       title: "Product deleted",
       description: "The product has been removed successfully.",
     });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (editingProduct) {
-      setProducts(products.map((p) => 
-        p.id === editingProduct.id ? { ...formData, id: p.id } : p
-      ));
-      toast({
-        title: "Product updated",
-        description: "The product has been updated successfully.",
-      });
-    } else {
-      const newProduct = {
-        ...formData,
-        id: Date.now().toString(),
-      };
-      setProducts([...products, newProduct]);
-      toast({
-        title: "Product added",
-        description: "The new product has been added successfully.",
-      });
-    }
-    
-    setIsDialogOpen(false);
   };
 
   return (
@@ -110,77 +55,10 @@ export default function Products() {
           </p>
         </div>
         
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={handleAddProduct} className="gap-2">
-              <Plus className="h-4 w-4" />
-              Add Product
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <form onSubmit={handleSubmit}>
-              <DialogHeader>
-                <DialogTitle>{editingProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
-                <DialogDescription>
-                  {editingProduct ? "Update the product details below." : "Fill in the product details below."}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Product Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="sku">SKU</Label>
-                  <Input
-                    id="sku"
-                    value={formData.sku}
-                    onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Input
-                    id="category"
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="price">Price</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    step="0.01"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="stock">Stock</Label>
-                  <Input
-                    id="stock"
-                    type="number"
-                    value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: parseInt(e.target.value) })}
-                    required
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">{editingProduct ? "Update" : "Add"} Product</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => navigate("/dashboard/products/add")}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Product
+        </Button>
       </div>
 
       <Card>
@@ -243,13 +121,13 @@ export default function Products() {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleEditProduct(product)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => navigate(`/dashboard/products/edit?id=${product.id}`)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
                           <Button
                             variant="ghost"
                             size="icon"
