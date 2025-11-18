@@ -22,6 +22,7 @@ type ProductFormData = {
   discount: number;
   newBadge: boolean;
   salesBadge: boolean;
+  featured: boolean;
   avatar: string;
   coverImages: string[];
 };
@@ -48,6 +49,7 @@ export default function ProductForm() {
     discount: 0,
     newBadge: false,
     salesBadge: false,
+    featured: false,
     avatar: "",
     coverImages: [],
   });
@@ -280,7 +282,7 @@ export default function ProductForm() {
             <CardTitle>Status & Flags</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-3">
               <div className="flex items-center justify-between space-x-2">
                 <Label htmlFor="newBadge" className="flex flex-col space-y-1">
                   <span>New Badge</span>
@@ -301,6 +303,17 @@ export default function ProductForm() {
                   id="salesBadge"
                   checked={formData.salesBadge}
                   onCheckedChange={(checked) => setFormData({ ...formData, salesBadge: checked })}
+                />
+              </div>
+              <div className="flex items-center justify-between space-x-2">
+                <Label htmlFor="featured" className="flex flex-col space-y-1">
+                  <span>Featured</span>
+                  <span className="font-normal text-xs text-muted-foreground">Highlight this product</span>
+                </Label>
+                <Switch
+                  id="featured"
+                  checked={formData.featured}
+                  onCheckedChange={(checked) => setFormData({ ...formData, featured: checked })}
                 />
               </div>
             </div>
