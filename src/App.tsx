@@ -13,7 +13,9 @@ import Products from "./pages/dashboard/Products";
 import ProductForm from "./pages/dashboard/ProductForm";
 import Orders from "./pages/dashboard/Orders";
 import Categories from "./pages/dashboard/Categories";
-import Items from "./pages/dashboard/Items";
+import SubCategories from "./pages/dashboard/SubCategories";
+import Brand from "./pages/dashboard/Brand";
+import Users from "./pages/dashboard/Users";
 
 const queryClient = new QueryClient();
 
@@ -29,12 +31,14 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
+            <Route path="users" element={<Users />} />
             <Route path="products" element={<Products />} />
             <Route path="products/add" element={<ProductForm />} />
             <Route path="products/edit" element={<ProductForm />} />
-            <Route path="orders" element={<Orders />} />
             <Route path="categories" element={<Categories />} />
-            <Route path="items" element={<Items />} />
+            <Route path="subcategories" element={<SubCategories />} />
+            <Route path="brand" element={<Brand />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
