@@ -10,19 +10,56 @@ import { useToast } from "@/hooks/use-toast";
 type Product = {
   id: string;
   name: string;
-  sku: string;
+  description: string;
+  brand: string;
   category: string;
+  tags: string[];
+  quantity: number;
+  dimensionType: string;
   price: number;
-  stock: number;
-  status: "active" | "inactive";
+  discount: number;
+  actualPrice: number;
+  newBadge: boolean;
+  salesBadge: boolean;
+  featured: boolean;
+  avatar: string;
 };
 
 const mockProducts: Product[] = [
-  { id: "1", name: "Wireless Headphones", sku: "WH-001", category: "Electronics", price: 79.99, stock: 45, status: "active" },
-  { id: "2", name: "Laptop Stand", sku: "LS-002", category: "Accessories", price: 34.99, stock: 120, status: "active" },
-  { id: "3", name: "USB-C Cable", sku: "UC-003", category: "Cables", price: 12.99, stock: 200, status: "active" },
-  { id: "4", name: "Mechanical Keyboard", sku: "MK-004", category: "Electronics", price: 149.99, stock: 30, status: "active" },
-  { id: "5", name: "Mouse Pad", sku: "MP-005", category: "Accessories", price: 19.99, stock: 0, status: "inactive" },
+  { 
+    id: "1", 
+    name: "Wireless Headphones", 
+    description: "Premium wireless headphones with noise cancellation",
+    brand: "TechBrand",
+    category: "Electronics", 
+    tags: ["audio", "wireless"],
+    quantity: 45,
+    dimensionType: "DOZEN",
+    price: 79.99, 
+    discount: 10,
+    actualPrice: 71.99,
+    newBadge: true,
+    salesBadge: false,
+    featured: true,
+    avatar: ""
+  },
+  { 
+    id: "2", 
+    name: "Laptop Stand", 
+    description: "Ergonomic aluminum laptop stand",
+    brand: "ErgoTech",
+    category: "Accessories", 
+    tags: ["ergonomic", "aluminum"],
+    quantity: 120,
+    dimensionType: "DOZEN",
+    price: 34.99, 
+    discount: 0,
+    actualPrice: 34.99,
+    newBadge: false,
+    salesBadge: true,
+    featured: false,
+    avatar: ""
+  },
 ];
 
 export default function Products() {
@@ -33,7 +70,7 @@ export default function Products() {
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -87,18 +124,21 @@ export default function Products() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>SKU</TableHead>
+                  <TableHead>Brand</TableHead>
                   <TableHead>Category</TableHead>
+                  <TableHead>Quantity</TableHead>
+                  <TableHead>Dimension</TableHead>
                   <TableHead>Price</TableHead>
-                  <TableHead>Stock</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Discount</TableHead>
+                  <TableHead>Actual Price</TableHead>
+                  <TableHead>Badges</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredProducts.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center text-muted-foreground">
+                    <TableCell colSpan={10} className="text-center text-muted-foreground">
                       No products found
                     </TableCell>
                   </TableRow>
@@ -106,34 +146,47 @@ export default function Products() {
                   filteredProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell className="font-medium">{product.name}</TableCell>
-                      <TableCell>{product.sku}</TableCell>
+                      <TableCell>{product.brand}</TableCell>
                       <TableCell>{product.category}</TableCell>
+                      <TableCell>{product.quantity}</TableCell>
+                      <TableCell>{product.dimensionType}</TableCell>
                       <TableCell>${product.price.toFixed(2)}</TableCell>
-                      <TableCell>{product.stock}</TableCell>
+                      <TableCell>{product.discount}%</TableCell>
+                      <TableCell className="font-semibold">${product.actualPrice.toFixed(2)}</TableCell>
                       <TableCell>
-                        <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                          product.status === "active" 
-                            ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400" 
-                            : "bg-gray-50 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400"
-                        }`}>
-                          {product.status}
-                        </span>
+                        <div className="flex gap-1 flex-wrap">
+                          {product.newBadge && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                              New
+                            </span>
+                          )}
+                          {product.salesBadge && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-destructive/10 text-destructive">
+                              Sale
+                            </span>
+                          )}
+                          {product.featured && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent-foreground">
+                              Featured
+                            </span>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => navigate(`/dashboard/products/edit?id=${product.id}`)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => navigate(`/dashboard/products/edit/${product.id}`)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => handleDeleteProduct(product.id)}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 className="h-4 w-4 text-destructive" />
                           </Button>
                         </div>
                       </TableCell>
