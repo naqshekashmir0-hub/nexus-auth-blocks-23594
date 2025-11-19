@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, ShoppingCart, List, ChevronRight, FolderOpen } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, FolderOpen, Layers, Tag } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, useSidebar } from "@/components/ui/sidebar";
 import { ProfileMenu } from "./ProfileMenu";
@@ -8,21 +8,29 @@ const dashboardItems = [{
   url: "/dashboard",
   icon: LayoutDashboard
 }, {
+  title: "Users",
+  url: "/dashboard/users",
+  icon: Users
+}, {
   title: "Products",
   url: "/dashboard/products",
   icon: Package
-}, {
-  title: "Orders",
-  url: "/dashboard/orders",
-  icon: ShoppingCart
 }, {
   title: "Categories",
   url: "/dashboard/categories",
   icon: FolderOpen
 }, {
-  title: "Items",
-  url: "/dashboard/items",
-  icon: List
+  title: "SubCategories",
+  url: "/dashboard/subcategories",
+  icon: Layers
+}, {
+  title: "Brand",
+  url: "/dashboard/brand",
+  icon: Tag
+}, {
+  title: "Orders",
+  url: "/dashboard/orders",
+  icon: ShoppingCart
 }];
 export function AppSidebar() {
   const {
