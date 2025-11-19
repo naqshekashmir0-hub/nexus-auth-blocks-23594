@@ -124,8 +124,7 @@ export default function Products() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[80px]">Image</TableHead>
-                  <TableHead>Name</TableHead>
+                  <TableHead>Product</TableHead>
                   <TableHead>Brand</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Quantity</TableHead>
@@ -140,7 +139,7 @@ export default function Products() {
               <TableBody>
                 {filteredProducts.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={11} className="text-center text-muted-foreground">
+                    <TableCell colSpan={10} className="text-center text-muted-foreground">
                       No products found
                     </TableCell>
                   </TableRow>
@@ -148,14 +147,16 @@ export default function Products() {
                   filteredProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell>
-                        <Avatar className="h-12 w-12">
-                          <AvatarImage src={product.avatar} alt={product.name} />
-                          <AvatarFallback>
-                            <Package className="h-6 w-6 text-muted-foreground" />
-                          </AvatarFallback>
-                        </Avatar>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-12 w-12">
+                            <AvatarImage src={product.avatar} alt={product.name} />
+                            <AvatarFallback>
+                              <Package className="h-6 w-6 text-muted-foreground" />
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="font-medium">{product.name}</span>
+                        </div>
                       </TableCell>
-                      <TableCell className="font-medium">{product.name}</TableCell>
                       <TableCell>{product.brand}</TableCell>
                       <TableCell>{product.category}</TableCell>
                       <TableCell>{product.quantity}</TableCell>
