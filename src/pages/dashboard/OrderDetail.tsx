@@ -5,10 +5,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ArrowLeft, User, MapPin, ShoppingCart, DollarSign, Clock, Printer, ChevronDown } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-
 export default function OrderDetail() {
   const navigate = useNavigate();
-  const { orderId } = useParams();
+  const {
+    orderId
+  } = useParams();
 
   // Mock order data
   const orderData = {
@@ -25,16 +26,14 @@ export default function OrderDetail() {
       mobile: "7889396003",
       type: "Home"
     },
-    items: [
-      {
-        id: 1,
-        product: "abc",
-        image: "/placeholder.svg",
-        qty: 1,
-        unitPrice: 100.00,
-        total: 100.00
-      }
-    ],
+    items: [{
+      id: 1,
+      product: "abc",
+      image: "/placeholder.svg",
+      qty: 1,
+      unitPrice: 100.00,
+      total: 100.00
+    }],
     pricing: {
       subtotal: 100.00,
       discount: -0.00,
@@ -42,56 +41,43 @@ export default function OrderDetail() {
       tax: 12.00,
       grandTotal: 112.00
     },
-    history: [
-      {
-        id: 1,
-        status: "Payment Pending",
-        description: "Order created",
-        previousStatus: "Pending",
-        timestamp: "Jun 9, 2025, 02:50 PM"
-      },
-      {
-        id: 2,
-        status: "Pending",
-        description: "Payment verified successfully",
-        previousStatus: "Payment Pending",
-        timestamp: "Jun 9, 2025, 02:55 PM"
-      }
-    ]
+    history: [{
+      id: 1,
+      status: "Payment Pending",
+      description: "Order created",
+      previousStatus: "Pending",
+      timestamp: "Jun 9, 2025, 02:50 PM"
+    }, {
+      id: 2,
+      status: "Pending",
+      description: "Payment verified successfully",
+      previousStatus: "Payment Pending",
+      timestamp: "Jun 9, 2025, 02:55 PM"
+    }]
   };
-
   const handlePrintInvoice = () => {
     toast({
       title: "Printing Invoice",
-      description: "Invoice is being prepared for printing...",
+      description: "Invoice is being prepared for printing..."
     });
   };
-
   const handleStatusChange = (status: string) => {
     toast({
       title: "Status Updated",
-      description: `Order status changed to: ${status}`,
+      description: `Order status changed to: ${status}`
     });
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       {/* Header */}
       <div>
-        <Button
-          variant="ghost"
-          className="mb-4"
-          onClick={() => navigate("/dashboard/orders")}
-        >
+        <Button variant="ghost" className="mb-4" onClick={() => navigate("/dashboard/orders")}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Orders List
         </Button>
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-3xl font-bold text-primary">Order #{orderData.id}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Placed on: {orderData.placedOn} | Last updated: {orderData.lastUpdated}
-            </p>
+            
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={handlePrintInvoice}>
@@ -206,23 +192,17 @@ export default function OrderDetail() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {orderData.items.map((item) => (
-                    <TableRow key={item.id}>
+                  {orderData.items.map(item => <TableRow key={item.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <img 
-                            src={item.image} 
-                            alt={item.product}
-                            className="h-10 w-10 rounded object-cover"
-                          />
+                          <img src={item.image} alt={item.product} className="h-10 w-10 rounded object-cover" />
                           <span className="font-medium">{item.product}</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-center">x{item.qty}</TableCell>
                       <TableCell className="text-right">₹{item.unitPrice.toFixed(2)}</TableCell>
                       <TableCell className="text-right">₹{item.total.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))}
+                    </TableRow>)}
                 </TableBody>
               </Table>
             </CardContent>
@@ -270,13 +250,10 @@ export default function OrderDetail() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {orderData.history.map((event, index) => (
-                  <div key={event.id} className="flex gap-4">
+                {orderData.history.map((event, index) => <div key={event.id} className="flex gap-4">
                     <div className="flex flex-col items-center">
                       <div className="h-2 w-2 rounded-full bg-primary" />
-                      {index < orderData.history.length - 1 && (
-                        <div className="w-px h-full bg-border mt-2" />
-                      )}
+                      {index < orderData.history.length - 1 && <div className="w-px h-full bg-border mt-2" />}
                     </div>
                     <div className="flex-1 pb-4">
                       <div className="flex items-center gap-2 mb-1">
@@ -286,13 +263,11 @@ export default function OrderDetail() {
                       <p className="text-sm text-foreground">{event.description}</p>
                       <p className="text-xs text-muted-foreground italic">(Previous: {event.previousStatus})</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
