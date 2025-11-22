@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ type ProductFormData = {
   description: string;
   brand: string;
   category: string;
+  subCategory: string;
   tags: string[];
   quantity: number;
   dimensionType: string;
@@ -27,13 +28,22 @@ type ProductFormData = {
   coverImages: string[];
 };
 
+const brands = ["TechBrand", "ErgoTech", "Samsung", "Apple", "Sony", "LG"];
 const categories = ["Electronics", "Accessories", "Cables", "Furniture", "Food & Beverage"];
+
+const subCategoriesByCategory: Record<string, string[]> = {
+  "Electronics": ["Smartphones", "Laptops", "Tablets", "Cameras", "TVs"],
+  "Accessories": ["Phone Cases", "Chargers", "Headphones", "Keyboards", "Mouse"],
+  "Cables": ["USB Cables", "HDMI Cables", "Power Cables", "Audio Cables"],
+  "Furniture": ["Chairs", "Desks", "Tables", "Cabinets", "Shelves"],
+  "Food & Beverage": ["Snacks", "Beverages", "Dairy", "Bakery", "Frozen"]
+};
+
 const dimensionTypes = ["KG", "LITRE", "DOZEN", "PIECE"];
 
 export default function ProductForm() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const productId = searchParams.get("id");
+  const { productId } = useParams();
   const { toast } = useToast();
   const [tagInput, setTagInput] = useState("");
 
@@ -42,6 +52,7 @@ export default function ProductForm() {
     description: "",
     brand: "",
     category: "",
+    subCategory: "",
     tags: [],
     quantity: 0,
     dimensionType: "PIECE",
@@ -54,7 +65,33 @@ export default function ProductForm() {
     coverImages: [],
   });
 
+  // Load product data when editing
+  useEffect(() => {
+    if (productId) {
+      // TODO: Fetch actual product data from backend
+      // Mock data for now
+      setFormData({
+        name: "Wireless Headphones",
+        description: "Premium wireless headphones",
+        brand: "TechBrand",
+        category: "Electronics",
+        subCategory: "Headphones",
+        tags: ["audio", "wireless"],
+        quantity: 45,
+        dimensionType: "PIECE",
+        price: 79.99,
+        discount: 10,
+        newBadge: true,
+        salesBadge: false,
+        featured: true,
+        avatar: "",
+        coverImages: [],
+      });
+    }
+  }, [productId]);
+
   const actualPrice = formData.price - (formData.price * formData.discount / 100);
+  const availableSubCategories = formData.category ? subCategoriesByCategory[formData.category] || [] : [];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,12 +157,19 @@ export default function ProductForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="brand">Brand</Label>
-                <Input
-                  id="brand"
-                  value={formData.brand}
-                  onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                />
+                <Label htmlFor="brand">Brand *</Label>
+                <Select value={formData.brand} onValueChange={(value) => setFormData({ ...formData, brand: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select brand" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {brands.map((brand) => (
+                      <SelectItem key={brand} value={brand}>
+                        {brand}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -142,7 +186,10 @@ export default function ProductForm() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="category">Category *</Label>
-                <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                <Select 
+                  value={formData.category} 
+                  onValueChange={(value) => setFormData({ ...formData, category: value, subCategory: "" })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -157,39 +204,59 @@ export default function ProductForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="tags">Tags</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="tags"
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Type and press Enter"
-                  />
-                  <Button type="button" onClick={handleAddTag} variant="outline">
-                    Add
-                  </Button>
-                </div>
-                {formData.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
-                      >
-                        {tag}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTag(tag)}
-                          className="hover:text-destructive"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </span>
+                <Label htmlFor="subCategory">Sub Category *</Label>
+                <Select 
+                  value={formData.subCategory} 
+                  onValueChange={(value) => setFormData({ ...formData, subCategory: value })}
+                  disabled={!formData.category}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={formData.category ? "Select sub category" : "Select category first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableSubCategories.map((subCat) => (
+                      <SelectItem key={subCat} value={subCat}>
+                        {subCat}
+                      </SelectItem>
                     ))}
-                  </div>
-                )}
+                  </SelectContent>
+                </Select>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="tags">Tags</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="tags"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Type and press Enter"
+                />
+                <Button type="button" onClick={handleAddTag} variant="outline">
+                  Add
+                </Button>
+              </div>
+              {formData.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {formData.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTag(tag)}
+                        className="hover:text-destructive"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
