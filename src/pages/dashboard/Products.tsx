@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Search, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 type Product = {
   id: string;
@@ -67,6 +68,8 @@ export default function Products() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>(mockProducts);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const { toast } = useToast();
 
   const filteredProducts = products.filter((product) =>
@@ -74,6 +77,10 @@ export default function Products() {
     product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
   const handleDeleteProduct = (id: string) => {
     setProducts(products.filter((p) => p.id !== id));
@@ -137,14 +144,14 @@ export default function Products() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredProducts.length === 0 ? (
+                {paginatedProducts.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={10} className="text-center text-muted-foreground">
                       No products found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredProducts.map((product) => (
+                  paginatedProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
@@ -208,6 +215,37 @@ export default function Products() {
             </Table>
           </div>
         </CardContent>
+        {totalPages > 1 && (
+          <div className="p-4 border-t">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, i) => (
+                  <PaginationItem key={i + 1}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(i + 1)}
+                      isActive={currentPage === i + 1}
+                      className="cursor-pointer"
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
         </Card>
       </div>
     );

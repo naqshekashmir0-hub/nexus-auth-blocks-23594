@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, Search, Pencil, Trash2, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 interface UserData {
   id: string;
@@ -20,6 +21,8 @@ export default function Users() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [users, setUsers] = useState<UserData[]>([
     {
       id: "1",
@@ -56,6 +59,10 @@ export default function Users() {
     user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
 
   const handleDeleteUser = (id: string) => {
     setUsers(users.filter(user => user.id !== id));
@@ -113,14 +120,14 @@ export default function Users() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredUsers.length === 0 ? (
+              {paginatedUsers.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     No users found
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredUsers.map((user) => (
+                paginatedUsers.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -163,6 +170,37 @@ export default function Users() {
             </Table>
           </div>
         </CardContent>
+        {totalPages > 1 && (
+          <div className="p-4 border-t">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, i) => (
+                  <PaginationItem key={i + 1}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(i + 1)}
+                      isActive={currentPage === i + 1}
+                      className="cursor-pointer"
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </Card>
     </div>
   );

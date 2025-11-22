@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Search, Eye } from "lucide-react";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 interface Order {
   id: string;
@@ -18,6 +19,8 @@ interface Order {
 export default function Orders() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [orders] = useState<Order[]>([
     {
       id: "ORD-001",
@@ -60,6 +63,10 @@ export default function Orders() {
     order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.customer.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
 
   const getStatusVariant = (status: Order["status"]) => {
     switch (status) {
@@ -119,14 +126,14 @@ export default function Orders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredOrders.length === 0 ? (
+                {paginatedOrders.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
                       No orders found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  filteredOrders.map((order) => (
+                  paginatedOrders.map((order) => (
                     <TableRow key={order.id}>
                       <TableCell className="font-medium">{order.id}</TableCell>
                       <TableCell>{order.customer}</TableCell>
@@ -154,6 +161,37 @@ export default function Orders() {
             </Table>
           </div>
         </CardContent>
+        {totalPages > 1 && (
+          <div className="p-4 border-t">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, i) => (
+                  <PaginationItem key={i + 1}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(i + 1)}
+                      isActive={currentPage === i + 1}
+                      className="cursor-pointer"
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </Card>
     </div>
   );
