@@ -17,6 +17,7 @@ import CategoryForm from "./pages/dashboard/CategoryForm";
 import SubCategories from "./pages/dashboard/SubCategories";
 import SubCategoryForm from "./pages/dashboard/SubCategoryForm";
 import Brand from "./pages/dashboard/Brand";
+import BrandForm from "./pages/dashboard/BrandForm";
 import Users from "./pages/dashboard/Users";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,8 @@ const App = () => (
             <Route path="subcategories/add" element={<SubCategoryForm />} />
             <Route path="subcategories/edit" element={<SubCategoryForm />} />
             <Route path="brand" element={<Brand />} />
+            <Route path="brand/add" element={<BrandForm />} />
+            <Route path="brand/edit" element={<BrandForm />} />
             <Route path="orders" element={<Orders />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
