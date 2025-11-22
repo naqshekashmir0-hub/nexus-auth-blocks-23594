@@ -100,7 +100,7 @@ export default function Brand() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[250px]">Brand</TableHead>
-                <TableHead>Products</TableHead>
+                <TableHead className="text-center">Products</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -125,8 +125,8 @@ export default function Brand() {
                         <span className="font-medium">{brand.brand_name}</span>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <span className="text-muted-foreground">{brand.products_count} products</span>
+                    <TableCell className="text-center">
+                      <span className="text-muted-foreground">{brand.products_count}</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
