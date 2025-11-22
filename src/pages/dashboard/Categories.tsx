@@ -1,96 +1,60 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Plus, Search, MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Plus, Search, Pencil, Trash2, FolderOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Category {
   id: string;
-  name: string;
-  description: string;
+  category_name: string;
+  category_logo: string;
   productCount: number;
   status: "active" | "inactive";
 }
 
 export default function Categories() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([
     {
       id: "1",
-      name: "Electronics",
-      description: "Electronic devices and accessories",
+      category_name: "Electronics",
+      category_logo: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=100&h=100&fit=crop",
       productCount: 45,
       status: "active"
     },
     {
       id: "2",
-      name: "Clothing",
-      description: "Fashion and apparel items",
+      category_name: "Clothing",
+      category_logo: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=100&h=100&fit=crop",
       productCount: 128,
       status: "active"
     },
     {
       id: "3",
-      name: "Home & Garden",
-      description: "Home improvement and garden supplies",
+      category_name: "Home & Garden",
+      category_logo: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=100&h=100&fit=crop",
       productCount: 67,
       status: "active"
     },
     {
       id: "4",
-      name: "Sports",
-      description: "Sports equipment and accessories",
+      category_name: "Sports",
+      category_logo: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=100&h=100&fit=crop",
       productCount: 34,
       status: "inactive"
     }
   ]);
 
-  const [newCategory, setNewCategory] = useState({
-    name: "",
-    description: ""
-  });
-
   const filteredCategories = categories.filter(category =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    category.description.toLowerCase().includes(searchQuery.toLowerCase())
+    category.category_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const handleAddCategory = () => {
-    if (!newCategory.name.trim()) {
-      toast({
-        title: "Error",
-        description: "Category name is required",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const category: Category = {
-      id: Date.now().toString(),
-      name: newCategory.name,
-      description: newCategory.description,
-      productCount: 0,
-      status: "active"
-    };
-
-    setCategories([...categories, category]);
-    setNewCategory({ name: "", description: "" });
-    setIsAddDialogOpen(false);
-    
-    toast({
-      title: "Success",
-      description: "Category added successfully"
-    });
-  };
 
   const handleDeleteCategory = (id: string) => {
     setCategories(categories.filter(cat => cat.id !== id));
@@ -110,51 +74,10 @@ export default function Categories() {
           </p>
         </div>
         
-        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" />
-              Add Category
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Category</DialogTitle>
-              <DialogDescription>
-                Create a new product category for better organization
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Category Name</Label>
-                <Input
-                  id="name"
-                  placeholder="e.g., Electronics"
-                  value={newCategory.name}
-                  onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Brief description of this category"
-                  value={newCategory.description}
-                  onChange={(e) => setNewCategory({ ...newCategory, description: e.target.value })}
-                  rows={3}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleAddCategory}>
-                Add Category
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button className="gap-2" onClick={() => navigate("/dashboard/categories/add")}>
+          <Plus className="h-4 w-4" />
+          Add Category
+        </Button>
       </div>
 
       <Card>
@@ -182,8 +105,7 @@ export default function Categories() {
             <Table className="w-full">
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead className="w-[250px]">Category</TableHead>
                 <TableHead>Products</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -192,16 +114,23 @@ export default function Categories() {
             <TableBody>
               {filteredCategories.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     No categories found
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredCategories.map((category) => (
                   <TableRow key={category.id}>
-                    <TableCell className="font-medium">{category.name}</TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {category.description}
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={category.category_logo} alt={category.category_name} />
+                          <AvatarFallback>
+                            <FolderOpen className="h-5 w-5" />
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="font-medium">{category.category_name}</span>
+                      </div>
                     </TableCell>
                     <TableCell>
                       <span className="text-sm">{category.productCount} items</span>
@@ -217,7 +146,11 @@ export default function Categories() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant="ghost" size="icon">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          onClick={() => navigate(`/dashboard/categories/edit?id=${category.id}`)}
+                        >
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
