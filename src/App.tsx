@@ -12,6 +12,7 @@ import DashboardHome from "./pages/dashboard/DashboardHome";
 import Products from "./pages/dashboard/Products";
 import ProductForm from "./pages/dashboard/ProductForm";
 import Orders from "./pages/dashboard/Orders";
+import OrderDetail from "./pages/dashboard/OrderDetail";
 import Categories from "./pages/dashboard/Categories";
 import CategoryForm from "./pages/dashboard/CategoryForm";
 import SubCategories from "./pages/dashboard/SubCategories";
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="brand/add" element={<BrandForm />} />
             <Route path="brand/edit" element={<BrandForm />} />
             <Route path="orders" element={<Orders />} />
+            <Route path="orders/:orderId" element={<OrderDetail />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
