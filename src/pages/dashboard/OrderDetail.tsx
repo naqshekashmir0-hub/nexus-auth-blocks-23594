@@ -2,7 +2,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, User, MapPin, ShoppingCart, DollarSign, Clock } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ArrowLeft, User, MapPin, ShoppingCart, DollarSign, Clock, Printer, ChevronDown } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 export default function OrderDetail() {
   const navigate = useNavigate();
@@ -58,6 +60,20 @@ export default function OrderDetail() {
     ]
   };
 
+  const handlePrintInvoice = () => {
+    toast({
+      title: "Printing Invoice",
+      description: "Invoice is being prepared for printing...",
+    });
+  };
+
+  const handleStatusChange = (status: string) => {
+    toast({
+      title: "Status Updated",
+      description: `Order status changed to: ${status}`,
+    });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -70,11 +86,50 @@ export default function OrderDetail() {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Orders List
         </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-primary">Order #{orderData.id}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Placed on: {orderData.placedOn} | Last updated: {orderData.lastUpdated}
-          </p>
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-primary">Order #{orderData.id}</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Placed on: {orderData.placedOn} | Last updated: {orderData.lastUpdated}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handlePrintInvoice}>
+              <Printer className="h-4 w-4 mr-2" />
+              Print Invoice
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  More Actions
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => handleStatusChange("Pending")}>
+                  Change to Pending
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("Processing")}>
+                  Change to Processing
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("Confirmed")}>
+                  Change to Confirmed
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("Shipped")}>
+                  Change to Shipped
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("Out for Delivery")}>
+                  Change to Out for Delivery
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("Delivered")}>
+                  Change to Delivered
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleStatusChange("Cancelled")} className="text-destructive">
+                  Cancel Order
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 
