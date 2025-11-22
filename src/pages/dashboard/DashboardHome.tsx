@@ -132,7 +132,7 @@ export default function DashboardHome() {
                         onClick={() => navigate(`/dashboard/orders/${order.id}`)}
                       >
                         <Eye className="h-4 w-4 mr-2" />
-                        View
+                        View Order
                       </Button>
                     </TableCell>
                   </TableRow>
