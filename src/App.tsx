@@ -19,6 +19,7 @@ import SubCategoryForm from "./pages/dashboard/SubCategoryForm";
 import Brand from "./pages/dashboard/Brand";
 import BrandForm from "./pages/dashboard/BrandForm";
 import Users from "./pages/dashboard/Users";
+import UserForm from "./pages/dashboard/UserForm";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,8 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="users" element={<Users />} />
+            <Route path="users/add" element={<UserForm />} />
+            <Route path="users/edit" element={<UserForm />} />
             <Route path="products" element={<Products />} />
             <Route path="products/add" element={<ProductForm />} />
             <Route path="products/edit" element={<ProductForm />} />
