@@ -101,7 +101,7 @@ export default function Categories() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[250px]">Category</TableHead>
-                <TableHead>Sub Categories</TableHead>
+                <TableHead className="text-center">Sub Categories</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -126,8 +126,8 @@ export default function Categories() {
                         <span className="font-medium">{category.category_name}</span>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <span className="text-sm">{category.subcategoryCount} subcategories</span>
+                    <TableCell className="text-center">
+                      <span className="text-sm">{category.subcategoryCount}</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
