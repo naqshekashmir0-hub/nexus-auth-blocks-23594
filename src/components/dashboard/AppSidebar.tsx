@@ -44,7 +44,7 @@ export function AppSidebar() {
       setOpenMobile(false);
     }
   };
-  return <Sidebar collapsible="icon" className="border-r border-border/10 shadow-lg bg-card data-[state=collapsed]:w-20 data-[state=expanded]:w-48">
+  return <Sidebar collapsible="icon" className="border-r border-border/10 shadow-lg bg-card data-[state=collapsed]:w-24 data-[state=expanded]:w-48">
       <SidebarContent>
         {/* Logo/Brand Section */}
         <div className="px-4 py-6">
