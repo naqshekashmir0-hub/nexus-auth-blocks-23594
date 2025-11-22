@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Package, Tag, Users, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 type Order = {
   id: string;
   customer: string;
@@ -44,6 +46,8 @@ const mockRecentOrders: Order[] = [{
 }];
 export default function DashboardHome() {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Mock data - replace with actual data from backend
   const stats = {
@@ -68,6 +72,11 @@ export default function DashboardHome() {
         return "bg-gray-500/10 text-gray-500 hover:bg-gray-500/20";
     }
   };
+
+  const totalPages = Math.ceil(mockRecentOrders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedOrders = mockRecentOrders.slice(startIndex, startIndex + itemsPerPage);
+
   return <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
@@ -138,7 +147,7 @@ export default function DashboardHome() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockRecentOrders.map(order => <TableRow key={order.id}>
+                {paginatedOrders.map(order => <TableRow key={order.id}>
                     <TableCell className="font-medium">{order.id}</TableCell>
                     <TableCell>{order.customer}</TableCell>
                     <TableCell>{order.date}</TableCell>
@@ -159,6 +168,37 @@ export default function DashboardHome() {
             </Table>
           </div>
         </CardContent>
+        {totalPages > 1 && (
+          <div className="p-4 border-t">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, i) => (
+                  <PaginationItem key={i + 1}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(i + 1)}
+                      isActive={currentPage === i + 1}
+                      className="cursor-pointer"
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </Card>
 
       

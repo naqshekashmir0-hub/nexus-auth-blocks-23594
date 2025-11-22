@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, Search, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 interface Brand {
   id: string;
@@ -19,6 +20,8 @@ export default function Brand() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [brands, setBrands] = useState<Brand[]>([
     {
       id: "1",
@@ -49,6 +52,10 @@ export default function Brand() {
   const filteredBrands = brands.filter(brand =>
     brand.brand_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredBrands.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedBrands = filteredBrands.slice(startIndex, startIndex + itemsPerPage);
 
   const handleDeleteBrand = (id: string) => {
     setBrands(brands.filter(brand => brand.id !== id));
@@ -105,14 +112,14 @@ export default function Brand() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredBrands.length === 0 ? (
+              {paginatedBrands.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                     No brands found
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredBrands.map((brand) => (
+                paginatedBrands.map((brand) => (
                   <TableRow key={brand.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -153,6 +160,37 @@ export default function Brand() {
             </Table>
           </div>
         </CardContent>
+        {totalPages > 1 && (
+          <div className="p-4 border-t">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, i) => (
+                  <PaginationItem key={i + 1}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(i + 1)}
+                      isActive={currentPage === i + 1}
+                      className="cursor-pointer"
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </Card>
     </div>
   );
