@@ -12,7 +12,7 @@ interface Order {
   id: string;
   customer: string;
   date: string;
-  status: "pending" | "processing" | "completed" | "cancelled";
+  status: "Pending" | "Processing" | "Shipped" | "Delivered" | "Cancelled";
   amount: number;
 }
 
@@ -26,36 +26,127 @@ export default function Orders() {
       id: "ORD-001",
       customer: "Tariq Mir",
       date: "2024-01-15",
-      status: "completed",
+      status: "Delivered",
       amount: 299.99
     },
     {
       id: "ORD-002",
       customer: "John Doe",
       date: "2024-01-16",
-      status: "processing",
+      status: "Processing",
       amount: 499.50
     },
     {
       id: "ORD-003",
       customer: "Sarah Smith",
       date: "2024-01-17",
-      status: "pending",
+      status: "Pending",
       amount: 199.00
     },
     {
       id: "ORD-004",
       customer: "Michael Johnson",
       date: "2024-01-18",
-      status: "completed",
+      status: "Delivered",
       amount: 750.25
     },
     {
       id: "ORD-005",
       customer: "Emma Williams",
       date: "2024-01-19",
-      status: "cancelled",
+      status: "Cancelled",
       amount: 350.00
+    },
+    {
+      id: "ORD-006",
+      customer: "David Brown",
+      date: "2024-01-20",
+      status: "Shipped",
+      amount: 425.00
+    },
+    {
+      id: "ORD-007",
+      customer: "Lisa Anderson",
+      date: "2024-01-21",
+      status: "Processing",
+      amount: 189.99
+    },
+    {
+      id: "ORD-008",
+      customer: "Robert Taylor",
+      date: "2024-01-22",
+      status: "Pending",
+      amount: 599.00
+    },
+    {
+      id: "ORD-009",
+      customer: "Jennifer Martinez",
+      date: "2024-01-23",
+      status: "Delivered",
+      amount: 329.50
+    },
+    {
+      id: "ORD-010",
+      customer: "William Garcia",
+      date: "2024-01-24",
+      status: "Shipped",
+      amount: 275.75
+    },
+    {
+      id: "ORD-011",
+      customer: "Mary Rodriguez",
+      date: "2024-01-25",
+      status: "Pending",
+      amount: 449.99
+    },
+    {
+      id: "ORD-012",
+      customer: "James Wilson",
+      date: "2024-01-26",
+      status: "Processing",
+      amount: 679.00
+    },
+    {
+      id: "ORD-013",
+      customer: "Patricia Moore",
+      date: "2024-01-27",
+      status: "Delivered",
+      amount: 159.99
+    },
+    {
+      id: "ORD-014",
+      customer: "Christopher Lee",
+      date: "2024-01-28",
+      status: "Cancelled",
+      amount: 299.00
+    },
+    {
+      id: "ORD-015",
+      customer: "Linda Harris",
+      date: "2024-01-29",
+      status: "Shipped",
+      amount: 539.99
+    },
+    {
+      id: "ORD-016",
+      customer: "Mark Thompson",
+      date: "2024-01-30",
+      status: "Pending",
+      amount: 399.00
+    },
+    {
+      id: "ORD-017",
+      customer: "Nancy Clark",
+      date: "2024-01-31",
+      status: "Processing",
+      amount: 229.50
+    },
+    {
+      id: "ORD-018",
+      customer: "Daniel Lewis",
+      date: "2024-02-01",
+      status: "Delivered",
+      amount: 789.99
     }
   ]);
 
@@ -68,18 +159,20 @@ export default function Orders() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
 
-  const getStatusVariant = (status: Order["status"]) => {
+  const getStatusColor = (status: Order["status"]) => {
     switch (status) {
-      case "completed":
-        return "default";
-      case "processing":
-        return "secondary";
-      case "pending":
-        return "outline";
-      case "cancelled":
-        return "destructive";
+      case "Pending":
+        return "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20";
+      case "Processing":
+        return "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20";
+      case "Shipped":
+        return "bg-purple-500/10 text-purple-500 hover:bg-purple-500/20";
+      case "Delivered":
+        return "bg-green-500/10 text-green-500 hover:bg-green-500/20";
+      case "Cancelled":
+        return "bg-red-500/10 text-red-500 hover:bg-red-500/20";
       default:
-        return "outline";
+        return "bg-gray-500/10 text-gray-500 hover:bg-gray-500/20";
     }
   };
 
@@ -139,11 +232,11 @@ export default function Orders() {
                       <TableCell>{order.customer}</TableCell>
                       <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
                       <TableCell>
-                        <Badge variant={getStatusVariant(order.status)}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        <Badge variant="secondary" className={getStatusColor(order.status)}>
+                          {order.status}
                         </Badge>
                       </TableCell>
-                      <TableCell>${order.amount.toFixed(2)}</TableCell>
+                      <TableCell>₹{order.amount.toFixed(2)}</TableCell>
                       <TableCell className="text-right">
                         <Button 
                           variant="outline" 
