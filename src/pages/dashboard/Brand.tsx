@@ -12,6 +12,7 @@ interface Brand {
   id: string;
   brand_name: string;
   logo: string;
+  products_count: number;
 }
 
 export default function Brand() {
@@ -23,21 +24,25 @@ export default function Brand() {
       id: "1",
       brand_name: "Apple",
       logo: "https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=100&h=100&fit=crop",
+      products_count: 45,
     },
     {
       id: "2",
       brand_name: "Samsung",
       logo: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=100&h=100&fit=crop",
+      products_count: 32,
     },
     {
       id: "3",
       brand_name: "Nike",
       logo: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop",
+      products_count: 28,
     },
     {
       id: "4",
       brand_name: "Sony",
       logo: "https://images.unsplash.com/photo-1593642532400-2682810df593?w=100&h=100&fit=crop",
+      products_count: 19,
     }
   ]);
 
@@ -95,13 +100,14 @@ export default function Brand() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[250px]">Brand</TableHead>
+                <TableHead>Products</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredBrands.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={2} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                     No brands found
                   </TableCell>
                 </TableRow>
@@ -118,6 +124,9 @@ export default function Brand() {
                         </Avatar>
                         <span className="font-medium">{brand.brand_name}</span>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-muted-foreground">{brand.products_count} products</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
