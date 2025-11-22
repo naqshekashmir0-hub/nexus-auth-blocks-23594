@@ -13,6 +13,7 @@ import Products from "./pages/dashboard/Products";
 import ProductForm from "./pages/dashboard/ProductForm";
 import Orders from "./pages/dashboard/Orders";
 import Categories from "./pages/dashboard/Categories";
+import CategoryForm from "./pages/dashboard/CategoryForm";
 import SubCategories from "./pages/dashboard/SubCategories";
 import Brand from "./pages/dashboard/Brand";
 import Users from "./pages/dashboard/Users";
@@ -36,6 +37,8 @@ const App = () => (
             <Route path="products/add" element={<ProductForm />} />
             <Route path="products/edit" element={<ProductForm />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="categories/add" element={<CategoryForm />} />
+            <Route path="categories/edit" element={<CategoryForm />} />
             <Route path="subcategories" element={<SubCategories />} />
             <Route path="brand" element={<Brand />} />
             <Route path="orders" element={<Orders />} />
