@@ -13,8 +13,7 @@ interface Category {
   id: string;
   category_name: string;
   category_logo: string;
-  productCount: number;
-  status: "active" | "inactive";
+  subcategoryCount: number;
 }
 
 export default function Categories() {
@@ -26,29 +25,25 @@ export default function Categories() {
       id: "1",
       category_name: "Electronics",
       category_logo: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=100&h=100&fit=crop",
-      productCount: 45,
-      status: "active"
+      subcategoryCount: 8
     },
     {
       id: "2",
       category_name: "Clothing",
       category_logo: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=100&h=100&fit=crop",
-      productCount: 128,
-      status: "active"
+      subcategoryCount: 12
     },
     {
       id: "3",
       category_name: "Home & Garden",
       category_logo: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=100&h=100&fit=crop",
-      productCount: 67,
-      status: "active"
+      subcategoryCount: 5
     },
     {
       id: "4",
       category_name: "Sports",
       category_logo: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=100&h=100&fit=crop",
-      productCount: 34,
-      status: "inactive"
+      subcategoryCount: 6
     }
   ]);
 
@@ -106,15 +101,14 @@ export default function Categories() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[250px]">Category</TableHead>
-                <TableHead>Products</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>Sub Categories</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredCategories.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                     No categories found
                   </TableCell>
                 </TableRow>
@@ -133,16 +127,7 @@ export default function Categories() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm">{category.productCount} items</span>
-                    </TableCell>
-                    <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                        category.status === "active" 
-                          ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400" 
-                          : "bg-gray-50 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400"
-                      }`}>
-                        {category.status}
-                      </span>
+                      <span className="text-sm">{category.subcategoryCount} subcategories</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
