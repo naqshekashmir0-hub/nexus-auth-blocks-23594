@@ -15,6 +15,7 @@ import Orders from "./pages/dashboard/Orders";
 import Categories from "./pages/dashboard/Categories";
 import CategoryForm from "./pages/dashboard/CategoryForm";
 import SubCategories from "./pages/dashboard/SubCategories";
+import SubCategoryForm from "./pages/dashboard/SubCategoryForm";
 import Brand from "./pages/dashboard/Brand";
 import Users from "./pages/dashboard/Users";
 
@@ -40,6 +41,8 @@ const App = () => (
             <Route path="categories/add" element={<CategoryForm />} />
             <Route path="categories/edit" element={<CategoryForm />} />
             <Route path="subcategories" element={<SubCategories />} />
+            <Route path="subcategories/add" element={<SubCategoryForm />} />
+            <Route path="subcategories/edit" element={<SubCategoryForm />} />
             <Route path="brand" element={<Brand />} />
             <Route path="orders" element={<Orders />} />
           </Route>
