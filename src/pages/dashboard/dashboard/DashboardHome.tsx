@@ -88,49 +88,59 @@ export default function DashboardHome() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <ShoppingCart className="h-5 w-5 text-primary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalOrders}</div>
+            <div className="text-2xl font-bold text-primary">{stats.totalOrders}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Products</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
+              <Package className="h-5 w-5 text-accent" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalProducts}</div>
+            <div className="text-2xl font-bold text-accent">{stats.totalProducts}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Brands</CardTitle>
-            <Tag className="h-4 w-4 text-muted-foreground" />
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Tag className="h-5 w-5 text-primary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalBrands}</div>
+            <div className="text-2xl font-bold text-primary">{stats.totalBrands}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Categories</CardTitle>
-            <FolderOpen className="h-4 w-4 text-muted-foreground" />
+            <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
+              <FolderOpen className="h-5 w-5 text-accent" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalCategories}</div>
+            <div className="text-2xl font-bold text-accent">{stats.totalCategories}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Sub Categories</CardTitle>
-            <Layers className="h-4 w-4 text-muted-foreground" />
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Layers className="h-5 w-5 text-primary" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalSubCategories}</div>
+            <div className="text-2xl font-bold text-primary">{stats.totalSubCategories}</div>
           </CardContent>
         </Card>
       </div>
