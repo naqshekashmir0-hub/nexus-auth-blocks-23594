@@ -146,24 +146,6 @@ export default function UserForm() {
                 placeholder="e.g., 123467889"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="role">Role *</Label>
-              <Select
-                value={formData.role}
-                onValueChange={(value: "user" | "admin" | "super admin") => 
-                  setFormData({ ...formData, role: value })
-                }
-              >
-                <SelectTrigger id="role">
-                  <SelectValue placeholder="Select role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="user">User</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="super admin">Super Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
           </CardContent>
         </Card>
 
@@ -187,6 +169,24 @@ export default function UserForm() {
               <p className="text-xs text-muted-foreground">
                 Password must be at least 6 characters long
               </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role *</Label>
+              <Select
+                value={formData.role}
+                onValueChange={(value: "user" | "admin" | "super admin") => 
+                  setFormData({ ...formData, role: value })
+                }
+              >
+                <SelectTrigger id="role">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="super admin">Super Admin</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>
