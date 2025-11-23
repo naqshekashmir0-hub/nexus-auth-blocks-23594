@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Upload, X } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
+import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
 
 type SubCategoryFormData = {
   sub_category_name: string;
@@ -57,15 +56,11 @@ export default function SubCategoryEdit() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/subcategories")}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Edit SubCategory</h1>
-          <p className="text-muted-foreground mt-1">Update subcategory information</p>
-        </div>
-      </div>
+      <FormPageHeader
+        title="Edit SubCategory"
+        description="Update subcategory information"
+        backPath="/dashboard/subcategories"
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
@@ -110,48 +105,19 @@ export default function SubCategoryEdit() {
             <CardTitle>SubCategory Logo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label>SubCategory Logo</Label>
-              <div className="flex items-center gap-4">
-                {formData.logo ? (
-                  <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
-                    <img src={formData.logo} alt="SubCategory logo" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, logo: "" })}
-                      className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="w-32 h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                    <Upload className="h-8 w-8 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground mt-2">Upload</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setFormData({ ...formData, logo: URL.createObjectURL(file) });
-                        }
-                      }}
-                    />
-                  </label>
-                )}
-              </div>
-            </div>
+            <ImageUploadSingle
+              label="SubCategory Logo"
+              value={formData.logo}
+              onChange={(value) => setFormData({ ...formData, logo: value })}
+              alt="SubCategory logo"
+            />
           </CardContent>
         </Card>
 
-        <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/subcategories")}>
-            Cancel
-          </Button>
-          <Button type="submit">Update SubCategory</Button>
-        </div>
+        <FormActions
+          cancelPath="/dashboard/subcategories"
+          submitLabel="Update SubCategory"
+        />
       </form>
     </div>
   );

@@ -3,11 +3,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
+import { FormPageHeader, FormActions } from "@/components/shared";
 
 type UserFormData = {
   first_name: string;
@@ -73,15 +72,11 @@ export default function UserEdit() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/users")}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Edit User</h1>
-          <p className="text-muted-foreground mt-1">Update user information</p>
-        </div>
-      </div>
+      <FormPageHeader
+        title="Edit User"
+        description="Update user information"
+        backPath="/dashboard/users"
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
@@ -173,12 +168,10 @@ export default function UserEdit() {
           </CardContent>
         </Card>
 
-        <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/users")}>
-            Cancel
-          </Button>
-          <Button type="submit">Update User</Button>
-        </div>
+        <FormActions
+          cancelPath="/dashboard/users"
+          submitLabel="Update User"
+        />
       </form>
     </div>
   );

@@ -7,8 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, Upload, X } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
+import {
+  FormPageHeader,
+  ImageUploadSingle,
+  ImageUploadMultiple,
+  FormActions,
+  TagInput
+} from "@/components/shared";
 
 type ProductFormData = {
   name: string;
@@ -45,7 +51,6 @@ export default function ProductEdit() {
   const navigate = useNavigate();
   const { productId } = useParams();
   const { toast } = useToast();
-  const [tagInput, setTagInput] = useState("");
 
   const [formData, setFormData] = useState<ProductFormData>({
     name: "",
@@ -102,35 +107,13 @@ export default function ProductEdit() {
     navigate("/dashboard/products");
   };
 
-  const handleAddTag = () => {
-    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-      setFormData({ ...formData, tags: [...formData.tags, tagInput.trim()] });
-      setTagInput("");
-    }
-  };
-
-  const handleRemoveTag = (tag: string) => {
-    setFormData({ ...formData, tags: formData.tags.filter(t => t !== tag) });
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleAddTag();
-    }
-  };
-
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/products")}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Edit Product</h1>
-          <p className="text-muted-foreground mt-1">Update product information</p>
-        </div>
-      </div>
+      <FormPageHeader
+        title="Edit Product"
+        description="Update product information"
+        backPath="/dashboard/products"
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
@@ -216,40 +199,12 @@ export default function ProductEdit() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="tags">Tags</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="tags"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Type and press Enter"
-                />
-                <Button type="button" onClick={handleAddTag} variant="outline">
-                  Add
-                </Button>
-              </div>
-              {formData.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {formData.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
-                    >
-                      {tag}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveTag(tag)}
-                        className="hover:text-destructive"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+            <TagInput
+              label="Tags"
+              tags={formData.tags}
+              onChange={(tags) => setFormData({ ...formData, tags })}
+              placeholder="Type and press Enter"
+            />
           </CardContent>
         </Card>
 
@@ -381,84 +336,25 @@ export default function ProductEdit() {
             <CardTitle>Media</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label>Avatar (Main Product Image)</Label>
-              <div className="flex items-center gap-4">
-                {formData.avatar ? (
-                  <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
-                    <img src={formData.avatar} alt="Product avatar" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, avatar: "" })}
-                      className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="w-32 h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                    <Upload className="h-8 w-8 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground mt-2">Upload</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setFormData({ ...formData, avatar: URL.createObjectURL(file) });
-                        }
-                      }}
-                    />
-                  </label>
-                )}
-              </div>
-            </div>
+            <ImageUploadSingle
+              label="Avatar (Main Product Image)"
+              value={formData.avatar}
+              onChange={(value) => setFormData({ ...formData, avatar: value })}
+              alt="Product avatar"
+            />
 
-            <div className="space-y-2">
-              <Label>Cover Images (Multiple)</Label>
-              <div className="flex flex-wrap gap-4">
-                {formData.coverImages.map((img, idx) => (
-                  <div key={idx} className="relative w-24 h-24 border rounded-lg overflow-hidden">
-                    <img src={img} alt={`Cover ${idx + 1}`} className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ 
-                        ...formData, 
-                        coverImages: formData.coverImages.filter((_, i) => i !== idx) 
-                      })}
-                      className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </div>
-                ))}
-                <label className="w-24 h-24 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                  <Upload className="h-6 w-6 text-muted-foreground" />
-                  <span className="text-xs text-muted-foreground mt-1">Add</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="hidden"
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      const newImages = files.map(file => URL.createObjectURL(file));
-                      setFormData({ ...formData, coverImages: [...formData.coverImages, ...newImages] });
-                    }}
-                  />
-                </label>
-              </div>
-            </div>
+            <ImageUploadMultiple
+              label="Cover Images (Multiple)"
+              values={formData.coverImages}
+              onChange={(values) => setFormData({ ...formData, coverImages: values })}
+            />
           </CardContent>
         </Card>
 
-        <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/products")}>
-            Cancel
-          </Button>
-          <Button type="submit">Update Product</Button>
-        </div>
+        <FormActions
+          cancelPath="/dashboard/products"
+          submitLabel="Update Product"
+        />
       </form>
     </div>
   );
