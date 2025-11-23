@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Upload, X } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
+import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
 
 type BrandFormData = {
   brand_name: string;
@@ -13,7 +12,6 @@ type BrandFormData = {
 };
 
 export default function BrandEdit() {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const brandId = searchParams.get("id");
   const { toast } = useToast();
@@ -39,21 +37,15 @@ export default function BrandEdit() {
       title: "Brand updated",
       description: "The brand has been updated successfully.",
     });
-    
-    navigate("/dashboard/brand");
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/brand")}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Edit Brand</h1>
-          <p className="text-muted-foreground mt-1">Update brand information</p>
-        </div>
-      </div>
+      <FormPageHeader
+        title="Edit Brand"
+        description="Update brand information"
+        backPath="/dashboard/brand"
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
@@ -79,48 +71,19 @@ export default function BrandEdit() {
             <CardTitle>Brand Logo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label>Brand Logo</Label>
-              <div className="flex items-center gap-4">
-                {formData.logo ? (
-                  <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
-                    <img src={formData.logo} alt="Brand logo" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, logo: "" })}
-                      className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </div>
-                ) : (
-                  <label className="w-32 h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                    <Upload className="h-8 w-8 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground mt-2">Upload</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setFormData({ ...formData, logo: URL.createObjectURL(file) });
-                        }
-                      }}
-                    />
-                  </label>
-                )}
-              </div>
-            </div>
+            <ImageUploadSingle
+              label="Brand Logo"
+              value={formData.logo}
+              onChange={(value) => setFormData({ ...formData, logo: value })}
+              alt="Brand logo"
+            />
           </CardContent>
         </Card>
 
-        <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/brand")}>
-            Cancel
-          </Button>
-          <Button type="submit">Update Brand</Button>
-        </div>
+        <FormActions
+          cancelPath="/dashboard/brand"
+          submitLabel="Update Brand"
+        />
       </form>
     </div>
   );
