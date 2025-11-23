@@ -43,16 +43,22 @@ export default function OrderDetail() {
     },
     history: [{
       id: 1,
-      status: "Payment Pending",
+      status: "Pending",
       description: "Order created",
       previousStatus: "Pending",
       timestamp: "Jun 9, 2025, 02:50 PM"
     }, {
       id: 2,
-      status: "Pending",
-      description: "Payment verified successfully",
-      previousStatus: "Payment Pending",
+      status: "Processing",
+      description: "Order is being processed",
+      previousStatus: "Pending",
       timestamp: "Jun 9, 2025, 02:55 PM"
+    }, {
+      id: 3,
+      status: "Confirmed",
+      description: "Order confirmed",
+      previousStatus: "Processing",
+      timestamp: "Jun 9, 2025, 03:00 PM"
     }]
   };
   const handlePrintInvoice = () => {
