@@ -7,17 +7,22 @@ import Error from "./pages/Error";
 import Dashboard from "./pages/dashboard/dashboard/Dashboard";
 import DashboardHome from "./pages/dashboard/dashboard/DashboardHome";
 import Products from "./pages/dashboard/products/Products";
-import ProductForm from "./pages/dashboard/products/ProductForm";
+import ProductAdd from "./pages/dashboard/products/ProductAdd";
+import ProductEdit from "./pages/dashboard/products/ProductEdit";
 import Orders from "./pages/dashboard/orders/Orders";
 import OrderDetail from "./pages/dashboard/orders/OrderDetail";
 import Categories from "./pages/dashboard/categories/Categories";
-import CategoryForm from "./pages/dashboard/categories/CategoryForm";
+import CategoryAdd from "./pages/dashboard/categories/CategoryAdd";
+import CategoryEdit from "./pages/dashboard/categories/CategoryEdit";
 import SubCategories from "./pages/dashboard/subcategories/SubCategories";
-import SubCategoryForm from "./pages/dashboard/subcategories/SubCategoryForm";
+import SubCategoryAdd from "./pages/dashboard/subcategories/SubCategoryAdd";
+import SubCategoryEdit from "./pages/dashboard/subcategories/SubCategoryEdit";
 import Brands from "./pages/dashboard/brands/Brands";
-import BrandForm from "./pages/dashboard/brands/BrandForm";
+import BrandAdd from "./pages/dashboard/brands/BrandAdd";
+import BrandEdit from "./pages/dashboard/brands/BrandEdit";
 import Users from "./pages/dashboard/users/Users";
-import UserForm from "./pages/dashboard/users/UserForm";
+import UserAdd from "./pages/dashboard/users/UserAdd";
+import UserEdit from "./pages/dashboard/users/UserEdit";
 
 
 const App = () => (
@@ -30,20 +35,20 @@ const App = () => (
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<DashboardHome />} />
           <Route path="users" element={<Users />} />
-          <Route path="users/add" element={<UserForm />} />
-          <Route path="users/edit" element={<UserForm />} />
+          <Route path="users/add" element={<UserAdd />} />
+          <Route path="users/edit" element={<UserEdit />} />
           <Route path="products" element={<Products />} />
-          <Route path="products/add" element={<ProductForm />} />
-          <Route path="products/edit/:productId" element={<ProductForm />} />
+          <Route path="products/add" element={<ProductAdd />} />
+          <Route path="products/edit/:productId" element={<ProductEdit />} />
           <Route path="categories" element={<Categories />} />
-          <Route path="categories/add" element={<CategoryForm />} />
-          <Route path="categories/edit" element={<CategoryForm />} />
+          <Route path="categories/add" element={<CategoryAdd />} />
+          <Route path="categories/edit" element={<CategoryEdit />} />
           <Route path="subcategories" element={<SubCategories />} />
-          <Route path="subcategories/add" element={<SubCategoryForm />} />
-          <Route path="subcategories/edit" element={<SubCategoryForm />} />
+          <Route path="subcategories/add" element={<SubCategoryAdd />} />
+          <Route path="subcategories/edit" element={<SubCategoryEdit />} />
           <Route path="brand" element={<Brands />} />
-          <Route path="brand/add" element={<BrandForm />} />
-          <Route path="brand/edit" element={<BrandForm />} />
+          <Route path="brand/add" element={<BrandAdd />} />
+          <Route path="brand/edit" element={<BrandEdit />} />
           <Route path="orders" element={<Orders />} />
           <Route path="orders/:orderId" element={<OrderDetail />} />
         </Route>

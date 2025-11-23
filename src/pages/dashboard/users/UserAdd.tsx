@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -18,10 +18,8 @@ type UserFormData = {
   role: "user" | "admin" | "super admin";
 };
 
-export default function UserForm() {
+export default function UserAdd() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const userId = searchParams.get("id");
   const { toast } = useToast();
 
   const [formData, setFormData] = useState<UserFormData>({
@@ -54,7 +52,7 @@ export default function UserForm() {
       return;
     }
 
-    if (!userId && !formData.password.trim()) {
+    if (!formData.password.trim()) {
       toast({
         title: "Error",
         description: "Password is required",
@@ -63,7 +61,7 @@ export default function UserForm() {
       return;
     }
 
-    if (formData.password && formData.password.length < 6) {
+    if (formData.password.length < 6) {
       toast({
         title: "Error",
         description: "Password must be at least 6 characters",
@@ -73,8 +71,8 @@ export default function UserForm() {
     }
 
     toast({
-      title: userId ? "User updated" : "User added",
-      description: userId ? "The user has been updated successfully." : "The new user has been added successfully.",
+      title: "User added",
+      description: "The new user has been added successfully.",
     });
     
     navigate("/dashboard/users");
@@ -87,17 +85,12 @@ export default function UserForm() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {userId ? "Edit User" : "Add New User"}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {userId ? "Update user information" : "Fill in the details to add a new user"}
-          </p>
+          <h1 className="text-3xl font-bold text-foreground">Add New User</h1>
+          <p className="text-muted-foreground mt-1">Fill in the details to add a new user</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Section 1 - Basic User Info */}
         <Card>
           <CardHeader>
             <CardTitle>Basic User Info</CardTitle>
@@ -149,22 +142,19 @@ export default function UserForm() {
           </CardContent>
         </Card>
 
-        {/* Section 2 - Security */}
         <Card>
           <CardHeader>
             <CardTitle>Security</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="password">
-                Password {userId ? "(leave blank to keep current)" : "*"}
-              </Label>
+              <Label htmlFor="password">Password *</Label>
               <PasswordInput
                 id="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 placeholder="Enter password"
-                required={!userId}
+                required
               />
               <p className="text-xs text-muted-foreground">
                 Password must be at least 6 characters long
@@ -191,14 +181,11 @@ export default function UserForm() {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" onClick={() => navigate("/dashboard/users")}>
             Cancel
           </Button>
-          <Button type="submit">
-            {userId ? "Update User" : "Add User"}
-          </Button>
+          <Button type="submit">Add User</Button>
         </div>
       </form>
     </div>

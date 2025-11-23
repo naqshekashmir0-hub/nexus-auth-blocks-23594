@@ -7,93 +7,87 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Upload, X } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 
-type CategoryFormData = {
-  category_name: string;
-  category_logo: string;
+type BrandFormData = {
+  brand_name: string;
+  logo: string;
 };
 
-export default function CategoryForm() {
+export default function BrandEdit() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const categoryId = searchParams.get("id");
+  const brandId = searchParams.get("id");
   const { toast } = useToast();
 
-  const [formData, setFormData] = useState<CategoryFormData>({
-    category_name: "",
-    category_logo: "",
+  const [formData, setFormData] = useState<BrandFormData>({
+    brand_name: "",
+    logo: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.category_name.trim()) {
+    if (!formData.brand_name.trim()) {
       toast({
         title: "Error",
-        description: "Category name is required",
+        description: "Brand name is required",
         variant: "destructive"
       });
       return;
     }
 
     toast({
-      title: categoryId ? "Category updated" : "Category added",
-      description: categoryId ? "The category has been updated successfully." : "The new category has been added successfully.",
+      title: "Brand updated",
+      description: "The brand has been updated successfully.",
     });
     
-    navigate("/dashboard/categories");
+    navigate("/dashboard/brand");
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/categories")}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/brand")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {categoryId ? "Edit Category" : "Add New Category"}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {categoryId ? "Update category information" : "Fill in the details to add a new category"}
-          </p>
+          <h1 className="text-3xl font-bold text-foreground">Edit Brand</h1>
+          <p className="text-muted-foreground mt-1">Update brand information</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Section 1 - Basic Category Info */}
         <Card>
           <CardHeader>
-            <CardTitle>Basic Category Info</CardTitle>
+            <CardTitle>Basic Brand Info</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="category_name">Category Name *</Label>
+              <Label htmlFor="brand_name">Brand Name *</Label>
               <Input
-                id="category_name"
-                value={formData.category_name}
-                onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
-                placeholder="e.g., Electronics"
+                id="brand_name"
+                value={formData.brand_name}
+                onChange={(e) => setFormData({ ...formData, brand_name: e.target.value })}
+                placeholder="e.g., Apple"
                 required
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Section 2 - Media */}
         <Card>
           <CardHeader>
-            <CardTitle>Category Logo</CardTitle>
+            <CardTitle>Brand Logo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label>Category Logo</Label>
+              <Label>Brand Logo</Label>
               <div className="flex items-center gap-4">
-                {formData.category_logo ? (
+                {formData.logo ? (
                   <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
-                    <img src={formData.category_logo} alt="Category logo" className="w-full h-full object-cover" />
+                    <img src={formData.logo} alt="Brand logo" className="w-full h-full object-cover" />
                     <button
                       type="button"
-                      onClick={() => setFormData({ ...formData, category_logo: "" })}
+                      onClick={() => setFormData({ ...formData, logo: "" })}
                       className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
                     >
                       <X className="h-3 w-3" />
@@ -110,7 +104,7 @@ export default function CategoryForm() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          setFormData({ ...formData, category_logo: URL.createObjectURL(file) });
+                          setFormData({ ...formData, logo: URL.createObjectURL(file) });
                         }
                       }}
                     />
@@ -121,14 +115,11 @@ export default function CategoryForm() {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
         <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/categories")}>
+          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/brand")}>
             Cancel
           </Button>
-          <Button type="submit">
-            {categoryId ? "Update Category" : "Add Category"}
-          </Button>
+          <Button type="submit">Update Brand</Button>
         </div>
       </form>
     </div>
