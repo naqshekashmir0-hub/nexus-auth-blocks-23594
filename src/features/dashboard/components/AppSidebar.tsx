@@ -50,14 +50,14 @@ export function AppSidebar() {
   return <Sidebar collapsible="icon" className="border-r border-border/10 shadow-lg bg-card data-[state=collapsed]:w-24 data-[state=expanded]:w-48">
       <SidebarContent>
         {/* Logo/Brand Section */}
-        <div className="px-4 py-6">
+        <div className={`px-4 ${open ? 'py-6' : 'py-4'}`}>
           {open ? <div className="flex items-baseline gap-1">
               <h1 className="text-2xl font-bold text-primary">Able</h1>
               <span className="text-xs text-muted-foreground font-semibold px-1.5 py-0.5 bg-primary/10 rounded">
                 PRO
               </span>
             </div> : <div className="flex justify-center">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
                 A
               </div>
             </div>}
