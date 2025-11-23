@@ -7,93 +7,87 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Upload, X } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 
-type BrandFormData = {
-  brand_name: string;
-  logo: string;
+type CategoryFormData = {
+  category_name: string;
+  category_logo: string;
 };
 
-export default function BrandForm() {
+export default function CategoryEdit() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const brandId = searchParams.get("id");
+  const categoryId = searchParams.get("id");
   const { toast } = useToast();
 
-  const [formData, setFormData] = useState<BrandFormData>({
-    brand_name: "",
-    logo: "",
+  const [formData, setFormData] = useState<CategoryFormData>({
+    category_name: "",
+    category_logo: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.brand_name.trim()) {
+    if (!formData.category_name.trim()) {
       toast({
         title: "Error",
-        description: "Brand name is required",
+        description: "Category name is required",
         variant: "destructive"
       });
       return;
     }
 
     toast({
-      title: brandId ? "Brand updated" : "Brand added",
-      description: brandId ? "The brand has been updated successfully." : "The new brand has been added successfully.",
+      title: "Category updated",
+      description: "The category has been updated successfully.",
     });
     
-    navigate("/dashboard/brand");
+    navigate("/dashboard/categories");
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/brand")}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard/categories")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {brandId ? "Edit Brand" : "Add New Brand"}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {brandId ? "Update brand information" : "Fill in the details to add a new brand"}
-          </p>
+          <h1 className="text-3xl font-bold text-foreground">Edit Category</h1>
+          <p className="text-muted-foreground mt-1">Update category information</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Section 1 - Basic Brand Info */}
         <Card>
           <CardHeader>
-            <CardTitle>Basic Brand Info</CardTitle>
+            <CardTitle>Basic Category Info</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="brand_name">Brand Name *</Label>
+              <Label htmlFor="category_name">Category Name *</Label>
               <Input
-                id="brand_name"
-                value={formData.brand_name}
-                onChange={(e) => setFormData({ ...formData, brand_name: e.target.value })}
-                placeholder="e.g., Apple"
+                id="category_name"
+                value={formData.category_name}
+                onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
+                placeholder="e.g., Electronics"
                 required
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Section 2 - Media */}
         <Card>
           <CardHeader>
-            <CardTitle>Brand Logo</CardTitle>
+            <CardTitle>Category Logo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label>Brand Logo</Label>
+              <Label>Category Logo</Label>
               <div className="flex items-center gap-4">
-                {formData.logo ? (
+                {formData.category_logo ? (
                   <div className="relative w-32 h-32 border rounded-lg overflow-hidden">
-                    <img src={formData.logo} alt="Brand logo" className="w-full h-full object-cover" />
+                    <img src={formData.category_logo} alt="Category logo" className="w-full h-full object-cover" />
                     <button
                       type="button"
-                      onClick={() => setFormData({ ...formData, logo: "" })}
+                      onClick={() => setFormData({ ...formData, category_logo: "" })}
                       className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
                     >
                       <X className="h-3 w-3" />
@@ -110,7 +104,7 @@ export default function BrandForm() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          setFormData({ ...formData, logo: URL.createObjectURL(file) });
+                          setFormData({ ...formData, category_logo: URL.createObjectURL(file) });
                         }
                       }}
                     />
@@ -121,14 +115,11 @@ export default function BrandForm() {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
         <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/brand")}>
+          <Button type="button" variant="outline" onClick={() => navigate("/dashboard/categories")}>
             Cancel
           </Button>
-          <Button type="submit">
-            {brandId ? "Update Brand" : "Add Brand"}
-          </Button>
+          <Button type="submit">Update Category</Button>
         </div>
       </form>
     </div>

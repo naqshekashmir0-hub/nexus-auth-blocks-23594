@@ -14,7 +14,7 @@ type SubCategoryFormData = {
   logo: string;
 };
 
-export default function SubCategoryForm() {
+export default function SubCategoryEdit() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const subCategoryId = searchParams.get("id");
@@ -48,8 +48,8 @@ export default function SubCategoryForm() {
     }
 
     toast({
-      title: subCategoryId ? "SubCategory updated" : "SubCategory added",
-      description: subCategoryId ? "The subcategory has been updated successfully." : "The new subcategory has been added successfully.",
+      title: "SubCategory updated",
+      description: "The subcategory has been updated successfully.",
     });
     
     navigate("/dashboard/subcategories");
@@ -62,17 +62,12 @@ export default function SubCategoryForm() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {subCategoryId ? "Edit SubCategory" : "Add New SubCategory"}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {subCategoryId ? "Update subcategory information" : "Fill in the details to add a new subcategory"}
-          </p>
+          <h1 className="text-3xl font-bold text-foreground">Edit SubCategory</h1>
+          <p className="text-muted-foreground mt-1">Update subcategory information</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Section 1 - Basic SubCategory Info */}
         <Card>
           <CardHeader>
             <CardTitle>Basic SubCategory Info</CardTitle>
@@ -110,7 +105,6 @@ export default function SubCategoryForm() {
           </CardContent>
         </Card>
 
-        {/* Section 2 - Media */}
         <Card>
           <CardHeader>
             <CardTitle>SubCategory Logo</CardTitle>
@@ -152,14 +146,11 @@ export default function SubCategoryForm() {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" onClick={() => navigate("/dashboard/subcategories")}>
             Cancel
           </Button>
-          <Button type="submit">
-            {subCategoryId ? "Update SubCategory" : "Add SubCategory"}
-          </Button>
+          <Button type="submit">Update SubCategory</Button>
         </div>
       </form>
     </div>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -41,9 +41,8 @@ const subCategoriesByCategory: Record<string, string[]> = {
 
 const dimensionTypes = ["KG", "LITRE", "DOZEN", "PIECE"];
 
-export default function ProductForm() {
+export default function ProductAdd() {
   const navigate = useNavigate();
-  const { productId } = useParams();
   const { toast } = useToast();
   const [tagInput, setTagInput] = useState("");
 
@@ -65,41 +64,15 @@ export default function ProductForm() {
     coverImages: [],
   });
 
-  // Load product data when editing
-  useEffect(() => {
-    if (productId) {
-      // TODO: Fetch actual product data from backend
-      // Mock data for now
-      setFormData({
-        name: "Wireless Headphones",
-        description: "Premium wireless headphones",
-        brand: "TechBrand",
-        category: "Electronics",
-        subCategory: "Headphones",
-        tags: ["audio", "wireless"],
-        quantity: 45,
-        dimensionType: "PIECE",
-        price: 79.99,
-        discount: 10,
-        newBadge: true,
-        salesBadge: false,
-        featured: true,
-        avatar: "",
-        coverImages: [],
-      });
-    }
-  }, [productId]);
-
   const actualPrice = formData.price - (formData.price * formData.discount / 100);
   const availableSubCategories = formData.category ? subCategoriesByCategory[formData.category] || [] : [];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // TODO: Implement actual save logic
     toast({
-      title: productId ? "Product updated" : "Product added",
-      description: productId ? "The product has been updated successfully." : "The new product has been added successfully.",
+      title: "Product added",
+      description: "The new product has been added successfully.",
     });
     
     navigate("/dashboard/products");
@@ -130,17 +103,12 @@ export default function ProductForm() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {productId ? "Edit Product" : "Add New Product"}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {productId ? "Update product information" : "Fill in the details to add a new product"}
-          </p>
+          <h1 className="text-3xl font-bold text-foreground">Add New Product</h1>
+          <p className="text-muted-foreground mt-1">Fill in the details to add a new product</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Section 1 - Basic Product Info */}
         <Card>
           <CardHeader>
             <CardTitle>Basic Product Info</CardTitle>
@@ -261,7 +229,6 @@ export default function ProductForm() {
           </CardContent>
         </Card>
 
-        {/* Section 2 - Quantity & Dimension */}
         <Card>
           <CardHeader>
             <CardTitle>Quantity & Dimension</CardTitle>
@@ -299,7 +266,6 @@ export default function ProductForm() {
           </CardContent>
         </Card>
 
-        {/* Section 3 - Pricing Details */}
         <Card>
           <CardHeader>
             <CardTitle>Pricing Details</CardTitle>
@@ -343,7 +309,6 @@ export default function ProductForm() {
           </CardContent>
         </Card>
 
-        {/* Section 4 - Status & Flags */}
         <Card>
           <CardHeader>
             <CardTitle>Status & Flags</CardTitle>
@@ -387,7 +352,6 @@ export default function ProductForm() {
           </CardContent>
         </Card>
 
-        {/* Section 5 - Media */}
         <Card>
           <CardHeader>
             <CardTitle>Media</CardTitle>
@@ -418,7 +382,6 @@ export default function ProductForm() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          // TODO: Implement actual file upload
                           setFormData({ ...formData, avatar: URL.createObjectURL(file) });
                         }
                       }}
@@ -456,7 +419,6 @@ export default function ProductForm() {
                     className="hidden"
                     onChange={(e) => {
                       const files = Array.from(e.target.files || []);
-                      // TODO: Implement actual file upload
                       const newImages = files.map(file => URL.createObjectURL(file));
                       setFormData({ ...formData, coverImages: [...formData.coverImages, ...newImages] });
                     }}
@@ -467,14 +429,11 @@ export default function ProductForm() {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" onClick={() => navigate("/dashboard/products")}>
             Cancel
           </Button>
-          <Button type="submit">
-            {productId ? "Update Product" : "Add Product"}
-          </Button>
+          <Button type="submit">Add Product</Button>
         </div>
       </form>
     </div>
