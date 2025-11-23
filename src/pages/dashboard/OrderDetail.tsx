@@ -253,12 +253,10 @@ export default function OrderDetail() {
                       {index < orderData.history.length - 1 && <div className="w-px h-full bg-border mt-2" />}
                     </div>
                     <div className="flex-1 pb-4">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2">
                         <span className="font-medium text-sm">{event.status}</span>
                         <span className="text-xs text-muted-foreground">{event.timestamp}</span>
                       </div>
-                      <p className="text-sm text-foreground">{event.description}</p>
-                      <p className="text-xs text-muted-foreground italic">(Previous: {event.previousStatus})</p>
                     </div>
                   </div>)}
               </div>
