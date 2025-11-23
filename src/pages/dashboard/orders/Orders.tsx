@@ -186,7 +186,7 @@ export default function Orders() {
         </p>
       </div>
 
-      <Card>
+      <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
         <CardHeader>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
@@ -228,7 +228,7 @@ export default function Orders() {
                   </TableRow>
                 ) : (
                   paginatedOrders.map((order) => (
-                    <TableRow key={order.id}>
+                    <TableRow key={order.id} className="hover:bg-accent/5 transition-colors">
                       <TableCell className="font-medium">{order.id}</TableCell>
                       <TableCell>{order.customer}</TableCell>
                       <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>

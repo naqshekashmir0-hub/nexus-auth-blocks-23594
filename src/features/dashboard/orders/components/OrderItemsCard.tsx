@@ -9,10 +9,12 @@ interface OrderItemsCardProps {
 
 export function OrderItemsCard({ items }: OrderItemsCardProps) {
   return (
-    <Card>
+    <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
-          <ShoppingCart className="h-4 w-4 text-primary" />
+          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <ShoppingCart className="h-4 w-4 text-primary" />
+          </div>
           Order Items
         </CardTitle>
       </CardHeader>
@@ -28,7 +30,7 @@ export function OrderItemsCard({ items }: OrderItemsCardProps) {
           </TableHeader>
           <TableBody>
             {items.map(item => (
-              <TableRow key={item.id}>
+              <TableRow key={item.id} className="hover:bg-primary/5 transition-colors">
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <img src={item.image} alt={item.product} className="h-10 w-10 rounded object-cover" />

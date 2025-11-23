@@ -82,7 +82,7 @@ export default function Brand() {
         </Button>
       </div>
 
-      <Card>
+      <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
         <CardHeader>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
@@ -121,7 +121,7 @@ export default function Brand() {
                 </TableRow>
               ) : (
                 paginatedBrands.map((brand) => (
-                  <TableRow key={brand.id}>
+                  <TableRow key={brand.id} className="hover:bg-accent/5 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
