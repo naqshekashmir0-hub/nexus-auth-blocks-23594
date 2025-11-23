@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -14,6 +15,7 @@ export default function OrderDetail() {
   // Mock order data
   const orderData = {
     id: orderId || "ORD-001",
+    currentStatus: "Processing",
     placedOn: "Jun 9, 2025, 02:50 PM",
     lastUpdated: "Jun 9, 2025, 02:55 PM",
     customer: {
@@ -61,6 +63,20 @@ export default function OrderDetail() {
       timestamp: "Jun 9, 2025, 03:00 PM"
     }]
   };
+
+  const getStatusColor = (status: string) => {
+    const colors: Record<string, string> = {
+      "Pending": "bg-yellow-500 hover:bg-yellow-500",
+      "Processing": "bg-blue-500 hover:bg-blue-500",
+      "Confirmed": "bg-green-500 hover:bg-green-500",
+      "Shipped": "bg-purple-500 hover:bg-purple-500",
+      "Out for Delivery": "bg-orange-500 hover:bg-orange-500",
+      "Delivered": "bg-green-600 hover:bg-green-600",
+      "Cancelled": "bg-red-500 hover:bg-red-500"
+    };
+    return colors[status] || "bg-gray-500 hover:bg-gray-500";
+  };
+
   const handlePrintInvoice = () => {
     toast({
       title: "Printing Invoice",
@@ -82,8 +98,12 @@ export default function OrderDetail() {
         </Button>
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-primary">Order #{orderData.id}</h1>
-            
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-primary">Order #{orderData.id}</h1>
+              <Badge className={`${getStatusColor(orderData.currentStatus)} text-white`}>
+                {orderData.currentStatus}
+              </Badge>
+            </div>
           </div>
           <div className="flex gap-2">
             
