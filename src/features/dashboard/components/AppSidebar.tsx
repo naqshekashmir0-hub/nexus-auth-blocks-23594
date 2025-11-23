@@ -69,7 +69,7 @@ export function AppSidebar() {
             <SidebarMenu className="space-y-2">
               {dashboardItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title} className="h-11">
-                    <NavLink to={item.url} end={item.url === ROUTES.DASHBOARD.HOME} className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-200" activeClassName="bg-sidebar-accent text-primary font-medium shadow-lg scale-[1.02] border-l-2 border-primary" onClick={handleItemClick}>
+                    <NavLink to={item.url} end={item.url === ROUTES.DASHBOARD.HOME} className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-all duration-200" activeClassName="bg-primary/10 text-primary font-medium border-l-4 border-primary shadow-sm" onClick={handleItemClick}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
