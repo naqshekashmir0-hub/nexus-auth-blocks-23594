@@ -2,7 +2,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Bell, Search, Maximize2, Settings, MessageSquare, Grid3x3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ProfileMenu } from "@/components/layout/ProfileMenu";
+import { ProfileMenu } from "@/features/dashboard/components/ProfileMenu";
 export function DashboardHeader() {
   return <header className="sticky top-0 z-10 flex h-16 items-center border-b bg-background">
       <div className="flex items-center gap-4 px-4 md:px-6">
