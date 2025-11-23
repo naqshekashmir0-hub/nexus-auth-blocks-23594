@@ -1,7 +1,7 @@
 import { LayoutDashboard, Package, ShoppingCart, Users, FolderOpen, Layers, Tag } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, useSidebar } from "@/components/ui/sidebar";
-import { ProfileMenu } from "@/components/layout/ProfileMenu";
+import { ProfileMenu } from "@/features/dashboard/components/ProfileMenu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 const dashboardItems = [{
   title: "Dashboard",

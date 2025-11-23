@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Upload, X } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/core/hooks/use-toast";
 
 type ProductFormData = {
   name: string;
