@@ -15,6 +15,7 @@ interface UserData {
   last_name: string;
   email: string;
   phone_number: string;
+  role: "user" | "admin" | "super admin";
 }
 
 export default function Users() {
@@ -29,28 +30,32 @@ export default function Users() {
       first_name: "Tariq",
       last_name: "Mir",
       email: "tariq@gmail.com",
-      phone_number: "123467889"
+      phone_number: "123467889",
+      role: "super admin"
     },
     {
       id: "2",
       first_name: "John",
       last_name: "Doe",
       email: "john@example.com",
-      phone_number: "987654321"
+      phone_number: "987654321",
+      role: "admin"
     },
     {
       id: "3",
       first_name: "Sarah",
       last_name: "Smith",
       email: "sarah@example.com",
-      phone_number: "555123456"
+      phone_number: "555123456",
+      role: "user"
     },
     {
       id: "4",
       first_name: "Michael",
       last_name: "Johnson",
       email: "michael@example.com",
-      phone_number: "444567890"
+      phone_number: "444567890",
+      role: "user"
     }
   ]);
 
@@ -116,13 +121,14 @@ export default function Users() {
                 <TableHead className="w-[250px]">Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
+                <TableHead>Role</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {paginatedUsers.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
                     No users found
                   </TableCell>
                 </TableRow>
@@ -144,6 +150,9 @@ export default function Users() {
                     </TableCell>
                     <TableCell>
                       <span className="text-sm">{user.phone_number}</span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-sm capitalize">{user.role}</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
