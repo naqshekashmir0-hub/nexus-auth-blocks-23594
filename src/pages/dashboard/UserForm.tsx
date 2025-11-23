@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -14,6 +15,7 @@ type UserFormData = {
   email: string;
   password: string;
   phone_number: string;
+  role: "user" | "admin" | "super admin";
 };
 
 export default function UserForm() {
@@ -28,6 +30,7 @@ export default function UserForm() {
     email: "",
     password: "",
     phone_number: "",
+    role: "user",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -142,6 +145,24 @@ export default function UserForm() {
                 onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
                 placeholder="e.g., 123467889"
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role *</Label>
+              <Select
+                value={formData.role}
+                onValueChange={(value: "user" | "admin" | "super admin") => 
+                  setFormData({ ...formData, role: value })
+                }
+              >
+                <SelectTrigger id="role">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="super admin">Super Admin</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>
