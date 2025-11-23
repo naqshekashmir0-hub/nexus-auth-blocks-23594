@@ -52,251 +52,109 @@ export const ROUTES = {
   },
 } as const;
 
-// Route metadata for SEO
-export interface RouteMetadata {
-  title: string;
-  description: string;
-  keywords?: string[];
-  breadcrumb?: string;
-  ogImage?: string;
-}
-
 // Route configuration with component mappings
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
   index?: boolean;
   children?: RouteConfig[];
-  metadata?: RouteMetadata;
 }
 
 export const routeConfig: RouteConfig[] = [
   {
     path: ROUTES.HOME,
     element: Login,
-    metadata: {
-      title: "Login - Dashboard",
-      description: "Sign in to access your dashboard and manage your application",
-      keywords: ["login", "sign in", "authentication"],
-      breadcrumb: "Home",
-    },
   },
   {
     path: ROUTES.LOGIN,
     element: Login,
-    metadata: {
-      title: "Login - Dashboard",
-      description: "Sign in to access your dashboard and manage your application",
-      keywords: ["login", "sign in", "authentication"],
-      breadcrumb: "Login",
-    },
   },
   {
     path: ROUTES.REGISTER,
     element: Register,
-    metadata: {
-      title: "Register - Create Account",
-      description: "Create a new account to get started with the dashboard",
-      keywords: ["register", "sign up", "create account"],
-      breadcrumb: "Register",
-    },
   },
   {
     path: ROUTES.DASHBOARD.HOME,
     element: Dashboard,
-    metadata: {
-      title: "Dashboard",
-      description: "Manage your application data, users, products, and orders",
-      keywords: ["dashboard", "admin", "management"],
-      breadcrumb: "Dashboard",
-    },
     children: [
       {
         path: "",
         element: DashboardHome,
         index: true,
-        metadata: {
-          title: "Dashboard Home",
-          description: "Overview of your application statistics and recent activity",
-          keywords: ["dashboard", "overview", "statistics"],
-          breadcrumb: "Home",
-        },
       },
       // Users
       {
         path: "users",
         element: Users,
-        metadata: {
-          title: "Users - User Management",
-          description: "View and manage all users in your application",
-          keywords: ["users", "user management", "accounts"],
-          breadcrumb: "Users",
-        },
       },
       {
         path: "users/add",
         element: UserAdd,
-        metadata: {
-          title: "Add User - User Management",
-          description: "Create a new user account",
-          keywords: ["add user", "create user", "new account"],
-          breadcrumb: "Add User",
-        },
       },
       {
         path: "users/edit",
         element: UserEdit,
-        metadata: {
-          title: "Edit User - User Management",
-          description: "Edit user account details and permissions",
-          keywords: ["edit user", "update user", "user settings"],
-          breadcrumb: "Edit User",
-        },
       },
       // Products
       {
         path: "products",
         element: Products,
-        metadata: {
-          title: "Products - Product Management",
-          description: "Browse and manage your product catalog",
-          keywords: ["products", "product management", "catalog", "inventory"],
-          breadcrumb: "Products",
-        },
       },
       {
         path: "products/add",
         element: ProductAdd,
-        metadata: {
-          title: "Add Product - Product Management",
-          description: "Create a new product in your catalog",
-          keywords: ["add product", "create product", "new product"],
-          breadcrumb: "Add Product",
-        },
       },
       {
         path: "products/edit/:productId",
         element: ProductEdit,
-        metadata: {
-          title: "Edit Product - Product Management",
-          description: "Edit product details, pricing, and availability",
-          keywords: ["edit product", "update product", "product details"],
-          breadcrumb: "Edit Product",
-        },
       },
       // Categories
       {
         path: "categories",
         element: Categories,
-        metadata: {
-          title: "Categories - Category Management",
-          description: "Organize your products with categories",
-          keywords: ["categories", "product categories", "organization"],
-          breadcrumb: "Categories",
-        },
       },
       {
         path: "categories/add",
         element: CategoryAdd,
-        metadata: {
-          title: "Add Category - Category Management",
-          description: "Create a new product category",
-          keywords: ["add category", "create category", "new category"],
-          breadcrumb: "Add Category",
-        },
       },
       {
         path: "categories/edit",
         element: CategoryEdit,
-        metadata: {
-          title: "Edit Category - Category Management",
-          description: "Edit category details and settings",
-          keywords: ["edit category", "update category", "category settings"],
-          breadcrumb: "Edit Category",
-        },
       },
       // SubCategories
       {
         path: "subcategories",
         element: SubCategories,
-        metadata: {
-          title: "Subcategories - Subcategory Management",
-          description: "Manage subcategories for better product organization",
-          keywords: ["subcategories", "product subcategories", "organization"],
-          breadcrumb: "Subcategories",
-        },
       },
       {
         path: "subcategories/add",
         element: SubCategoryAdd,
-        metadata: {
-          title: "Add Subcategory - Subcategory Management",
-          description: "Create a new product subcategory",
-          keywords: ["add subcategory", "create subcategory", "new subcategory"],
-          breadcrumb: "Add Subcategory",
-        },
       },
       {
         path: "subcategories/edit",
         element: SubCategoryEdit,
-        metadata: {
-          title: "Edit Subcategory - Subcategory Management",
-          description: "Edit subcategory details and settings",
-          keywords: ["edit subcategory", "update subcategory", "subcategory settings"],
-          breadcrumb: "Edit Subcategory",
-        },
       },
       // Brands
       {
         path: "brand",
         element: Brands,
-        metadata: {
-          title: "Brands - Brand Management",
-          description: "Manage product brands and manufacturers",
-          keywords: ["brands", "brand management", "manufacturers"],
-          breadcrumb: "Brands",
-        },
       },
       {
         path: "brand/add",
         element: BrandAdd,
-        metadata: {
-          title: "Add Brand - Brand Management",
-          description: "Create a new brand or manufacturer",
-          keywords: ["add brand", "create brand", "new brand"],
-          breadcrumb: "Add Brand",
-        },
       },
       {
         path: "brand/edit",
         element: BrandEdit,
-        metadata: {
-          title: "Edit Brand - Brand Management",
-          description: "Edit brand details and information",
-          keywords: ["edit brand", "update brand", "brand settings"],
-          breadcrumb: "Edit Brand",
-        },
       },
       // Orders
       {
         path: "orders",
         element: Orders,
-        metadata: {
-          title: "Orders - Order Management",
-          description: "View and manage customer orders and fulfillment",
-          keywords: ["orders", "order management", "fulfillment", "purchases"],
-          breadcrumb: "Orders",
-        },
       },
       {
         path: "orders/:orderId",
         element: OrderDetail,
-        metadata: {
-          title: "Order Details - Order Management",
-          description: "View detailed information about a specific order",
-          keywords: ["order details", "order information", "order status"],
-          breadcrumb: "Order Details",
-        },
       },
     ],
   },
@@ -306,10 +164,4 @@ export const routeConfig: RouteConfig[] = [
 export const errorRoute: RouteConfig = {
   path: "*",
   element: Error,
-  metadata: {
-    title: "404 - Page Not Found",
-    description: "The page you are looking for does not exist",
-    keywords: ["404", "not found", "error"],
-    breadcrumb: "Error",
-  },
 };

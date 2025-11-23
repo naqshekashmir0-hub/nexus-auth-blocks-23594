@@ -2,13 +2,6 @@ import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RootProvider } from "@/core/providers/RootProvider";
 import { routeConfig, errorRoute, type RouteConfig } from "@/core/config/routes";
-import { useDocumentMetadata } from "@/core/hooks/use-route-metadata";
-
-// Metadata component to update document head
-const MetadataUpdater = () => {
-  useDocumentMetadata();
-  return null;
-};
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -73,7 +66,6 @@ const App = () => {
   return (
     <RootProvider>
       <BrowserRouter>
-        <MetadataUpdater />
         <Routes>
           {renderRoutes(routeConfig)}
           
