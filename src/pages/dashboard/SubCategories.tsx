@@ -12,6 +12,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 interface SubCategory {
   id: string;
   sub_category_name: string;
+  category: string;
   logo: string;
   productCount: number;
 }
@@ -26,24 +27,28 @@ export default function SubCategories() {
     {
       id: "1",
       sub_category_name: "Smartphones",
+      category: "Electronics",
       logo: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop",
       productCount: 15
     },
     {
       id: "2",
       sub_category_name: "Laptops",
+      category: "Electronics",
       logo: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=100&h=100&fit=crop",
       productCount: 23
     },
     {
       id: "3",
       sub_category_name: "Headphones",
+      category: "Electronics",
       logo: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
       productCount: 8
     },
     {
       id: "4",
       sub_category_name: "Cameras",
+      category: "Photography",
       logo: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=100&h=100&fit=crop",
       productCount: 12
     }
@@ -107,6 +112,7 @@ export default function SubCategories() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[250px]">SubCategory</TableHead>
+                <TableHead>Category</TableHead>
                 <TableHead className="text-center">Products</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -114,7 +120,7 @@ export default function SubCategories() {
             <TableBody>
               {paginatedSubCategories.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     No subcategories found
                   </TableCell>
                 </TableRow>
@@ -131,6 +137,9 @@ export default function SubCategories() {
                         </Avatar>
                         <span className="font-medium">{subCategory.sub_category_name}</span>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-sm">{subCategory.category}</span>
                     </TableCell>
                     <TableCell className="text-center">
                       <span className="text-sm">{subCategory.productCount}</span>
