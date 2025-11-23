@@ -87,7 +87,7 @@ export default function SubCategories() {
         </Button>
       </div>
 
-      <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
+      <Card>
         <CardHeader>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
@@ -127,7 +127,7 @@ export default function SubCategories() {
                 </TableRow>
               ) : (
                 paginatedSubCategories.map((subCategory) => (
-                  <TableRow key={subCategory.id} className="hover:bg-accent/5 transition-colors">
+                  <TableRow key={subCategory.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">

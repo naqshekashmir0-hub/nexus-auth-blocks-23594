@@ -8,12 +8,10 @@ interface ShippingInformationCardProps {
 
 export function ShippingInformationCard({ shipping }: ShippingInformationCardProps) {
   return (
-    <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center">
-            <MapPin className="h-4 w-4 text-accent" />
-          </div>
+          <MapPin className="h-4 w-4 text-primary" />
           Shipping Information
         </CardTitle>
       </CardHeader>

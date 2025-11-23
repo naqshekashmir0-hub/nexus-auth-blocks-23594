@@ -88,7 +88,7 @@ export default function DashboardHome() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -99,7 +99,7 @@ export default function DashboardHome() {
             <div className="text-2xl font-bold text-primary">{stats.totalOrders}</div>
           </CardContent>
         </Card>
-        <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Products</CardTitle>
             <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
@@ -110,7 +110,7 @@ export default function DashboardHome() {
             <div className="text-2xl font-bold text-accent">{stats.totalProducts}</div>
           </CardContent>
         </Card>
-        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Brands</CardTitle>
             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -121,7 +121,7 @@ export default function DashboardHome() {
             <div className="text-2xl font-bold text-primary">{stats.totalBrands}</div>
           </CardContent>
         </Card>
-        <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-transparent">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Categories</CardTitle>
             <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
@@ -132,7 +132,7 @@ export default function DashboardHome() {
             <div className="text-2xl font-bold text-accent">{stats.totalCategories}</div>
           </CardContent>
         </Card>
-        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Sub Categories</CardTitle>
             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
