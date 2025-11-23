@@ -1,11 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "lucide-react";
+import type { OrderCustomer } from "../types";
 
 interface CustomerDetailsCardProps {
-  customer: {
-    name: string;
-    phone: string;
-  };
+  customer: OrderCustomer;
 }
 
 export function CustomerDetailsCard({ customer }: CustomerDetailsCardProps) {

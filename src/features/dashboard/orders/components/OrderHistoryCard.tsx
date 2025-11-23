@@ -1,13 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from "lucide-react";
-
-interface OrderHistoryEvent {
-  id: number;
-  status: string;
-  description: string;
-  previousStatus: string;
-  timestamp: string;
-}
+import type { OrderHistoryEvent } from "../types";
 
 interface OrderHistoryCardProps {
   history: OrderHistoryEvent[];

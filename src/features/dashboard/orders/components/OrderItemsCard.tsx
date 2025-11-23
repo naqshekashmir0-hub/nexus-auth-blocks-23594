@@ -1,15 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ShoppingCart } from "lucide-react";
-
-interface OrderItem {
-  id: number;
-  product: string;
-  image: string;
-  qty: number;
-  unitPrice: number;
-  total: number;
-}
+import type { OrderItem } from "../types";
 
 interface OrderItemsCardProps {
   items: OrderItem[];
