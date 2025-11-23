@@ -8,12 +8,10 @@ interface OrderHistoryCardProps {
 
 export function OrderHistoryCard({ history }: OrderHistoryCardProps) {
   return (
-    <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Clock className="h-4 w-4 text-primary" />
-          </div>
+          <Clock className="h-4 w-4 text-primary" />
           Order History
         </CardTitle>
       </CardHeader>

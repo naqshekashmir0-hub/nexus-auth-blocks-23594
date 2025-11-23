@@ -110,7 +110,7 @@ export default function Products() {
         </Button>
       </div>
 
-      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+      <Card>
         <CardHeader>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
@@ -157,7 +157,7 @@ export default function Products() {
                   </TableRow>
                 ) : (
                   paginatedProducts.map((product) => (
-                    <TableRow key={product.id} className="hover:bg-primary/5 transition-colors">
+                    <TableRow key={product.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="h-12 w-12">

@@ -8,12 +8,10 @@ interface CustomerDetailsCardProps {
 
 export function CustomerDetailsCard({ customer }: CustomerDetailsCardProps) {
   return (
-    <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <User className="h-4 w-4 text-primary" />
-          </div>
+          <User className="h-4 w-4 text-primary" />
           Customer Details
         </CardTitle>
       </CardHeader>
