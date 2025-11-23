@@ -80,10 +80,7 @@ export default function OrderDetail() {
             
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={handlePrintInvoice}>
-              <Printer className="h-4 w-4 mr-2" />
-              Print Invoice
-            </Button>
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">
