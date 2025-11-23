@@ -10,7 +10,7 @@ import {
   OrderItemsCard,
   PriceSummaryCard,
   OrderHistoryCard,
-} from "@/features/dashboard";
+} from "@/features/dashboard/orders";
 export default function OrderDetail() {
   const navigate = useNavigate();
   const {
