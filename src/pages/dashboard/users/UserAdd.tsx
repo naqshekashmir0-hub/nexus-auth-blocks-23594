@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type UserFormData = {
   first_name: string;
@@ -74,7 +75,7 @@ export default function UserAdd() {
       description: "The new user has been added successfully.",
     });
     
-    navigate("/dashboard/users");
+    navigate(ROUTES.DASHBOARD.USERS);
   };
 
   return (
@@ -82,7 +83,7 @@ export default function UserAdd() {
       <FormPageHeader
         title="Add New User"
         description="Fill in the details to add a new user"
-        backPath="/dashboard/users"
+        backPath={ROUTES.DASHBOARD.USERS}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -177,7 +178,7 @@ export default function UserAdd() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/users"
+          cancelPath={ROUTES.DASHBOARD.USERS}
           submitLabel="Add User"
         />
       </form>

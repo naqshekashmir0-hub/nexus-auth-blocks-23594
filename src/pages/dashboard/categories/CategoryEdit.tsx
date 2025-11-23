@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type CategoryFormData = {
   category_name: string;
@@ -39,7 +40,7 @@ export default function CategoryEdit() {
       description: "The category has been updated successfully.",
     });
     
-    navigate("/dashboard/categories");
+    navigate(ROUTES.DASHBOARD.CATEGORIES);
   };
 
   return (
@@ -47,7 +48,7 @@ export default function CategoryEdit() {
       <FormPageHeader
         title="Edit Category"
         description="Update category information"
-        backPath="/dashboard/categories"
+        backPath={ROUTES.DASHBOARD.CATEGORIES}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -84,7 +85,7 @@ export default function CategoryEdit() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/categories"
+          cancelPath={ROUTES.DASHBOARD.CATEGORIES}
           submitLabel="Update Category"
         />
       </form>

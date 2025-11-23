@@ -8,6 +8,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, Search, Pencil, Trash2, User } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { ROUTES } from "@/core/config/routes";
 
 interface UserData {
   id: string;
@@ -87,7 +88,7 @@ export default function Users() {
           </p>
         </div>
         
-        <Button className="gap-2" onClick={() => navigate("/dashboard/users/add")}>
+        <Button className="gap-2" onClick={() => navigate(ROUTES.DASHBOARD.USERS_ADD)}>
           <Plus className="h-4 w-4" />
           Add User
         </Button>
@@ -159,7 +160,7 @@ export default function Users() {
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`/dashboard/users/edit?id=${user.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.USERS_EDIT}?id=${user.id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>

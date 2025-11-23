@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/core/hooks/use-toast";
+import { ROUTES } from "@/core/config/routes";
 import {
   FormPageHeader,
   ImageUploadSingle,
@@ -104,7 +105,7 @@ export default function ProductEdit() {
       description: "The product has been updated successfully.",
     });
     
-    navigate("/dashboard/products");
+    navigate(ROUTES.DASHBOARD.PRODUCTS);
   };
 
   return (
@@ -112,7 +113,7 @@ export default function ProductEdit() {
       <FormPageHeader
         title="Edit Product"
         description="Update product information"
-        backPath="/dashboard/products"
+        backPath={ROUTES.DASHBOARD.PRODUCTS}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -352,7 +353,7 @@ export default function ProductEdit() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/products"
+          cancelPath={ROUTES.DASHBOARD.PRODUCTS}
           submitLabel="Update Product"
         />
       </form>

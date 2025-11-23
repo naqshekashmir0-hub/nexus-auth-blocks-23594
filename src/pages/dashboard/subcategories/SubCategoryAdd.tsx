@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type SubCategoryFormData = {
   sub_category_name: string;
@@ -49,7 +50,7 @@ export default function SubCategoryAdd() {
       description: "The new subcategory has been added successfully.",
     });
     
-    navigate("/dashboard/subcategories");
+    navigate(ROUTES.DASHBOARD.SUBCATEGORIES);
   };
 
   return (
@@ -57,7 +58,7 @@ export default function SubCategoryAdd() {
       <FormPageHeader
         title="Add New SubCategory"
         description="Fill in the details to add a new subcategory"
-        backPath="/dashboard/subcategories"
+        backPath={ROUTES.DASHBOARD.SUBCATEGORIES}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -113,7 +114,7 @@ export default function SubCategoryAdd() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/subcategories"
+          cancelPath={ROUTES.DASHBOARD.SUBCATEGORIES}
           submitLabel="Add SubCategory"
         />
       </form>

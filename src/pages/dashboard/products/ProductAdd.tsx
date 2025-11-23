@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/core/hooks/use-toast";
+import { ROUTES } from "@/core/config/routes";
 import { 
   FormPageHeader, 
   ImageUploadSingle, 
@@ -80,7 +81,7 @@ export default function ProductAdd() {
       description: "The new product has been added successfully.",
     });
     
-    navigate("/dashboard/products");
+    navigate(ROUTES.DASHBOARD.PRODUCTS);
   };
 
   return (
@@ -88,7 +89,7 @@ export default function ProductAdd() {
       <FormPageHeader
         title="Add New Product"
         description="Fill in the details to add a new product"
-        backPath="/dashboard/products"
+        backPath={ROUTES.DASHBOARD.PRODUCTS}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -328,7 +329,7 @@ export default function ProductAdd() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/products"
+          cancelPath={ROUTES.DASHBOARD.PRODUCTS}
           submitLabel="Add Product"
         />
       </form>

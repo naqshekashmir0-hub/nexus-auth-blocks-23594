@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type SubCategoryFormData = {
   sub_category_name: string;
@@ -51,7 +52,7 @@ export default function SubCategoryEdit() {
       description: "The subcategory has been updated successfully.",
     });
     
-    navigate("/dashboard/subcategories");
+    navigate(ROUTES.DASHBOARD.SUBCATEGORIES);
   };
 
   return (
@@ -59,7 +60,7 @@ export default function SubCategoryEdit() {
       <FormPageHeader
         title="Edit SubCategory"
         description="Update subcategory information"
-        backPath="/dashboard/subcategories"
+        backPath={ROUTES.DASHBOARD.SUBCATEGORIES}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -115,7 +116,7 @@ export default function SubCategoryEdit() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/subcategories"
+          cancelPath={ROUTES.DASHBOARD.SUBCATEGORIES}
           submitLabel="Update SubCategory"
         />
       </form>

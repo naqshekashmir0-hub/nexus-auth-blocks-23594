@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type UserFormData = {
   first_name: string;
@@ -67,7 +68,7 @@ export default function UserEdit() {
       description: "The user has been updated successfully.",
     });
     
-    navigate("/dashboard/users");
+    navigate(ROUTES.DASHBOARD.USERS);
   };
 
   return (
@@ -75,7 +76,7 @@ export default function UserEdit() {
       <FormPageHeader
         title="Edit User"
         description="Update user information"
-        backPath="/dashboard/users"
+        backPath={ROUTES.DASHBOARD.USERS}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -169,7 +170,7 @@ export default function UserEdit() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/users"
+          cancelPath={ROUTES.DASHBOARD.USERS}
           submitLabel="Update User"
         />
       </form>
