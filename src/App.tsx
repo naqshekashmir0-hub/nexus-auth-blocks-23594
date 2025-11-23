@@ -4,20 +4,20 @@ import Index from "./pages/Index";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Error from "./pages/Error";
-import Dashboard from "./pages/dashboard/Dashboard";
-import DashboardHome from "./pages/dashboard/DashboardHome";
-import Products from "./pages/dashboard/Products";
-import ProductForm from "./pages/dashboard/ProductForm";
-import Orders from "./pages/dashboard/Orders";
-import OrderDetail from "./pages/dashboard/OrderDetail";
-import Categories from "./pages/dashboard/Categories";
-import CategoryForm from "./pages/dashboard/CategoryForm";
-import SubCategories from "./pages/dashboard/SubCategories";
-import SubCategoryForm from "./pages/dashboard/SubCategoryForm";
-import Brand from "./pages/dashboard/Brand";
-import BrandForm from "./pages/dashboard/BrandForm";
-import Users from "./pages/dashboard/Users";
-import UserForm from "./pages/dashboard/UserForm";
+import Dashboard from "./pages/dashboard/dashboard/Dashboard";
+import DashboardHome from "./pages/dashboard/dashboard/DashboardHome";
+import Products from "./pages/dashboard/products/Products";
+import ProductForm from "./pages/dashboard/products/ProductForm";
+import Orders from "./pages/dashboard/orders/Orders";
+import OrderDetail from "./pages/dashboard/orders/OrderDetail";
+import Categories from "./pages/dashboard/categories/Categories";
+import CategoryForm from "./pages/dashboard/categories/CategoryForm";
+import SubCategories from "./pages/dashboard/subcategories/SubCategories";
+import SubCategoryForm from "./pages/dashboard/subcategories/SubCategoryForm";
+import Brands from "./pages/dashboard/brands/Brands";
+import BrandForm from "./pages/dashboard/brands/BrandForm";
+import Users from "./pages/dashboard/users/Users";
+import UserForm from "./pages/dashboard/users/UserForm";
 
 
 const App = () => (
@@ -41,7 +41,7 @@ const App = () => (
           <Route path="subcategories" element={<SubCategories />} />
           <Route path="subcategories/add" element={<SubCategoryForm />} />
           <Route path="subcategories/edit" element={<SubCategoryForm />} />
-          <Route path="brand" element={<Brand />} />
+          <Route path="brand" element={<Brands />} />
           <Route path="brand/add" element={<BrandForm />} />
           <Route path="brand/edit" element={<BrandForm />} />
           <Route path="orders" element={<Orders />} />
