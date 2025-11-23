@@ -15,6 +15,7 @@ type Product = {
   description: string;
   brand: string;
   category: string;
+  subCategory: string;
   tags: string[];
   quantity: number;
   dimensionType: string;
@@ -33,7 +34,8 @@ const mockProducts: Product[] = [
     name: "Wireless Headphones", 
     description: "Premium wireless headphones with noise cancellation",
     brand: "TechBrand",
-    category: "Electronics", 
+    category: "Electronics",
+    subCategory: "Audio", 
     tags: ["audio", "wireless"],
     quantity: 45,
     dimensionType: "DOZEN",
@@ -50,7 +52,8 @@ const mockProducts: Product[] = [
     name: "Laptop Stand", 
     description: "Ergonomic aluminum laptop stand",
     brand: "ErgoTech",
-    category: "Accessories", 
+    category: "Accessories",
+    subCategory: "Office", 
     tags: ["ergonomic", "aluminum"],
     quantity: 120,
     dimensionType: "DOZEN",
@@ -134,6 +137,7 @@ export default function Products() {
                   <TableHead>Product</TableHead>
                   <TableHead>Brand</TableHead>
                   <TableHead>Category</TableHead>
+                  <TableHead>Sub Category</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Dimension</TableHead>
                   <TableHead>Price</TableHead>
@@ -146,7 +150,7 @@ export default function Products() {
               <TableBody>
                 {paginatedProducts.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={10} className="text-center text-muted-foreground">
+                    <TableCell colSpan={11} className="text-center text-muted-foreground">
                       No products found
                     </TableCell>
                   </TableRow>
@@ -166,6 +170,7 @@ export default function Products() {
                       </TableCell>
                       <TableCell>{product.brand}</TableCell>
                       <TableCell>{product.category}</TableCell>
+                      <TableCell>{product.subCategory}</TableCell>
                       <TableCell>{product.quantity}</TableCell>
                       <TableCell>{product.dimensionType}</TableCell>
                       <TableCell>${product.price.toFixed(2)}</TableCell>
