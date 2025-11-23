@@ -1,14 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/core/utils";
+import { ROUTES } from "@/core/config/routes";
 
 export const AuthTabs = () => {
   const location = useLocation();
-  const isLogin = location.pathname === "/login";
+  const isLogin = location.pathname === ROUTES.LOGIN;
 
   return (
     <div className="flex gap-1 mb-8 p-1 bg-muted rounded-lg">
       <Link
-        to="/login"
+        to={ROUTES.LOGIN}
         className={cn(
           "flex-1 py-2.5 text-center text-sm font-medium rounded-md transition-all",
           isLogin
@@ -19,7 +20,7 @@ export const AuthTabs = () => {
         Login
       </Link>
       <Link
-        to="/register"
+        to={ROUTES.REGISTER}
         className={cn(
           "flex-1 py-2.5 text-center text-sm font-medium rounded-md transition-all",
           !isLogin

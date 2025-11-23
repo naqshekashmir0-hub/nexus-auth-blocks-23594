@@ -8,6 +8,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, Search, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { ROUTES } from "@/core/config/routes";
 
 interface Brand {
   id: string;
@@ -75,7 +76,7 @@ export default function Brand() {
           </p>
         </div>
         
-        <Button className="gap-2" onClick={() => navigate("/dashboard/brand/add")}>
+        <Button className="gap-2" onClick={() => navigate(ROUTES.DASHBOARD.BRAND_ADD)}>
           <Plus className="h-4 w-4" />
           Add Brand
         </Button>
@@ -140,7 +141,7 @@ export default function Brand() {
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`/dashboard/brand/edit?id=${brand.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.BRAND_EDIT}?id=${brand.id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>

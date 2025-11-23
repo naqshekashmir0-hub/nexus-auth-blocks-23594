@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useToast } from "@/core/hooks/use-toast";
+import { ROUTES } from "@/core/config/routes";
+
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -23,7 +25,7 @@ const Register = () => {
       title: "Account Created",
       description: "Welcome to Able Pro!"
     });
-    navigate("/login");
+    navigate(ROUTES.LOGIN);
   };
   const handleSocialLogin = (provider: string) => {
     toast({
@@ -62,7 +64,7 @@ const Register = () => {
 
       <p className="text-center text-sm text-muted-foreground mt-4">
         Already have an account?{" "}
-        <Link to="/login" className="text-primary font-medium hover:underline">
+        <Link to={ROUTES.LOGIN} className="text-primary font-medium hover:underline">
           Login
         </Link>
       </p>

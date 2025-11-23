@@ -3,33 +3,35 @@ import { NavLink } from "@/components/NavLink";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, useSidebar } from "@/components/ui/sidebar";
 import { ProfileMenu } from "@/features/dashboard/components/ProfileMenu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ROUTES } from "@/core/config/routes";
+
 const dashboardItems = [{
   title: "Dashboard",
-  url: "/dashboard",
+  url: ROUTES.DASHBOARD.HOME,
   icon: LayoutDashboard
 }, {
   title: "Users",
-  url: "/dashboard/users",
+  url: ROUTES.DASHBOARD.USERS,
   icon: Users
 }, {
   title: "Products",
-  url: "/dashboard/products",
+  url: ROUTES.DASHBOARD.PRODUCTS,
   icon: Package
 }, {
   title: "Categories",
-  url: "/dashboard/categories",
+  url: ROUTES.DASHBOARD.CATEGORIES,
   icon: FolderOpen
 }, {
   title: "SubCategories",
-  url: "/dashboard/subcategories",
+  url: ROUTES.DASHBOARD.SUBCATEGORIES,
   icon: Layers
 }, {
   title: "Brand",
-  url: "/dashboard/brand",
+  url: ROUTES.DASHBOARD.BRAND,
   icon: Tag
 }, {
   title: "Orders",
-  url: "/dashboard/orders",
+  url: ROUTES.DASHBOARD.ORDERS,
   icon: ShoppingCart
 }];
 export function AppSidebar() {
@@ -67,7 +69,7 @@ export function AppSidebar() {
             <SidebarMenu className="space-y-2">
               {dashboardItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title} className="h-11">
-                    <NavLink to={item.url} end={item.url === "/dashboard"} className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors" activeClassName="bg-sidebar-accent text-primary font-medium" onClick={handleItemClick}>
+                    <NavLink to={item.url} end={item.url === ROUTES.DASHBOARD.HOME} className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors" activeClassName="bg-sidebar-accent text-primary font-medium" onClick={handleItemClick}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
