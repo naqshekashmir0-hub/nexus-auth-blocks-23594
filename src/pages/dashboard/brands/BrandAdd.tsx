@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type BrandFormData = {
   brand_name: string;
@@ -37,7 +38,7 @@ export default function BrandAdd() {
       description: "The new brand has been added successfully.",
     });
     
-    navigate("/dashboard/brand");
+    navigate(ROUTES.DASHBOARD.BRAND);
   };
 
   return (
@@ -45,7 +46,7 @@ export default function BrandAdd() {
       <FormPageHeader
         title="Add New Brand"
         description="Fill in the details to add a new brand"
-        backPath="/dashboard/brand"
+        backPath={ROUTES.DASHBOARD.BRAND}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -82,7 +83,7 @@ export default function BrandAdd() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/brand"
+          cancelPath={ROUTES.DASHBOARD.BRAND}
           submitLabel="Add Brand"
         />
       </form>

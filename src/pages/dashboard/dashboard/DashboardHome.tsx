@@ -6,6 +6,7 @@ import { ShoppingCart, Package, Tag, Eye, FolderOpen, Layers } from "lucide-reac
 import { useNavigate } from "react-router-dom";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { useState } from "react";
+import { ROUTES } from "@/core/config/routes";
 type Order = {
   id: string;
   customer: string;
@@ -138,7 +139,7 @@ export default function DashboardHome() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Recent Orders</CardTitle>
-            <Button variant="outline" size="sm" onClick={() => navigate("/dashboard/orders")}>
+            <Button variant="outline" size="sm" onClick={() => navigate(ROUTES.DASHBOARD.ORDERS)}>
               View All
             </Button>
           </div>
@@ -168,7 +169,7 @@ export default function DashboardHome() {
                     </TableCell>
                     <TableCell className="text-right font-semibold">₹{order.amount.toFixed(2)}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" onClick={() => navigate(`/dashboard/orders/${order.id}`)}>
+                      <Button variant="ghost" size="sm" onClick={() => navigate(ROUTES.DASHBOARD.ORDER_DETAIL(order.id))}>
                         <Eye className="h-4 w-4 mr-2" />
                         View Order
                       </Button>

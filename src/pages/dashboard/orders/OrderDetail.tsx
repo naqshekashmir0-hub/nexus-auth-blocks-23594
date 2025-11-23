@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { toast } from "@/core/hooks/use-toast";
+import { ROUTES } from "@/core/config/routes";
 import {
   CustomerDetailsCard,
   ShippingInformationCard,
@@ -97,7 +98,7 @@ export default function OrderDetail() {
   return <div className="space-y-6">
       {/* Header */}
       <div>
-        <Button variant="ghost" className="mb-4" onClick={() => navigate("/dashboard/orders")}>
+        <Button variant="ghost" className="mb-4" onClick={() => navigate(ROUTES.DASHBOARD.ORDERS)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Orders List
         </Button>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/core/config/routes";
 
 const Index = () => {
   return (
@@ -10,10 +11,10 @@ const Index = () => {
           A modern authentication system with modular components
         </p>
         <div className="flex gap-4 justify-center pt-4">
-          <Link to="/login">
+          <Link to={ROUTES.LOGIN}>
             <Button size="lg">Login</Button>
           </Link>
-          <Link to="/register">
+          <Link to={ROUTES.REGISTER}>
             <Button size="lg" variant="outline">Sign Up</Button>
           </Link>
         </div>

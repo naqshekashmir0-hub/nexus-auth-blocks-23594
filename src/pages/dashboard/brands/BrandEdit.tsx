@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type BrandFormData = {
   brand_name: string;
@@ -39,7 +40,7 @@ export default function BrandEdit() {
       description: "The brand has been updated successfully.",
     });
     
-    navigate("/dashboard/brand");
+    navigate(ROUTES.DASHBOARD.BRAND);
   };
 
   return (
@@ -47,7 +48,7 @@ export default function BrandEdit() {
       <FormPageHeader
         title="Edit Brand"
         description="Update brand information"
-        backPath="/dashboard/brand"
+        backPath={ROUTES.DASHBOARD.BRAND}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -84,7 +85,7 @@ export default function BrandEdit() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/brand"
+          cancelPath={ROUTES.DASHBOARD.BRAND}
           submitLabel="Update Brand"
         />
       </form>

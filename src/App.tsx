@@ -1,5 +1,6 @@
 import { RootProvider } from "@/core/providers/RootProvider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ROUTES } from "@/core/config/routes";
 import Index from "./pages/Index";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -29,10 +30,10 @@ const App = () => (
   <RootProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />}>
+        <Route path={ROUTES.HOME} element={<Login />} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route path={ROUTES.REGISTER} element={<Register />} />
+        <Route path={ROUTES.DASHBOARD.HOME} element={<Dashboard />}>
           <Route index element={<DashboardHome />} />
           <Route path="users" element={<Users />} />
           <Route path="users/add" element={<UserAdd />} />

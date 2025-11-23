@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useToast } from "@/core/hooks/use-toast";
+import { ROUTES } from "@/core/config/routes";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +25,7 @@ const Login = () => {
     });
     console.log("Navigating to dashboard...");
     setTimeout(() => {
-      navigate("/dashboard");
+      navigate(ROUTES.DASHBOARD.HOME);
       console.log("Navigation called");
     }, 100);
   };
@@ -56,7 +58,7 @@ const Login = () => {
 
       <p className="text-center text-sm text-muted-foreground mt-4">
         Don't have an account?{" "}
-        <Link to="/register" className="text-primary font-medium hover:underline">
+        <Link to={ROUTES.REGISTER} className="text-primary font-medium hover:underline">
           Create
         </Link>
       </p>

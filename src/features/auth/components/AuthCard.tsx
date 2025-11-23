@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { LogIn, UserPlus } from "lucide-react";
+import { ROUTES } from "@/core/config/routes";
+
 interface AuthCardProps {
   children: ReactNode;
   logo?: string;
@@ -13,7 +15,7 @@ export const AuthCard = ({
   title
 }: AuthCardProps) => {
   const location = useLocation();
-  const isLogin = location.pathname === "/login";
+  const isLogin = location.pathname === ROUTES.LOGIN;
   return <div className="min-h-screen flex items-center justify-center p-4" style={{
     background: 'var(--gradient-auth)'
   }}>

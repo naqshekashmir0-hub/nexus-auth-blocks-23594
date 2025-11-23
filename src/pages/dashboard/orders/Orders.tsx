@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Search, Eye } from "lucide-react";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { ROUTES } from "@/core/config/routes";
 
 interface Order {
   id: string;
@@ -241,7 +242,7 @@ export default function Orders() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => navigate(`/dashboard/orders/${order.id}`)}
+                          onClick={() => navigate(ROUTES.DASHBOARD.ORDER_DETAIL(order.id))}
                         >
                           <Eye className="h-4 w-4 mr-2" />
                           View Order
