@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
+import { ROUTES } from "@/core/config/routes";
 
 type CategoryFormData = {
   category_name: string;
@@ -37,7 +38,7 @@ export default function CategoryAdd() {
       description: "The new category has been added successfully.",
     });
     
-    navigate("/dashboard/categories");
+    navigate(ROUTES.DASHBOARD.CATEGORIES);
   };
 
   return (
@@ -45,7 +46,7 @@ export default function CategoryAdd() {
       <FormPageHeader
         title="Add New Category"
         description="Fill in the details to add a new category"
-        backPath="/dashboard/categories"
+        backPath={ROUTES.DASHBOARD.CATEGORIES}
       />
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -82,7 +83,7 @@ export default function CategoryAdd() {
         </Card>
 
         <FormActions
-          cancelPath="/dashboard/categories"
+          cancelPath={ROUTES.DASHBOARD.CATEGORIES}
           submitLabel="Add Category"
         />
       </form>

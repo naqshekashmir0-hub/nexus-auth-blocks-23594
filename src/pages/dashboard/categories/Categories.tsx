@@ -9,6 +9,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, Search, Pencil, Trash2, FolderOpen } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { ROUTES } from "@/core/config/routes";
 
 interface Category {
   id: string;
@@ -76,7 +77,7 @@ export default function Categories() {
           </p>
         </div>
         
-        <Button className="gap-2" onClick={() => navigate("/dashboard/categories/add")}>
+        <Button className="gap-2" onClick={() => navigate(ROUTES.DASHBOARD.CATEGORIES_ADD)}>
           <Plus className="h-4 w-4" />
           Add Category
         </Button>
@@ -141,7 +142,7 @@ export default function Categories() {
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`/dashboard/categories/edit?id=${category.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.CATEGORIES_EDIT}?id=${category.id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>

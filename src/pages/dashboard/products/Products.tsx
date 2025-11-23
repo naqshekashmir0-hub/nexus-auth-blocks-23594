@@ -8,6 +8,7 @@ import { Plus, Search, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { ROUTES } from "@/core/config/routes";
 
 type Product = {
   id: string;
@@ -103,7 +104,7 @@ export default function Products() {
           </p>
         </div>
         
-        <Button onClick={() => navigate("/dashboard/products/add")}>
+        <Button onClick={() => navigate(ROUTES.DASHBOARD.PRODUCTS_ADD)}>
           <Plus className="mr-2 h-4 w-4" />
           Add Product
         </Button>
@@ -200,7 +201,7 @@ export default function Products() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => navigate(`/dashboard/products/edit/${product.id}`)}
+                            onClick={() => navigate(ROUTES.DASHBOARD.PRODUCTS_EDIT(product.id))}
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>

@@ -8,6 +8,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, Search, Pencil, Trash2, FolderOpen } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { ROUTES } from "@/core/config/routes";
 
 interface SubCategory {
   id: string;
@@ -80,7 +81,7 @@ export default function SubCategories() {
           </p>
         </div>
         
-        <Button className="gap-2" onClick={() => navigate("/dashboard/subcategories/add")}>
+        <Button className="gap-2" onClick={() => navigate(ROUTES.DASHBOARD.SUBCATEGORIES_ADD)}>
           <Plus className="h-4 w-4" />
           Add SubCategory
         </Button>
@@ -149,7 +150,7 @@ export default function SubCategories() {
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`/dashboard/subcategories/edit?id=${subCategory.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.SUBCATEGORIES_EDIT}?id=${subCategory.id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
