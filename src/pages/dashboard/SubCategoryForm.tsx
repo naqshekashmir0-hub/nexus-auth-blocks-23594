@@ -4,11 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type SubCategoryFormData = {
   sub_category_name: string;
+  category: string;
   logo: string;
 };
 
@@ -20,6 +22,7 @@ export default function SubCategoryForm() {
 
   const [formData, setFormData] = useState<SubCategoryFormData>({
     sub_category_name: "",
+    category: "",
     logo: "",
   });
 
@@ -30,6 +33,15 @@ export default function SubCategoryForm() {
       toast({
         title: "Error",
         description: "SubCategory name is required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.category) {
+      toast({
+        title: "Error",
+        description: "Category is required",
         variant: "destructive"
       });
       return;
@@ -75,6 +87,25 @@ export default function SubCategoryForm() {
                 placeholder="e.g., Smartphones"
                 required
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="category">Category *</Label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => setFormData({ ...formData, category: value })}
+              >
+                <SelectTrigger id="category">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Electronics">Electronics</SelectItem>
+                  <SelectItem value="Clothing">Clothing</SelectItem>
+                  <SelectItem value="Home & Garden">Home & Garden</SelectItem>
+                  <SelectItem value="Sports">Sports</SelectItem>
+                  <SelectItem value="Books">Books</SelectItem>
+                  <SelectItem value="Photography">Photography</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>
