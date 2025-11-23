@@ -83,7 +83,7 @@ export default function Categories() {
         </Button>
       </div>
 
-      <Card>
+      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
         <CardHeader>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
@@ -122,7 +122,7 @@ export default function Categories() {
                 </TableRow>
               ) : (
                 paginatedCategories.map((category) => (
-                  <TableRow key={category.id}>
+                  <TableRow key={category.id} className="hover:bg-primary/5 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
