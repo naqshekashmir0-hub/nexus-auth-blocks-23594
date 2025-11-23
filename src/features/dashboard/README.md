@@ -1,6 +1,6 @@
 # Dashboard Feature Structure
 
-This directory contains all dashboard-related features organized by domain.
+This directory contains all dashboard-related features organized by domain with a complete feature-based architecture.
 
 ## Structure
 
@@ -12,33 +12,46 @@ src/features/dashboard/
 │   ├── ProfileMenu.tsx
 │   └── index.ts
 ├── orders/              # Order management feature
-│   ├── components/
-│   │   ├── CustomerDetailsCard.tsx
-│   │   ├── ShippingInformationCard.tsx
-│   │   ├── OrderItemsCard.tsx
-│   │   ├── PriceSummaryCard.tsx
-│   │   ├── OrderHistoryCard.tsx
-│   │   └── index.ts
+│   ├── components/      # Order-specific UI components
+│   ├── hooks/          # Order-specific custom hooks
+│   ├── services/       # Order API services
+│   ├── store/          # Order state management
+│   ├── types/          # Order TypeScript types
 │   └── index.ts
 ├── products/            # Product management feature
 │   ├── components/
-│   │   └── index.ts
+│   ├── hooks/
+│   ├── services/
+│   ├── store/
+│   ├── types/
 │   └── index.ts
 ├── categories/          # Category management feature
 │   ├── components/
-│   │   └── index.ts
+│   ├── hooks/
+│   ├── services/
+│   ├── store/
+│   ├── types/
 │   └── index.ts
 ├── subcategories/       # SubCategory management feature
 │   ├── components/
-│   │   └── index.ts
+│   ├── hooks/
+│   ├── services/
+│   ├── store/
+│   ├── types/
 │   └── index.ts
 ├── brands/              # Brand management feature
 │   ├── components/
-│   │   └── index.ts
+│   ├── hooks/
+│   ├── services/
+│   ├── store/
+│   ├── types/
 │   └── index.ts
 ├── users/               # User management feature
 │   ├── components/
-│   │   └── index.ts
+│   ├── hooks/
+│   ├── services/
+│   ├── store/
+│   ├── types/
 │   └── index.ts
 └── index.ts             # Main export file
 ```
@@ -51,13 +64,41 @@ Components used across multiple dashboard features stay in `src/features/dashboa
 - `DashboardHeader`: Top header with breadcrumbs
 - `ProfileMenu`: User profile menu
 
-### 2. Feature-Specific Components
-Each feature (orders, products, categories, etc.) has its own folder with:
-- `components/`: Feature-specific UI components
-- `index.ts`: Export barrel for the feature
+### 2. Feature-Specific Structure
+Each feature (orders, products, categories, etc.) follows a consistent structure:
+
+#### **components/**
+Feature-specific UI components
+- Should be reusable within the feature
+- Handle presentation logic only
+- Example: `OrderItemsCard`, `ProductTable`
+
+#### **hooks/**
+Custom React hooks for the feature
+- Encapsulate feature-specific logic
+- Handle data fetching and state management
+- Example: `useOrders`, `useProductDetails`
+
+#### **services/**
+API communication layer
+- Handle all API calls for the feature
+- Pure functions that return promises
+- Example: `fetchOrders`, `createProduct`, `updateCategory`
+
+#### **store/**
+State management (if needed)
+- Feature-specific stores, actions, reducers
+- Can use Context API, Zustand, Redux, etc.
+- Example: order store with actions and selectors
+
+#### **types/**
+TypeScript type definitions
+- Interfaces and types for the feature
+- Ensures type safety across the feature
+- Example: `Order`, `Product`, `Category` interfaces
 
 ### 3. Shared Components
-Generic reusable components (forms, image uploads) remain in `src/components/shared/`:
+Generic reusable components remain in `src/components/shared/`:
 - `FormPageHeader`
 - `ImageUploadSingle`
 - `ImageUploadMultiple`
@@ -70,34 +111,81 @@ Generic reusable components (forms, image uploads) remain in `src/components/sha
 // Common dashboard components
 import { AppSidebar, DashboardHeader, ProfileMenu } from "@/features/dashboard";
 
-// Order-specific components
-import { CustomerDetailsCard, OrderItemsCard } from "@/features/dashboard/orders";
-// or
-import { CustomerDetailsCard, OrderItemsCard } from "@/features/dashboard";
+// Order-specific imports
+import { 
+  CustomerDetailsCard, 
+  OrderItemsCard 
+} from "@/features/dashboard/orders";
+
+import type { Order, OrderStatus } from "@/features/dashboard/orders";
+
+// Product-specific imports
+import type { Product, ProductFormData } from "@/features/dashboard/products";
 
 // Shared form components
 import { FormPageHeader, ImageUploadSingle } from "@/components/shared";
 ```
 
-## Adding New Feature Components
+## Adding New Feature Logic
 
-When adding components specific to a feature:
-
-1. Create the component in the feature's `components/` folder
-2. Export it from the feature's `components/index.ts`
-3. The component will automatically be available through the main export
-
-Example for a new ProductCard component:
+### Adding a Custom Hook
 
 ```typescript
-// src/features/dashboard/products/components/ProductCard.tsx
-export function ProductCard({ product }) {
-  // component logic
+// src/features/dashboard/orders/hooks/useOrders.ts
+export function useOrders() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Hook logic here
+  
+  return { orders, loading };
 }
 
-// src/features/dashboard/products/components/index.ts
-export { ProductCard } from "./ProductCard";
+// src/features/dashboard/orders/hooks/index.ts
+export { useOrders } from "./useOrders";
 
 // Usage in pages
-import { ProductCard } from "@/features/dashboard/products";
+import { useOrders } from "@/features/dashboard/orders";
 ```
+
+### Adding a Service
+
+```typescript
+// src/features/dashboard/orders/services/orderService.ts
+export async function fetchOrders() {
+  const response = await fetch('/api/orders');
+  return response.json();
+}
+
+// src/features/dashboard/orders/services/index.ts
+export { fetchOrders } from "./orderService";
+
+// Usage in hooks or components
+import { fetchOrders } from "@/features/dashboard/orders";
+```
+
+### Adding Types
+
+```typescript
+// src/features/dashboard/orders/types/order.ts
+export interface Order {
+  id: string;
+  status: OrderStatus;
+  // ... other fields
+}
+
+// src/features/dashboard/orders/types/index.ts
+export type { Order } from "./order";
+
+// Usage anywhere
+import type { Order } from "@/features/dashboard/orders";
+```
+
+## Best Practices
+
+1. **Keep components focused**: Each component should have a single responsibility
+2. **Use TypeScript**: Always define types for data structures
+3. **Centralize API calls**: All API logic should be in services
+4. **Custom hooks for logic**: Extract complex logic into custom hooks
+5. **Export from index.ts**: Always export through the feature's index.ts for clean imports
+6. **Colocate related code**: Keep feature-specific code together in its feature folder

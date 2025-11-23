@@ -1,13 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
+import type { OrderShipping } from "../types";
 
 interface ShippingInformationCardProps {
-  shipping: {
-    recipient: string;
-    address: string;
-    mobile: string;
-    type: string;
-  };
+  shipping: OrderShipping;
 }
 
 export function ShippingInformationCard({ shipping }: ShippingInformationCardProps) {

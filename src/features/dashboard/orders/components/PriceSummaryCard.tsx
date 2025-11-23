@@ -1,14 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
+import type { OrderPricing } from "../types";
 
 interface PriceSummaryCardProps {
-  pricing: {
-    subtotal: number;
-    discount: number;
-    shipping: number;
-    tax: number;
-    grandTotal: number;
-  };
+  pricing: OrderPricing;
 }
 
 export function PriceSummaryCard({ pricing }: PriceSummaryCardProps) {
