@@ -9,6 +9,7 @@ import { useToast } from "@/core/hooks/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 type Product = {
   id: string;
@@ -95,7 +96,8 @@ export default function Products() {
   };
 
   return (
-    <div className="space-y-6">
+    <DashboardLayout>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Products</h1>
@@ -254,5 +256,6 @@ export default function Products() {
         )}
         </Card>
       </div>
+    </DashboardLayout>
     );
   }
