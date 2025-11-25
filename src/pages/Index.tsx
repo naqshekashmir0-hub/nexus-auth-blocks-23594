@@ -14,9 +14,6 @@ const Index = () => {
           <Link to={ROUTES.LOGIN}>
             <Button size="lg">Login</Button>
           </Link>
-          <Link to={ROUTES.REGISTER}>
-            <Button size="lg" variant="outline">Sign Up</Button>
-          </Link>
         </div>
       </div>
     </div>
