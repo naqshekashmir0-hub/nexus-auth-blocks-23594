@@ -21,6 +21,7 @@ type ProductFormData = {
   name: string;
   description: string;
   brand: string;
+  manufacturer: string;
   category: string;
   subCategory: string;
   tags: string[];
@@ -56,6 +57,7 @@ export default function ProductAdd() {
     name: "",
     description: "",
     brand: "",
+    manufacturer: "",
     category: "",
     subCategory: "",
     tags: [],
@@ -122,6 +124,17 @@ export default function ProductAdd() {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="manufacturer">Manufacturer</Label>
+                <Input
+                  id="manufacturer"
+                  value={formData.manufacturer}
+                  onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
+                />
               </div>
             </div>
 
