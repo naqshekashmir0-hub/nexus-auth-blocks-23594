@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Eye } from "lucide-react";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
-import DashboardLayout from "@/layouts/DashboardLayout";
 
 interface Order {
   id: string;
@@ -179,7 +178,6 @@ export default function Orders() {
   };
 
   return (
-    <DashboardLayout>
     <div className="space-y-6 max-w-full overflow-hidden">
       <div>
         <h1 className="text-3xl font-bold text-foreground">Orders</h1>
@@ -290,6 +288,5 @@ export default function Orders() {
         )}
       </Card>
     </div>
-    </DashboardLayout>
   );
 }

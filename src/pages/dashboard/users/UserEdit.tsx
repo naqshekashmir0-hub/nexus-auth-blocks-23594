@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, FormActions } from "@/components/shared";
 import { ROUTES } from "@/core/config/routes";
-import DashboardLayout from "@/layouts/DashboardLayout";
 
 type UserFormData = {
   first_name: string;
@@ -73,7 +72,6 @@ export default function UserEdit() {
   };
 
   return (
-    <DashboardLayout>
     <div className="space-y-6">
       <FormPageHeader
         title="Edit User"
@@ -177,6 +175,5 @@ export default function UserEdit() {
         />
       </form>
     </div>
-    </DashboardLayout>
   );
 }

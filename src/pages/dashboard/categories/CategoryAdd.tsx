@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
 import { ROUTES } from "@/core/config/routes";
-import DashboardLayout from "@/layouts/DashboardLayout";
 
 type CategoryFormData = {
   category_name: string;
@@ -43,7 +42,6 @@ export default function CategoryAdd() {
   };
 
   return (
-    <DashboardLayout>
     <div className="space-y-6">
       <FormPageHeader
         title="Add New Category"
@@ -90,6 +88,5 @@ export default function CategoryAdd() {
         />
       </form>
     </div>
-    </DashboardLayout>
   );
 }

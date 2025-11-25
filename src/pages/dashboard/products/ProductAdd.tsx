@@ -16,7 +16,6 @@ import {
   FormActions, 
   TagInput 
 } from "@/components/shared";
-import DashboardLayout from "@/layouts/DashboardLayout";
 
 type ProductFormData = {
   name: string;
@@ -86,7 +85,6 @@ export default function ProductAdd() {
   };
 
   return (
-    <DashboardLayout>
     <div className="space-y-6">
       <FormPageHeader
         title="Add New Product"
@@ -336,6 +334,5 @@ export default function ProductAdd() {
         />
       </form>
     </div>
-    </DashboardLayout>
   );
 }

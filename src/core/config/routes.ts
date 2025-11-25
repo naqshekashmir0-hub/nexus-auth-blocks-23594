@@ -4,6 +4,7 @@ import { lazy } from "react";
 const Index = lazy(() => import("@/pages/Index"));
 const Login = lazy(() => import("@/pages/auth/Login"));
 const Error = lazy(() => import("@/pages/Error"));
+const Dashboard = lazy(() => import("@/pages/dashboard/dashboard/Dashboard"));
 const DashboardHome = lazy(() => import("@/pages/dashboard/dashboard/DashboardHome"));
 const Products = lazy(() => import("@/pages/dashboard/products/Products"));
 const ProductAdd = lazy(() => import("@/pages/dashboard/products/ProductAdd"));
@@ -54,6 +55,7 @@ export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
   index?: boolean;
+  children?: RouteConfig[];
 }
 
 export const routeConfig: RouteConfig[] = [
@@ -67,81 +69,88 @@ export const routeConfig: RouteConfig[] = [
   },
   {
     path: ROUTES.DASHBOARD.HOME,
-    element: DashboardHome,
-  },
-  // Users
-  {
-    path: ROUTES.DASHBOARD.USERS,
-    element: Users,
-  },
-  {
-    path: ROUTES.DASHBOARD.USERS_ADD,
-    element: UserAdd,
-  },
-  {
-    path: ROUTES.DASHBOARD.USERS_EDIT,
-    element: UserEdit,
-  },
-  // Products
-  {
-    path: ROUTES.DASHBOARD.PRODUCTS,
-    element: Products,
-  },
-  {
-    path: ROUTES.DASHBOARD.PRODUCTS_ADD,
-    element: ProductAdd,
-  },
-  {
-    path: "/dashboard/products/edit/:productId",
-    element: ProductEdit,
-  },
-  // Categories
-  {
-    path: ROUTES.DASHBOARD.CATEGORIES,
-    element: Categories,
-  },
-  {
-    path: ROUTES.DASHBOARD.CATEGORIES_ADD,
-    element: CategoryAdd,
-  },
-  {
-    path: ROUTES.DASHBOARD.CATEGORIES_EDIT,
-    element: CategoryEdit,
-  },
-  // SubCategories
-  {
-    path: ROUTES.DASHBOARD.SUBCATEGORIES,
-    element: SubCategories,
-  },
-  {
-    path: ROUTES.DASHBOARD.SUBCATEGORIES_ADD,
-    element: SubCategoryAdd,
-  },
-  {
-    path: ROUTES.DASHBOARD.SUBCATEGORIES_EDIT,
-    element: SubCategoryEdit,
-  },
-  // Brands
-  {
-    path: ROUTES.DASHBOARD.BRAND,
-    element: Brands,
-  },
-  {
-    path: ROUTES.DASHBOARD.BRAND_ADD,
-    element: BrandAdd,
-  },
-  {
-    path: ROUTES.DASHBOARD.BRAND_EDIT,
-    element: BrandEdit,
-  },
-  // Orders
-  {
-    path: ROUTES.DASHBOARD.ORDERS,
-    element: Orders,
-  },
-  {
-    path: "/dashboard/orders/:orderId",
-    element: OrderDetail,
+    element: Dashboard,
+    children: [
+      {
+        path: "",
+        element: DashboardHome,
+        index: true,
+      },
+      // Users
+      {
+        path: "users",
+        element: Users,
+      },
+      {
+        path: "users/add",
+        element: UserAdd,
+      },
+      {
+        path: "users/edit",
+        element: UserEdit,
+      },
+      // Products
+      {
+        path: "products",
+        element: Products,
+      },
+      {
+        path: "products/add",
+        element: ProductAdd,
+      },
+      {
+        path: "products/edit/:productId",
+        element: ProductEdit,
+      },
+      // Categories
+      {
+        path: "categories",
+        element: Categories,
+      },
+      {
+        path: "categories/add",
+        element: CategoryAdd,
+      },
+      {
+        path: "categories/edit",
+        element: CategoryEdit,
+      },
+      // SubCategories
+      {
+        path: "subcategories",
+        element: SubCategories,
+      },
+      {
+        path: "subcategories/add",
+        element: SubCategoryAdd,
+      },
+      {
+        path: "subcategories/edit",
+        element: SubCategoryEdit,
+      },
+      // Brands
+      {
+        path: "brand",
+        element: Brands,
+      },
+      {
+        path: "brand/add",
+        element: BrandAdd,
+      },
+      {
+        path: "brand/edit",
+        element: BrandEdit,
+      },
+      // Orders
+      {
+        path: "orders",
+        element: Orders,
+      },
+      {
+        path: "orders/:orderId",
+        element: OrderDetail,
+      },
+    ],
   },
 ];
 

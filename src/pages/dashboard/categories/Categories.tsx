@@ -10,7 +10,6 @@ import { Plus, Search, Pencil, Trash2, FolderOpen } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
-import DashboardLayout from "@/layouts/DashboardLayout";
 
 interface Category {
   id: string;
@@ -69,7 +68,6 @@ export default function Categories() {
   };
 
   return (
-    <DashboardLayout>
     <div className="space-y-6 max-w-full overflow-hidden">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -197,6 +195,5 @@ export default function Categories() {
         )}
       </Card>
     </div>
-    </DashboardLayout>
   );
 }
