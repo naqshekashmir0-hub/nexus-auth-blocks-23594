@@ -10,41 +10,11 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Recursive function to render routes from configuration
+// Function to render routes from configuration
 const renderRoutes = (routes: RouteConfig[]) => {
   return routes.map((route, index) => {
     const Element = route.element;
     
-    if (route.children) {
-      return (
-        <Route
-          key={route.path + index}
-          path={route.path}
-          element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Element />
-            </Suspense>
-          }
-        >
-          {route.children.map((child, childIndex) => {
-            const ChildElement = child.element;
-            return (
-              <Route
-                key={child.path + childIndex}
-                path={child.path}
-                index={child.index}
-                element={
-                  <Suspense fallback={<LoadingFallback />}>
-                    <ChildElement />
-                  </Suspense>
-                }
-              />
-            );
-          })}
-        </Route>
-      );
-    }
-
     return (
       <Route
         key={route.path + index}

@@ -9,6 +9,7 @@ import { Plus, Search, Pencil, Trash2, User } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 interface UserData {
   id: string;
@@ -79,7 +80,8 @@ export default function Users() {
   };
 
   return (
-    <div className="space-y-6 max-w-full overflow-hidden">
+    <DashboardLayout>
+      <div className="space-y-6 max-w-full overflow-hidden">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Users</h1>
@@ -213,5 +215,6 @@ export default function Users() {
         )}
       </Card>
     </div>
+    </DashboardLayout>
   );
 }

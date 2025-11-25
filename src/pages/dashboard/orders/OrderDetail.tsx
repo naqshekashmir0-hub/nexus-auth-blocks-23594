@@ -12,6 +12,7 @@ import {
   PriceSummaryCard,
   OrderHistoryCard,
 } from "@/features/dashboard/orders";
+import DashboardLayout from "@/layouts/DashboardLayout";
 export default function OrderDetail() {
   const navigate = useNavigate();
   const {

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { useState } from "react";
 import { ROUTES } from "@/core/config/routes";
+import DashboardLayout from "@/layouts/DashboardLayout";
 type Order = {
   id: string;
   customer: string;
@@ -79,7 +80,8 @@ export default function DashboardHome() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedOrders = mockRecentOrders.slice(startIndex, startIndex + itemsPerPage);
 
-  return <div className="space-y-6">
+  return <DashboardLayout>
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
         <p className="text-muted-foreground mt-2">
@@ -223,5 +225,6 @@ export default function DashboardHome() {
       </Card>
 
       
-    </div>;
+    </div>
+  </DashboardLayout>;
 }
