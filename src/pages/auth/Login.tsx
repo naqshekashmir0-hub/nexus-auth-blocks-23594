@@ -57,13 +57,8 @@ const Login = () => {
       </form>
 
       <p className="text-center text-sm text-muted-foreground mt-4">
-        Don't have an account?{" "}
-        <Link to={ROUTES.REGISTER} className="text-primary font-medium hover:underline">
-          Create
-        </Link>
+        Login using the admin credentials
       </p>
-
-      
     </AuthCard>;
 };
 export default Login;

@@ -3,7 +3,6 @@ import { lazy } from "react";
 // Lazy load page components
 const Index = lazy(() => import("@/pages/Index"));
 const Login = lazy(() => import("@/pages/auth/Login"));
-const Register = lazy(() => import("@/pages/auth/Register"));
 const Error = lazy(() => import("@/pages/Error"));
 const Dashboard = lazy(() => import("@/pages/dashboard/dashboard/Dashboard"));
 const DashboardHome = lazy(() => import("@/pages/dashboard/dashboard/DashboardHome"));
@@ -29,7 +28,6 @@ const UserEdit = lazy(() => import("@/pages/dashboard/users/UserEdit"));
 export const ROUTES = {
   HOME: "/",
   LOGIN: "/login",
-  REGISTER: "/register",
   DASHBOARD: {
     HOME: "/dashboard",
     USERS: "/dashboard/users",
@@ -68,10 +66,6 @@ export const routeConfig: RouteConfig[] = [
   {
     path: ROUTES.LOGIN,
     element: Login,
-  },
-  {
-    path: ROUTES.REGISTER,
-    element: Register,
   },
   {
     path: ROUTES.DASHBOARD.HOME,
