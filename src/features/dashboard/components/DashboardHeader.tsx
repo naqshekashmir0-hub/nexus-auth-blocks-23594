@@ -1,5 +1,5 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Bell, Search, Maximize2, Settings, MessageSquare, Grid3x3 } from "lucide-react";
+import { Bell, Maximize2, Settings, MessageSquare, Grid3x3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProfileMenu } from "@/features/dashboard/components/ProfileMenu";
@@ -9,8 +9,8 @@ export function DashboardHeader() {
         <SidebarTrigger className="hover:bg-sidebar-accent" />
         
         <div className="relative w-full max-w-xl">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Ctrl + K" className="pl-10 w-full bg-muted/30 border-muted h-8 rounded" />
+          
+          
         </div>
       </div>
 
