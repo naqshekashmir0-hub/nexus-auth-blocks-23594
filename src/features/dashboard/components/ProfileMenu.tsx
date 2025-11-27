@@ -62,7 +62,6 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
               <div className="flex-1 text-left">
                 <p className="font-semibold text-sm">{userName}</p>
                 <p className="text-xs text-muted-foreground">{userEmail}</p>
-                <p className="text-xs text-primary font-medium">{userRole}</p>
               </div>
             </div>
           </Button>
