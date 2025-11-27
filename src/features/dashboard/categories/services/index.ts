@@ -1,2 +1,2 @@
-// Category-specific API services will go here
-// Example: fetchCategories, createCategory, updateCategory, deleteCategory
+export { categoryService } from './categoryService';
+export type { CreateCategoryData, CategoryResponse } from './categoryService';

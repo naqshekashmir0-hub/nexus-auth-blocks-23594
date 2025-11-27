@@ -6,10 +6,13 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
 import { ROUTES } from "@/core/config/routes";
+import { categoryService } from "@/features/dashboard/categories/services";
+import { showErrorToast } from "@/core/errors";
 
 type CategoryFormData = {
   category_name: string;
   category_logo: string;
+  logoFile: File | null;
 };
 
 export default function CategoryAdd() {
@@ -19,9 +22,11 @@ export default function CategoryAdd() {
   const [formData, setFormData] = useState<CategoryFormData>({
     category_name: "",
     category_logo: "",
+    logoFile: null,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.category_name.trim()) {
@@ -33,12 +38,35 @@ export default function CategoryAdd() {
       return;
     }
 
-    toast({
-      title: "Category added",
-      description: "The new category has been added successfully.",
-    });
-    
-    navigate(ROUTES.DASHBOARD.CATEGORIES);
+    if (!formData.logoFile) {
+      toast({
+        title: "Error",
+        description: "Category logo is required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      const formDataToSend = new FormData();
+      formDataToSend.append('category_name', formData.category_name);
+      formDataToSend.append('category_logo', formData.logoFile);
+      
+      await categoryService.createCategory(formDataToSend);
+
+      toast({
+        title: "Success",
+        description: "Category added successfully",
+      });
+      
+      navigate(ROUTES.DASHBOARD.CATEGORIES);
+    } catch (error) {
+      showErrorToast(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -77,6 +105,7 @@ export default function CategoryAdd() {
               label="Category Logo"
               value={formData.category_logo}
               onChange={(value) => setFormData({ ...formData, category_logo: value })}
+              onFileChange={(file) => setFormData({ ...formData, logoFile: file })}
               alt="Category logo"
             />
           </CardContent>
@@ -85,6 +114,7 @@ export default function CategoryAdd() {
         <FormActions
           cancelPath={ROUTES.DASHBOARD.CATEGORIES}
           submitLabel="Add Category"
+          isSubmitting={isSubmitting}
         />
       </form>
     </div>

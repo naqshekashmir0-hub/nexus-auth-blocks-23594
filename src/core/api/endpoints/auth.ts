@@ -17,3 +17,11 @@ export const BRAND_ENDPOINTS = {
   UPDATE: '/api/v1/admin/update-brand',
   DELETE: '/api/v1/admin/delete-brand',
 } as const;
+
+// Category API endpoints
+export const CATEGORY_ENDPOINTS = {
+  CREATE: '/api/v1/admin/add-category',
+  LIST: '/api/v1/admin/categories',
+  UPDATE: '/api/v1/admin/update-category',
+  DELETE: '/api/v1/admin/delete-category',
+} as const;
