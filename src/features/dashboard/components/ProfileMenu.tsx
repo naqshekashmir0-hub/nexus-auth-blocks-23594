@@ -77,8 +77,7 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
           </Avatar>
           <div className="flex-1">
             <p className="font-semibold text-sm">{userName}</p>
-            <p className="text-xs text-muted-foreground">{userEmail}</p>
-            <p className="text-xs text-primary font-medium mt-1">{userRole}</p>
+            <p className="text-xs text-muted-foreground">{userEmail} ({userRole})</p>
           </div>
         </div>
         
