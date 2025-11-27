@@ -7,16 +7,35 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/features/auth/hooks";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/core/config/routes";
 
 interface ProfileMenuProps {
   variant?: "icon" | "full";
 }
 
 export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
-  const handleLogout = () => {
-    // TODO: Implement logout logic
-    console.log("Logout clicked");
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate(ROUTES.LOGIN);
   };
+
+  // Get user initials for avatar
+  const userInitials = user?.name
+    ? user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "U";
+
+  const userName = user?.name || "User";
+  const userEmail = user?.email || "user@example.com";
 
   return (
     <Popover>
@@ -24,9 +43,9 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
         {variant === "icon" ? (
           <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full p-0">
             <Avatar className="h-10 w-10 border-2 border-primary/20">
-              <AvatarImage src="/placeholder.svg" alt="User" />
+              <AvatarImage src="/placeholder.svg" alt={userName} />
               <AvatarFallback className="bg-primary text-primary-foreground">
-                JD
+                {userInitials}
               </AvatarFallback>
             </Avatar>
           </Button>
@@ -34,14 +53,14 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
           <Button variant="ghost" className="w-full justify-start p-2 h-auto hover:bg-sidebar-accent">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10 border-2 border-primary/20">
-                <AvatarImage src="/placeholder.svg" alt="User" />
+                <AvatarImage src="/placeholder.svg" alt={userName} />
                 <AvatarFallback className="bg-primary text-primary-foreground">
-                  JD
+                  {userInitials}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 text-left">
-                <p className="font-semibold text-sm">JWT User</p>
-                <p className="text-xs text-muted-foreground">UI/UX Designer</p>
+                <p className="font-semibold text-sm">{userName}</p>
+                <p className="text-xs text-muted-foreground">{userEmail}</p>
               </div>
             </div>
           </Button>
@@ -50,14 +69,14 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
       <PopoverContent className="w-64 p-4" align="end">
         <div className="flex items-center gap-3 mb-3">
           <Avatar className="h-12 w-12 border-2 border-primary/20">
-            <AvatarImage src="/placeholder.svg" alt="User" />
+            <AvatarImage src="/placeholder.svg" alt={userName} />
             <AvatarFallback className="bg-primary text-primary-foreground">
-              JD
+              {userInitials}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <p className="font-semibold text-sm">JWT User</p>
-            <p className="text-xs text-muted-foreground">UI/UX Designer</p>
+            <p className="font-semibold text-sm">{userName}</p>
+            <p className="text-xs text-muted-foreground">{userEmail}</p>
           </div>
         </div>
         
