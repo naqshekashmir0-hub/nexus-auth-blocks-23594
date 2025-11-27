@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,11 +7,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
 import { ROUTES } from "@/core/config/routes";
+import { subcategoryService } from "@/features/dashboard/subcategories/services";
+import { categoryService } from "@/features/dashboard/categories/services";
+import { showErrorToast } from "@/core/errors";
 
 type SubCategoryFormData = {
   sub_category_name: string;
   category: string;
   logo: string;
+  logoFile: File | null;
+};
+
+type Category = {
+  _id: string;
+  category_name: string;
+  category_logo: string;
 };
 
 export default function SubCategoryAdd() {
@@ -22,9 +32,33 @@ export default function SubCategoryAdd() {
     sub_category_name: "",
     category: "",
     logo: "",
+    logoFile: null,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await categoryService.listCategories();
+        setCategories(response.categories || []);
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load categories",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, [toast]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.sub_category_name.trim()) {
@@ -45,12 +79,35 @@ export default function SubCategoryAdd() {
       return;
     }
 
-    toast({
-      title: "SubCategory added",
-      description: "The new subcategory has been added successfully.",
-    });
-    
-    navigate(ROUTES.DASHBOARD.SUBCATEGORIES);
+    if (!formData.logoFile) {
+      toast({
+        title: "Error",
+        description: "SubCategory logo is required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      const formDataToSend = new FormData();
+      formDataToSend.append('sub_category_name', formData.sub_category_name);
+      formDataToSend.append('sub_category_logo', formData.logoFile);
+      
+      await subcategoryService.createSubcategory(formDataToSend, formData.category);
+
+      toast({
+        title: "Success",
+        description: "SubCategory added successfully",
+      });
+      
+      navigate(ROUTES.DASHBOARD.SUBCATEGORIES);
+    } catch (error) {
+      showErrorToast(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -82,17 +139,17 @@ export default function SubCategoryAdd() {
               <Select
                 value={formData.category}
                 onValueChange={(value) => setFormData({ ...formData, category: value })}
+                disabled={isLoadingCategories}
               >
                 <SelectTrigger id="category">
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder={isLoadingCategories ? "Loading categories..." : "Select category"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Electronics">Electronics</SelectItem>
-                  <SelectItem value="Clothing">Clothing</SelectItem>
-                  <SelectItem value="Home & Garden">Home & Garden</SelectItem>
-                  <SelectItem value="Sports">Sports</SelectItem>
-                  <SelectItem value="Books">Books</SelectItem>
-                  <SelectItem value="Photography">Photography</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category._id} value={category._id}>
+                      {category.category_name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -108,6 +165,7 @@ export default function SubCategoryAdd() {
               label="SubCategory Logo"
               value={formData.logo}
               onChange={(value) => setFormData({ ...formData, logo: value })}
+              onFileChange={(file) => setFormData({ ...formData, logoFile: file })}
               alt="SubCategory logo"
             />
           </CardContent>
@@ -116,6 +174,7 @@ export default function SubCategoryAdd() {
         <FormActions
           cancelPath={ROUTES.DASHBOARD.SUBCATEGORIES}
           submitLabel="Add SubCategory"
+          isSubmitting={isSubmitting}
         />
       </form>
     </div>

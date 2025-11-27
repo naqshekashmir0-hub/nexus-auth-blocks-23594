@@ -19,6 +19,19 @@ export interface CategoryResponse {
   };
 }
 
+export interface CategoriesListResponse {
+  success: boolean;
+  message: string;
+  categories: Array<{
+    _id: string;
+    category_name: string;
+    category_logo: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }>;
+}
+
 export const categoryService = {
   createCategory: async (data: CreateCategoryData | FormData): Promise<CategoryResponse> => {
     const response = await apiClient.post<CategoryResponse>(
@@ -29,6 +42,13 @@ export const categoryService = {
           'Content-Type': 'multipart/form-data',
         },
       } : undefined
+    );
+    return response.data;
+  },
+  
+  listCategories: async (): Promise<CategoriesListResponse> => {
+    const response = await apiClient.get<CategoriesListResponse>(
+      CATEGORY_ENDPOINTS.LIST
     );
     return response.data;
   },

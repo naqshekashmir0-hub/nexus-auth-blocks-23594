@@ -1,2 +1,2 @@
-// SubCategory-specific API services will go here
-// Example: fetchSubCategories, createSubCategory, updateSubCategory, deleteSubCategory
+export { subcategoryService } from './subcategoryService';
+export type { CreateSubcategoryData, SubcategoryResponse } from './subcategoryService';

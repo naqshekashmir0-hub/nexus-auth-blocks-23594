@@ -25,3 +25,11 @@ export const CATEGORY_ENDPOINTS = {
   UPDATE: '/api/v1/admin/update-category',
   DELETE: '/api/v1/admin/delete-category',
 } as const;
+
+// Subcategory API endpoints
+export const SUBCATEGORY_ENDPOINTS = {
+  CREATE: '/api/v1/admin/add-subcategory',
+  LIST: '/api/v1/admin/subcategories',
+  UPDATE: '/api/v1/admin/update-subcategory',
+  DELETE: '/api/v1/admin/delete-subcategory',
+} as const;
