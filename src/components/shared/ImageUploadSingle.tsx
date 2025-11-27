@@ -5,15 +5,22 @@ interface ImageUploadSingleProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onFileChange?: (file: File | null) => void;
   alt?: string;
 }
 
-export function ImageUploadSingle({ label, value, onChange, alt = "Uploaded image" }: ImageUploadSingleProps) {
+export function ImageUploadSingle({ label, value, onChange, onFileChange, alt = "Uploaded image" }: ImageUploadSingleProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       onChange(URL.createObjectURL(file));
+      onFileChange?.(file);
     }
+  };
+
+  const handleRemove = () => {
+    onChange("");
+    onFileChange?.(null);
   };
 
   return (
@@ -25,7 +32,7 @@ export function ImageUploadSingle({ label, value, onChange, alt = "Uploaded imag
             <img src={value} alt={alt} className="w-full h-full object-cover" />
             <button
               type="button"
-              onClick={() => onChange("")}
+              onClick={handleRemove}
               className="absolute top-1 right-1 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
             >
               <X className="h-3 w-3" />

@@ -12,6 +12,7 @@ import { showErrorToast } from "@/core/errors";
 type BrandFormData = {
   brand_name: string;
   logo: string;
+  logoFile: File | null;
 };
 
 export default function BrandAdd() {
@@ -21,6 +22,7 @@ export default function BrandAdd() {
   const [formData, setFormData] = useState<BrandFormData>({
     brand_name: "",
     logo: "",
+    logoFile: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -36,7 +38,7 @@ export default function BrandAdd() {
       return;
     }
 
-    if (!formData.logo.trim()) {
+    if (!formData.logoFile) {
       toast({
         title: "Error",
         description: "Brand logo is required",
@@ -48,10 +50,11 @@ export default function BrandAdd() {
     try {
       setIsSubmitting(true);
       
-      await brandService.createBrand({
-        brand_name: formData.brand_name,
-        brand_logo: formData.logo,
-      });
+      const formDataToSend = new FormData();
+      formDataToSend.append('brand_name', formData.brand_name);
+      formDataToSend.append('brand_logo', formData.logoFile);
+      
+      await brandService.createBrand(formDataToSend);
 
       toast({
         title: "Success",
@@ -102,6 +105,7 @@ export default function BrandAdd() {
               label="Brand Logo"
               value={formData.logo}
               onChange={(value) => setFormData({ ...formData, logo: value })}
+              onFileChange={(file) => setFormData({ ...formData, logoFile: file })}
               alt="Brand logo"
             />
           </CardContent>
