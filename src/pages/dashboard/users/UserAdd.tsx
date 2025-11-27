@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, FormActions } from "@/components/shared";
 import { ROUTES } from "@/core/config/routes";
+import { userService } from "@/features/dashboard/users";
 
 type UserFormData = {
   first_name: string;
@@ -15,7 +16,7 @@ type UserFormData = {
   email: string;
   password: string;
   phone_number: string;
-  role: "user" | "admin" | "super admin";
+  role: "admin" | "super admin";
 };
 
 export default function UserAdd() {
@@ -28,10 +29,11 @@ export default function UserAdd() {
     email: "",
     password: "",
     phone_number: "",
-    role: "user",
+    role: "admin",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.first_name.trim() || !formData.last_name.trim()) {
@@ -70,12 +72,26 @@ export default function UserAdd() {
       return;
     }
 
-    toast({
-      title: "User added",
-      description: "The new user has been added successfully.",
-    });
-    
-    navigate(ROUTES.DASHBOARD.USERS);
+    setIsSubmitting(true);
+
+    try {
+      await userService.createUser(formData);
+      
+      toast({
+        title: "User added",
+        description: "The new user has been added successfully.",
+      });
+      
+      navigate(ROUTES.DASHBOARD.USERS);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.response?.data?.message || "Failed to add user",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -160,7 +176,7 @@ export default function UserAdd() {
               <Label htmlFor="role">Role *</Label>
               <Select
                 value={formData.role}
-                onValueChange={(value: "user" | "admin" | "super admin") => 
+                onValueChange={(value: "admin" | "super admin") => 
                   setFormData({ ...formData, role: value })
                 }
               >
@@ -168,7 +184,6 @@ export default function UserAdd() {
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="user">User</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                   <SelectItem value="super admin">Super Admin</SelectItem>
                 </SelectContent>
@@ -180,6 +195,7 @@ export default function UserAdd() {
         <FormActions
           cancelPath={ROUTES.DASHBOARD.USERS}
           submitLabel="Add User"
+          isSubmitting={isSubmitting}
         />
       </form>
     </div>

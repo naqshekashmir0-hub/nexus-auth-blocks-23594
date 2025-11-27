@@ -33,3 +33,11 @@ export const SUBCATEGORY_ENDPOINTS = {
   UPDATE: '/api/v1/admin/update-subcategory',
   DELETE: '/api/v1/admin/delete-subcategory',
 } as const;
+
+// User API endpoints
+export const USER_ENDPOINTS = {
+  CREATE: '/api/v1/admin/user',
+  LIST: '/api/v1/admin/users',
+  UPDATE: '/api/v1/admin/user',
+  DELETE: '/api/v1/admin/user',
+} as const;

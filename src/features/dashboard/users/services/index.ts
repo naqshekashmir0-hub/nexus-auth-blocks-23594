@@ -1,2 +1,2 @@
-// User-specific API services will go here
-// Example: fetchUsers, createUser, updateUser, deleteUser
+export { userService } from './userService';
+export type { CreateUserData, UserResponse } from './userService';
