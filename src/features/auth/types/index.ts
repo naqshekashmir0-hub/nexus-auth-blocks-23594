@@ -12,12 +12,8 @@ export interface SignupCredentials {
 }
 
 export interface AuthUser {
-  id: string;
   email: string;
-  name?: string;
-  avatar?: string;
-  role?: string;
-  createdAt: string;
+  name: string;
 }
 
 export interface AuthSession {
