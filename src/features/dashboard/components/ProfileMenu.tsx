@@ -16,7 +16,7 @@ interface ProfileMenuProps {
 }
 
 export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
-  const { user, logout } = useAuth();
+  const { user, role, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -36,6 +36,7 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
 
   const userName = user?.name || "User";
   const userEmail = user?.email || "user@example.com";
+  const userRole = role ? role.charAt(0).toUpperCase() + role.slice(1).replace('-', ' ') : "User";
 
   return (
     <Popover>
@@ -61,6 +62,7 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
               <div className="flex-1 text-left">
                 <p className="font-semibold text-sm">{userName}</p>
                 <p className="text-xs text-muted-foreground">{userEmail}</p>
+                <p className="text-xs text-primary font-medium">{userRole}</p>
               </div>
             </div>
           </Button>
@@ -77,6 +79,7 @@ export function ProfileMenu({ variant = "icon" }: ProfileMenuProps) {
           <div className="flex-1">
             <p className="font-semibold text-sm">{userName}</p>
             <p className="text-xs text-muted-foreground">{userEmail}</p>
+            <p className="text-xs text-primary font-medium mt-1">{userRole}</p>
           </div>
         </div>
         
