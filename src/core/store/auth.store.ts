@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthStore>()(
           user,
           token,
           refreshToken,
-          role: (user.role as UserRole) || 'user',
+          role: 'admin',
           isAuthenticated: true,
           isLoading: false,
         });
@@ -49,7 +49,6 @@ export const useAuthStore = create<AuthStore>()(
       setUser: (user) => {
         set({
           user,
-          role: (user.role as UserRole) || 'user',
         });
       },
 

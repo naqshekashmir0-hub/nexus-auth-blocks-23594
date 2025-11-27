@@ -4,9 +4,10 @@ import { useAuthStore } from '@/core/store';
 import { LoginCredentials, SignupCredentials, AuthUser } from '../types';
 
 interface LoginResponse {
+  success: boolean;
+  Message: string;
   user: AuthUser;
-  token: string;
-  refreshToken?: string;
+  Token: string;
 }
 
 interface SignupResponse {
@@ -23,8 +24,8 @@ export const authService = {
     );
     
     // Store auth data in Zustand
-    const { user, token, refreshToken } = response.data;
-    useAuthStore.getState().setAuth(user, token, refreshToken);
+    const { user, Token } = response.data;
+    useAuthStore.getState().setAuth(user, Token);
     
     return response.data;
   },

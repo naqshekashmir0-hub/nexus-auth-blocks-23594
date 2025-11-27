@@ -6,35 +6,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
-import { useToast } from "@/core/hooks/use-toast";
+import { useAuth } from "@/features/auth/hooks";
 import { ROUTES } from "@/core/config/routes";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {
-    toast
-  } = useToast();
   const navigate = useNavigate();
-  const handleLogin = (e: React.FormEvent) => {
+  const { login, isLoading } = useAuth();
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login button clicked");
-    toast({
-      title: "Login Successful",
-      description: "Welcome back!"
-    });
-    console.log("Navigating to dashboard...");
-    setTimeout(() => {
+    const result = await login({ email, password });
+    
+    if (result.success) {
       navigate(ROUTES.DASHBOARD.HOME);
-      console.log("Navigation called");
-    }, 100);
+    }
   };
+
   const handleSocialLogin = (provider: string) => {
-    toast({
-      title: `${provider} Login`,
-      description: "Social login functionality coming soon!"
-    });
+    console.log(`${provider} login not implemented yet`);
   };
+
   return <AuthCard logo="Able" title="PRO">
       <form onSubmit={handleLogin} className="space-y-4">
         <div className="space-y-2">
@@ -51,8 +44,8 @@ const Login = () => {
           <PasswordInput id="password" placeholder="••••••" value={password} onChange={e => setPassword(e.target.value)} required />
         </div>
 
-        <Button type="submit" className="w-full">
-          Login
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
         </Button>
       </form>
 
