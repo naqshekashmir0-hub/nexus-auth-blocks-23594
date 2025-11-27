@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/core/hooks/use-toast";
 import { FormPageHeader, ImageUploadSingle, FormActions } from "@/components/shared";
 import { ROUTES } from "@/core/config/routes";
+import { brandService } from "@/features/dashboard/brands/services";
+import { showErrorToast } from "@/core/errors";
 
 type BrandFormData = {
   brand_name: string;
@@ -20,8 +22,9 @@ export default function BrandAdd() {
     brand_name: "",
     logo: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.brand_name.trim()) {
@@ -33,12 +36,34 @@ export default function BrandAdd() {
       return;
     }
 
-    toast({
-      title: "Brand added",
-      description: "The new brand has been added successfully.",
-    });
-    
-    navigate(ROUTES.DASHBOARD.BRAND);
+    if (!formData.logo.trim()) {
+      toast({
+        title: "Error",
+        description: "Brand logo is required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      await brandService.createBrand({
+        brand_name: formData.brand_name,
+        brand_logo: formData.logo,
+      });
+
+      toast({
+        title: "Success",
+        description: "Brand added successfully",
+      });
+      
+      navigate(ROUTES.DASHBOARD.BRAND);
+    } catch (error) {
+      showErrorToast(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,6 +110,7 @@ export default function BrandAdd() {
         <FormActions
           cancelPath={ROUTES.DASHBOARD.BRAND}
           submitLabel="Add Brand"
+          isSubmitting={isSubmitting}
         />
       </form>
     </div>

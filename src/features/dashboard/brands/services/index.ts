@@ -1,2 +1,2 @@
-// Brand-specific API services will go here
-// Example: fetchBrands, createBrand, updateBrand, deleteBrand
+export { brandService } from './brandService';
+export type { CreateBrandData, BrandResponse } from './brandService';
