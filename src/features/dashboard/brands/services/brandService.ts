@@ -20,10 +20,15 @@ export interface BrandResponse {
 }
 
 export const brandService = {
-  createBrand: async (data: CreateBrandData): Promise<BrandResponse> => {
+  createBrand: async (data: CreateBrandData | FormData): Promise<BrandResponse> => {
     const response = await apiClient.post<BrandResponse>(
       BRAND_ENDPOINTS.CREATE,
-      data
+      data,
+      data instanceof FormData ? {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      } : undefined
     );
     return response.data;
   },
