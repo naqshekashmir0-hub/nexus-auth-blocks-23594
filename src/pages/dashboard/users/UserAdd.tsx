@@ -16,7 +16,7 @@ type UserFormData = {
   email: string;
   password: string;
   phone_number: string;
-  role: "admin" | "super admin";
+  role: "admin" | "superadmin";
 };
 
 export default function UserAdd() {
@@ -176,7 +176,7 @@ export default function UserAdd() {
               <Label htmlFor="role">Role *</Label>
               <Select
                 value={formData.role}
-                onValueChange={(value: "admin" | "super admin") => 
+                onValueChange={(value: "admin" | "superadmin") => 
                   setFormData({ ...formData, role: value })
                 }
               >
@@ -185,7 +185,7 @@ export default function UserAdd() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="super admin">Super Admin</SelectItem>
+                  <SelectItem value="superadmin">Super Admin</SelectItem>
                 </SelectContent>
               </Select>
             </div>

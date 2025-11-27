@@ -7,7 +7,7 @@ export interface CreateUserData {
   email: string;
   password: string;
   phone_number: string;
-  role: 'admin' | 'super admin';
+  role: 'admin' | 'superadmin';
 }
 
 export interface UserResponse {
