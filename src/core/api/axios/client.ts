@@ -3,7 +3,7 @@ import { useAuthStore } from '@/core/store/auth.store';
 
 // Create axios instance
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://netgene-backend.vercel.app',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://netgene-backend.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
