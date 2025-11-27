@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthCard } from "@/features/auth/components/AuthCard";
 import { ProviderButtons } from "@/features/auth/components/ProviderButtons";
 import { Button } from "@/components/ui/button";
@@ -13,14 +13,24 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login, isLoading } = useAuth();
+  const location = useLocation();
+  const { login, isLoading, isAuthenticated } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      const from = (location.state as any)?.from?.pathname || ROUTES.DASHBOARD.HOME;
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await login({ email, password });
     
     if (result.success) {
-      navigate(ROUTES.DASHBOARD.HOME);
+      const from = (location.state as any)?.from?.pathname || ROUTES.DASHBOARD.HOME;
+      navigate(from, { replace: true });
     }
   };
 

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RootProvider } from "@/core/providers/RootProvider";
 import { routeConfig, errorRoute, type RouteConfig } from "@/core/config/routes";
+import { ProtectedRoute } from "@/core/routes";
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -21,9 +22,11 @@ const renderRoutes = (routes: RouteConfig[]) => {
           key={route.path + index}
           path={route.path}
           element={
-            <Suspense fallback={<LoadingFallback />}>
-              <Element />
-            </Suspense>
+            <ProtectedRoute>
+              <Suspense fallback={<LoadingFallback />}>
+                <Element />
+              </Suspense>
+            </ProtectedRoute>
           }
         >
           {route.children.map((child, childIndex) => {
@@ -45,15 +48,26 @@ const renderRoutes = (routes: RouteConfig[]) => {
       );
     }
 
+    // Only protect dashboard routes (routes starting with /dashboard)
+    const shouldProtect = route.path.startsWith('/dashboard');
+    
     return (
       <Route
         key={route.path + index}
         path={route.path}
         index={route.index}
         element={
-          <Suspense fallback={<LoadingFallback />}>
-            <Element />
-          </Suspense>
+          shouldProtect ? (
+            <ProtectedRoute>
+              <Suspense fallback={<LoadingFallback />}>
+                <Element />
+              </Suspense>
+            </ProtectedRoute>
+          ) : (
+            <Suspense fallback={<LoadingFallback />}>
+              <Element />
+            </Suspense>
+          )
         }
       />
     );
