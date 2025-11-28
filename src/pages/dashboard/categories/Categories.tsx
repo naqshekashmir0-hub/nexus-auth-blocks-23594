@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,12 +10,15 @@ import { Plus, Search, Pencil, Trash2, FolderOpen } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
+import { categoryService } from "@/features/dashboard/categories";
 
 interface Category {
-  id: string;
+  _id: string;
   category_name: string;
   category_logo: string;
-  subcategoryCount: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export default function Categories() {
@@ -24,32 +27,31 @@ export default function Categories() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      id: "1",
-      category_name: "Electronics",
-      category_logo: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=100&h=100&fit=crop",
-      subcategoryCount: 8
-    },
-    {
-      id: "2",
-      category_name: "Clothing",
-      category_logo: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=100&h=100&fit=crop",
-      subcategoryCount: 12
-    },
-    {
-      id: "3",
-      category_name: "Home & Garden",
-      category_logo: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=100&h=100&fit=crop",
-      subcategoryCount: 5
-    },
-    {
-      id: "4",
-      category_name: "Sports",
-      category_logo: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=100&h=100&fit=crop",
-      subcategoryCount: 6
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      setIsLoading(true);
+      const response = await categoryService.listCategories();
+      if (response.success) {
+        setCategories(response.categories);
+      }
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load categories",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
     }
-  ]);
+  };
 
   const filteredCategories = categories.filter(category =>
     category.category_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -59,12 +61,21 @@ export default function Categories() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedCategories = filteredCategories.slice(startIndex, startIndex + itemsPerPage);
 
-  const handleDeleteCategory = (id: string) => {
-    setCategories(categories.filter(cat => cat.id !== id));
-    toast({
-      title: "Success",
-      description: "Category deleted successfully"
-    });
+  const handleDeleteCategory = async (id: string) => {
+    try {
+      // TODO: Call delete API when available
+      setCategories(categories.filter(cat => cat._id !== id));
+      toast({
+        title: "Success",
+        description: "Category deleted successfully"
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete category",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -114,7 +125,13 @@ export default function Categories() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedCategories.length === 0 ? (
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
+                    Loading categories...
+                  </TableCell>
+                </TableRow>
+              ) : paginatedCategories.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                     No categories found
@@ -122,7 +139,7 @@ export default function Categories() {
                 </TableRow>
               ) : (
                 paginatedCategories.map((category) => (
-                  <TableRow key={category.id}>
+                  <TableRow key={category._id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
@@ -135,21 +152,21 @@ export default function Categories() {
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className="text-sm">{category.subcategoryCount}</span>
+                      <span className="text-sm">-</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`${ROUTES.DASHBOARD.CATEGORIES_EDIT}?id=${category.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.CATEGORIES_EDIT}?id=${category._id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleDeleteCategory(category.id)}
+                          onClick={() => handleDeleteCategory(category._id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
