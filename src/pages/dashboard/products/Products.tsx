@@ -10,10 +10,16 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
 import { productService, type Product } from "@/features/dashboard/products";
+import { brandService } from "@/features/dashboard/brands";
+import { categoryService } from "@/features/dashboard/categories";
+import { subcategoryService } from "@/features/dashboard/subcategories";
 
 export default function Products() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
+  const [brands, setBrands] = useState<Map<string, string>>(new Map());
+  const [categories, setCategories] = useState<Map<string, string>>(new Map());
+  const [subcategories, setSubcategories] = useState<Map<string, string>>(new Map());
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,11 +27,26 @@ export default function Products() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await productService.listProducts();
-        setProducts(response.products);
+        const [productsRes, brandsRes, categoriesRes, subcategoriesRes] = await Promise.all([
+          productService.listProducts(),
+          brandService.listBrands(),
+          categoryService.listCategories(),
+          subcategoryService.listSubcategories(),
+        ]);
+        
+        setProducts(productsRes.products);
+        
+        // Create lookup maps for quick access
+        const brandsMap = new Map(brandsRes.allBrands.map(b => [b._id, b.brand_name]));
+        const categoriesMap = new Map(categoriesRes.Categories.map(c => [c._id, c.category_name]));
+        const subcategoriesMap = new Map(subcategoriesRes.Subcategories.map(s => [s._id, s.sub_category_name]));
+        
+        setBrands(brandsMap);
+        setCategories(categoriesMap);
+        setSubcategories(subcategoriesMap);
       } catch (error) {
         toast({
           title: "Error",
@@ -37,7 +58,7 @@ export default function Products() {
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, [toast]);
 
   const filteredProducts = products.filter((product) =>
@@ -103,6 +124,9 @@ export default function Products() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Product</TableHead>
+                  <TableHead>Brand</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Sub Category</TableHead>
                   <TableHead>Manufacturer</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Dimension</TableHead>
@@ -116,7 +140,7 @@ export default function Products() {
               <TableBody>
                 {paginatedProducts.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={9} className="text-center text-muted-foreground">
+                    <TableCell colSpan={12} className="text-center text-muted-foreground">
                       No products found
                     </TableCell>
                   </TableRow>
@@ -134,6 +158,9 @@ export default function Products() {
                           <span className="font-medium">{product.product_name}</span>
                         </div>
                       </TableCell>
+                      <TableCell>{brands.get(product.product_brand) || "-"}</TableCell>
+                      <TableCell>{categories.get(product.product_category) || "-"}</TableCell>
+                      <TableCell>{subcategories.get(product.product_sub_category) || "-"}</TableCell>
                       <TableCell>{product.manufacturer || "-"}</TableCell>
                       <TableCell>{product.product_quantity}</TableCell>
                       <TableCell>{product.dimensions}</TableCell>
