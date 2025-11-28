@@ -181,7 +181,11 @@ export default function ProductAdd() {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center p-8">Loading form data...</div>;
+    return (
+      <div className="flex items-center justify-center p-8">
+        <p className="text-center text-muted-foreground">Loading form data...</p>
+      </div>
+    );
   }
 
   return (
