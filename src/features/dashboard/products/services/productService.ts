@@ -75,7 +75,7 @@ export const productService = {
   },
 
   listProducts: async (): Promise<ProductsListResponse> => {
-    const response = await apiClient.post<ProductsListResponse>(
+    const response = await apiClient.get<ProductsListResponse>(
       PRODUCT_ENDPOINTS.LIST
     );
     return response.data;
