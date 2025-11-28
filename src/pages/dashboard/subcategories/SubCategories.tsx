@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,13 +9,22 @@ import { Plus, Search, Pencil, Trash2, FolderOpen } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
+import { subcategoryService } from "@/features/dashboard/subcategories";
+import { categoryService } from "@/features/dashboard/categories";
 
 interface SubCategory {
-  id: string;
+  _id: string;
   sub_category_name: string;
-  category: string;
-  logo: string;
-  productCount: number;
+  sub_category_logo: string;
+  parent_category: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface Category {
+  _id: string;
+  category_name: string;
 }
 
 export default function SubCategories() {
@@ -24,36 +33,44 @@ export default function SubCategories() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [subCategories, setSubCategories] = useState<SubCategory[]>([
-    {
-      id: "1",
-      sub_category_name: "Smartphones",
-      category: "Electronics",
-      logo: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop",
-      productCount: 15
-    },
-    {
-      id: "2",
-      sub_category_name: "Laptops",
-      category: "Electronics",
-      logo: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=100&h=100&fit=crop",
-      productCount: 23
-    },
-    {
-      id: "3",
-      sub_category_name: "Headphones",
-      category: "Electronics",
-      logo: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
-      productCount: 8
-    },
-    {
-      id: "4",
-      sub_category_name: "Cameras",
-      category: "Photography",
-      logo: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=100&h=100&fit=crop",
-      productCount: 12
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const [subCatsResponse, catsResponse] = await Promise.all([
+        subcategoryService.listSubcategories(),
+        categoryService.listCategories()
+      ]);
+      
+      if (subCatsResponse.success) {
+        setSubCategories(subCatsResponse.Subcategories);
+      }
+      if (catsResponse.success) {
+        setCategories(catsResponse.Categories);
+      }
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load subcategories",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
     }
-  ]);
+  };
+
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find(cat => cat._id === categoryId);
+    return category?.category_name || "-";
+  };
 
   const filteredSubCategories = subCategories.filter(subCategory =>
     subCategory.sub_category_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -63,12 +80,21 @@ export default function SubCategories() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedSubCategories = filteredSubCategories.slice(startIndex, startIndex + itemsPerPage);
 
-  const handleDeleteSubCategory = (id: string) => {
-    setSubCategories(subCategories.filter(sub => sub.id !== id));
-    toast({
-      title: "Success",
-      description: "SubCategory deleted successfully"
-    });
+  const handleDeleteSubCategory = async (id: string) => {
+    try {
+      // TODO: Call delete API when available
+      setSubCategories(subCategories.filter(sub => sub._id !== id));
+      toast({
+        title: "Success",
+        description: "SubCategory deleted successfully"
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete subcategory",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -119,7 +145,13 @@ export default function SubCategories() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedSubCategories.length === 0 ? (
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                    Loading subcategories...
+                  </TableCell>
+                </TableRow>
+              ) : paginatedSubCategories.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     No subcategories found
@@ -127,11 +159,11 @@ export default function SubCategories() {
                 </TableRow>
               ) : (
                 paginatedSubCategories.map((subCategory) => (
-                  <TableRow key={subCategory.id}>
+                  <TableRow key={subCategory._id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src={subCategory.logo} alt={subCategory.sub_category_name} />
+                          <AvatarImage src={subCategory.sub_category_logo} alt={subCategory.sub_category_name} />
                           <AvatarFallback>
                             <FolderOpen className="h-5 w-5" />
                           </AvatarFallback>
@@ -140,24 +172,24 @@ export default function SubCategories() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm">{subCategory.category}</span>
+                      <span className="text-sm">{getCategoryName(subCategory.parent_category)}</span>
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className="text-sm">{subCategory.productCount}</span>
+                      <span className="text-sm">-</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`${ROUTES.DASHBOARD.SUBCATEGORIES_EDIT}?id=${subCategory.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.SUBCATEGORIES_EDIT}?id=${subCategory._id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleDeleteSubCategory(subCategory.id)}
+                          onClick={() => handleDeleteSubCategory(subCategory._id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

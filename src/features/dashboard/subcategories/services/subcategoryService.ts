@@ -21,6 +21,20 @@ export interface SubcategoryResponse {
   };
 }
 
+export interface SubcategoriesListResponse {
+  success: boolean;
+  message: string;
+  Subcategories: Array<{
+    _id: string;
+    sub_category_name: string;
+    sub_category_logo: string;
+    parent_category: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }>;
+}
+
 export const subcategoryService = {
   createSubcategory: async (data: FormData, categoryId: string): Promise<SubcategoryResponse> => {
     const response = await apiClient.post<SubcategoryResponse>(
@@ -31,6 +45,13 @@ export const subcategoryService = {
           'Content-Type': 'multipart/form-data',
         },
       }
+    );
+    return response.data;
+  },
+
+  listSubcategories: async (): Promise<SubcategoriesListResponse> => {
+    const response = await apiClient.get<SubcategoriesListResponse>(
+      SUBCATEGORY_ENDPOINTS.LIST
     );
     return response.data;
   },
