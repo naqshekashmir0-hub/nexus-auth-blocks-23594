@@ -39,7 +39,7 @@ export default function Categories() {
       setIsLoading(true);
       const response = await categoryService.listCategories();
       if (response.success) {
-        setCategories(response.categories);
+        setCategories(response.Categories);
       }
     } catch (error) {
       console.error("Failed to fetch categories:", error);

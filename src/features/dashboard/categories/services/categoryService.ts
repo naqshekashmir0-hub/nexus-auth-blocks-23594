@@ -22,7 +22,7 @@ export interface CategoryResponse {
 export interface CategoriesListResponse {
   success: boolean;
   message: string;
-  categories: Array<{
+  Categories: Array<{
     _id: string;
     category_name: string;
     category_logo: string;
