@@ -78,10 +78,6 @@ export default function Products() {
     });
   };
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center p-8">Loading products...</div>;
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -138,9 +134,15 @@ export default function Products() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedProducts.length === 0 ? (
+                {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={12} className="text-center text-muted-foreground">
+                    <TableCell colSpan={12} className="text-center text-muted-foreground py-8">
+                      Loading products...
+                    </TableCell>
+                  </TableRow>
+                ) : paginatedProducts.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={12} className="text-center text-muted-foreground py-8">
                       No products found
                     </TableCell>
                   </TableRow>
