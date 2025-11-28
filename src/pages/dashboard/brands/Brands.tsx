@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,12 +9,12 @@ import { Plus, Search, Pencil, Trash2, Package } from "lucide-react";
 import { useToast } from "@/core/hooks/use-toast";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ROUTES } from "@/core/config/routes";
+import { brandService } from "@/features/dashboard/brands";
 
 interface Brand {
-  id: string;
+  _id: string;
   brand_name: string;
-  logo: string;
-  products_count: number;
+  brand_logo: string;
 }
 
 export default function Brand() {
@@ -23,32 +23,31 @@ export default function Brand() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [brands, setBrands] = useState<Brand[]>([
-    {
-      id: "1",
-      brand_name: "Apple",
-      logo: "https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=100&h=100&fit=crop",
-      products_count: 45,
-    },
-    {
-      id: "2",
-      brand_name: "Samsung",
-      logo: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=100&h=100&fit=crop",
-      products_count: 32,
-    },
-    {
-      id: "3",
-      brand_name: "Nike",
-      logo: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop",
-      products_count: 28,
-    },
-    {
-      id: "4",
-      brand_name: "Sony",
-      logo: "https://images.unsplash.com/photo-1593642532400-2682810df593?w=100&h=100&fit=crop",
-      products_count: 19,
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBrands();
+  }, []);
+
+  const fetchBrands = async () => {
+    try {
+      setIsLoading(true);
+      const response = await brandService.listBrands();
+      if (response.success) {
+        setBrands(response.allBrands);
+      }
+    } catch (error) {
+      console.error("Failed to fetch brands:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load brands",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
     }
-  ]);
+  };
 
   const filteredBrands = brands.filter(brand =>
     brand.brand_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -58,12 +57,21 @@ export default function Brand() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedBrands = filteredBrands.slice(startIndex, startIndex + itemsPerPage);
 
-  const handleDeleteBrand = (id: string) => {
-    setBrands(brands.filter(brand => brand.id !== id));
-    toast({
-      title: "Success",
-      description: "Brand deleted successfully"
-    });
+  const handleDeleteBrand = async (id: string) => {
+    try {
+      // TODO: Call delete API when available
+      setBrands(brands.filter(brand => brand._id !== id));
+      toast({
+        title: "Success",
+        description: "Brand deleted successfully"
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete brand",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -113,7 +121,13 @@ export default function Brand() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedBrands.length === 0 ? (
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
+                    Loading brands...
+                  </TableCell>
+                </TableRow>
+              ) : paginatedBrands.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                     No brands found
@@ -121,11 +135,11 @@ export default function Brand() {
                 </TableRow>
               ) : (
                 paginatedBrands.map((brand) => (
-                  <TableRow key={brand.id}>
+                  <TableRow key={brand._id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
-                          <AvatarImage src={brand.logo} alt={brand.brand_name} />
+                          <AvatarImage src={brand.brand_logo} alt={brand.brand_name} />
                           <AvatarFallback>
                             <Package className="h-5 w-5" />
                           </AvatarFallback>
@@ -134,21 +148,21 @@ export default function Brand() {
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className="text-muted-foreground">{brand.products_count}</span>
+                      <span className="text-muted-foreground">-</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => navigate(`${ROUTES.DASHBOARD.BRAND_EDIT}?id=${brand.id}`)}
+                          onClick={() => navigate(`${ROUTES.DASHBOARD.BRAND_EDIT}?id=${brand._id}`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleDeleteBrand(brand.id)}
+                          onClick={() => handleDeleteBrand(brand._id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
