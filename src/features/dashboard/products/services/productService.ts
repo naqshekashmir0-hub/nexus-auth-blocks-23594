@@ -15,34 +15,44 @@ export interface CreateProductData {
   manufacturer: string;
 }
 
+export interface Product {
+  _id: string;
+  product_name: string;
+  product_description: string;
+  product_quantity: number;
+  product_price: number;
+  discount_precentage: number;
+  final_price: number;
+  product_brand: string;
+  product_category: string;
+  product_sub_category: string;
+  avatar: string;
+  cover_images: Array<{
+    url: string;
+    _id: string;
+  }>;
+  dimensions: string;
+  manufacturer: string;
+  sales: boolean;
+  featured: boolean;
+  created_by: string;
+  product_reviews: any[];
+  product_likes: any[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface ProductResponse {
   success: boolean;
   message: string;
-  product: {
-    _id: string;
-    product_name: string;
-    product_description: string;
-    product_quantity: number;
-    product_price: number;
-    discount_precentage: number;
-    final_price: number;
-    product_brand: string;
-    product_category: string;
-    product_sub_category: string;
-    avatar: string;
-    cover_images: Array<{
-      url: string;
-      _id: string;
-    }>;
-    dimensions: string;
-    manufacturer: string;
-    sales: boolean;
-    featured: boolean;
-    created_by: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-  };
+  product: Product;
+}
+
+export interface ProductsListResponse {
+  success: boolean;
+  message: string;
+  products: Product[];
 }
 
 export const productService = {
@@ -60,6 +70,13 @@ export const productService = {
           'Content-Type': 'multipart/form-data',
         },
       }
+    );
+    return response.data;
+  },
+
+  listProducts: async (): Promise<ProductsListResponse> => {
+    const response = await apiClient.post<ProductsListResponse>(
+      PRODUCT_ENDPOINTS.LIST
     );
     return response.data;
   },
