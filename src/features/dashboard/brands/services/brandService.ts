@@ -19,6 +19,16 @@ export interface BrandResponse {
   };
 }
 
+export interface BrandsListResponse {
+  success: boolean;
+  message: string;
+  allBrands: Array<{
+    _id: string;
+    brand_name: string;
+    brand_logo: string;
+  }>;
+}
+
 export const brandService = {
   createBrand: async (data: CreateBrandData | FormData): Promise<BrandResponse> => {
     const response = await apiClient.post<BrandResponse>(
@@ -29,6 +39,13 @@ export const brandService = {
           'Content-Type': 'multipart/form-data',
         },
       } : undefined
+    );
+    return response.data;
+  },
+
+  listBrands: async (): Promise<BrandsListResponse> => {
+    const response = await apiClient.get<BrandsListResponse>(
+      BRAND_ENDPOINTS.LIST
     );
     return response.data;
   },
