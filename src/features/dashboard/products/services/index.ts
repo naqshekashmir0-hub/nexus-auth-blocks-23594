@@ -1,2 +1,2 @@
-// Product-specific API services will go here
-// Example: fetchProducts, createProduct, updateProduct, deleteProduct
+export { productService } from './productService';
+export type { CreateProductData, ProductResponse } from './productService';

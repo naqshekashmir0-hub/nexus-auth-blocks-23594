@@ -5,13 +5,15 @@ interface ImageUploadMultipleProps {
   label: string;
   values: string[];
   onChange: (values: string[]) => void;
+  onFilesChange?: (files: File[]) => void;
 }
 
-export function ImageUploadMultiple({ label, values, onChange }: ImageUploadMultipleProps) {
+export function ImageUploadMultiple({ label, values, onChange, onFilesChange }: ImageUploadMultipleProps) {
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     const newImages = files.map(file => URL.createObjectURL(file));
     onChange([...values, ...newImages]);
+    onFilesChange?.(files);
   };
 
   const handleRemoveImage = (index: number) => {
