@@ -42,7 +42,7 @@ export default function SubCategoryAdd() {
     const fetchCategories = async () => {
       try {
         const response = await categoryService.listCategories();
-        setCategories(response.categories || []);
+        setCategories(response.Categories || []);
       } catch (error) {
         console.error('Failed to fetch categories:', error);
         toast({
