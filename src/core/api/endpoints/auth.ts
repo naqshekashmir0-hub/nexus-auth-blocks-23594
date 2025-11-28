@@ -41,3 +41,11 @@ export const USER_ENDPOINTS = {
   UPDATE: '/api/v1/admin/user',
   DELETE: '/api/v1/admin/user',
 } as const;
+
+// Product API endpoints
+export const PRODUCT_ENDPOINTS = {
+  CREATE: '/api/v1/admin/add-product',
+  LIST: '/api/v1/admin/products',
+  UPDATE: '/api/v1/admin/update-product',
+  DELETE: '/api/v1/admin/delete-product',
+} as const;

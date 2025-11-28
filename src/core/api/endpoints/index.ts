@@ -1,5 +1,4 @@
-export { AUTH_ENDPOINTS, BRAND_ENDPOINTS, CATEGORY_ENDPOINTS, SUBCATEGORY_ENDPOINTS, USER_ENDPOINTS } from './auth';
+export { AUTH_ENDPOINTS, BRAND_ENDPOINTS, CATEGORY_ENDPOINTS, SUBCATEGORY_ENDPOINTS, USER_ENDPOINTS, PRODUCT_ENDPOINTS } from './auth';
 
 // Add more endpoint modules here as needed
-// export { PRODUCTS_ENDPOINTS } from './products';
 // export { ORDERS_ENDPOINTS } from './orders';

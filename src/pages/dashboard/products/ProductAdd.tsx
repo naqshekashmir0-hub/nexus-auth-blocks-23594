@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -16,6 +15,10 @@ import {
   FormActions, 
   TagInput 
 } from "@/components/shared";
+import { brandService } from "@/features/dashboard/brands";
+import { categoryService } from "@/features/dashboard/categories";
+import { subcategoryService } from "@/features/dashboard/subcategories";
+import { productService } from "@/features/dashboard/products";
 
 type ProductFormData = {
   name: string;
@@ -33,18 +36,28 @@ type ProductFormData = {
   salesBadge: boolean;
   featured: boolean;
   avatar: string;
+  avatarFile: File | null;
   coverImages: string[];
+  coverImageFiles: File[];
 };
 
-const brands = ["TechBrand", "ErgoTech", "Samsung", "Apple", "Sony", "LG"];
-const categories = ["Electronics", "Accessories", "Cables", "Furniture", "Food & Beverage"];
+type Brand = {
+  _id: string;
+  brand_name: string;
+  brand_logo: string;
+};
 
-const subCategoriesByCategory: Record<string, string[]> = {
-  "Electronics": ["Smartphones", "Laptops", "Tablets", "Cameras", "TVs"],
-  "Accessories": ["Phone Cases", "Chargers", "Headphones", "Keyboards", "Mouse"],
-  "Cables": ["USB Cables", "HDMI Cables", "Power Cables", "Audio Cables"],
-  "Furniture": ["Chairs", "Desks", "Tables", "Cabinets", "Shelves"],
-  "Food & Beverage": ["Snacks", "Beverages", "Dairy", "Bakery", "Frozen"]
+type Category = {
+  _id: string;
+  category_name: string;
+  category_logo: string;
+};
+
+type Subcategory = {
+  _id: string;
+  sub_category_name: string;
+  sub_category_logo: string;
+  parent_category: string;
 };
 
 const dimensionTypes = ["KG", "LITRE", "DOZEN", "PIECE"];
@@ -52,6 +65,12 @@ const dimensionTypes = ["KG", "LITRE", "DOZEN", "PIECE"];
 export default function ProductAdd() {
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState<ProductFormData>({
     name: "",
@@ -69,22 +88,101 @@ export default function ProductAdd() {
     salesBadge: false,
     featured: false,
     avatar: "",
+    avatarFile: null,
     coverImages: [],
+    coverImageFiles: [],
   });
 
-  const actualPrice = formData.price - (formData.price * formData.discount / 100);
-  const availableSubCategories = formData.category ? subCategoriesByCategory[formData.category] || [] : [];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const [brandsRes, categoriesRes, subcategoriesRes] = await Promise.all([
+          brandService.listBrands(),
+          categoryService.listCategories(),
+          subcategoryService.listSubcategories(),
+        ]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+        setBrands(brandsRes.allBrands);
+        setCategories(categoriesRes.Categories);
+        setSubcategories(subcategoriesRes.Subcategories);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to load form data",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [toast]);
+
+  const actualPrice = formData.price - (formData.price * formData.discount / 100);
+  const availableSubCategories = formData.category 
+    ? subcategories.filter(sub => sub.parent_category === formData.category)
+    : [];
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    toast({
-      title: "Product added",
-      description: "The new product has been added successfully.",
-    });
-    
-    navigate(ROUTES.DASHBOARD.PRODUCTS);
+    if (!formData.avatarFile) {
+      toast({
+        title: "Error",
+        description: "Please upload a product avatar image",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      const apiFormData = new FormData();
+      apiFormData.append('product_name', formData.name);
+      apiFormData.append('product_description', formData.description);
+      apiFormData.append('product_quantity', formData.quantity.toString());
+      apiFormData.append('product_price', formData.price.toString());
+      apiFormData.append('discount_percentage', formData.discount.toString());
+      apiFormData.append('dimensions', formData.dimensionType);
+      apiFormData.append('sales', formData.salesBadge.toString());
+      apiFormData.append('featured', formData.featured.toString());
+      apiFormData.append('manufacturer', formData.manufacturer);
+      apiFormData.append('avatar', formData.avatarFile);
+      
+      formData.coverImageFiles.forEach((file) => {
+        apiFormData.append('cover_images', file);
+      });
+
+      await productService.createProduct(
+        apiFormData,
+        formData.brand,
+        formData.category,
+        formData.subCategory
+      );
+      
+      toast({
+        title: "Success",
+        description: "Product added successfully",
+      });
+      
+      navigate(ROUTES.DASHBOARD.PRODUCTS);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add product",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center p-8">Loading form data...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -112,14 +210,14 @@ export default function ProductAdd() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="brand">Brand *</Label>
-                <Select value={formData.brand} onValueChange={(value) => setFormData({ ...formData, brand: value })}>
+                <Select value={formData.brand} onValueChange={(value) => setFormData({ ...formData, brand: value })} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select brand" />
                   </SelectTrigger>
                   <SelectContent>
                     {brands.map((brand) => (
-                      <SelectItem key={brand} value={brand}>
-                        {brand}
+                      <SelectItem key={brand._id} value={brand._id}>
+                        {brand.brand_name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -154,14 +252,15 @@ export default function ProductAdd() {
                 <Select 
                   value={formData.category} 
                   onValueChange={(value) => setFormData({ ...formData, category: value, subCategory: "" })}
+                  required
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
+                      <SelectItem key={cat._id} value={cat._id}>
+                        {cat.category_name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -174,14 +273,15 @@ export default function ProductAdd() {
                   value={formData.subCategory} 
                   onValueChange={(value) => setFormData({ ...formData, subCategory: value })}
                   disabled={!formData.category}
+                  required
                 >
                   <SelectTrigger>
                     <SelectValue placeholder={formData.category ? "Select sub category" : "Select category first"} />
                   </SelectTrigger>
                   <SelectContent>
                     {availableSubCategories.map((subCat) => (
-                      <SelectItem key={subCat} value={subCat}>
-                        {subCat}
+                      <SelectItem key={subCat._id} value={subCat._id}>
+                        {subCat.sub_category_name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -327,9 +427,10 @@ export default function ProductAdd() {
           </CardHeader>
           <CardContent className="space-y-6">
             <ImageUploadSingle
-              label="Avatar (Main Product Image)"
+              label="Avatar (Main Product Image) *"
               value={formData.avatar}
               onChange={(value) => setFormData({ ...formData, avatar: value })}
+              onFileChange={(file) => setFormData({ ...formData, avatarFile: file })}
               alt="Product avatar"
             />
 
@@ -337,6 +438,7 @@ export default function ProductAdd() {
               label="Cover Images (Multiple)"
               values={formData.coverImages}
               onChange={(values) => setFormData({ ...formData, coverImages: values })}
+              onFilesChange={(files) => setFormData({ ...formData, coverImageFiles: [...formData.coverImageFiles, ...files] })}
             />
           </CardContent>
         </Card>
@@ -344,6 +446,7 @@ export default function ProductAdd() {
         <FormActions
           cancelPath={ROUTES.DASHBOARD.PRODUCTS}
           submitLabel="Add Product"
+          isSubmitting={isSubmitting}
         />
       </form>
     </div>
