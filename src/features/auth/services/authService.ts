@@ -6,15 +6,7 @@ import { LoginCredentials, SignupCredentials, AuthUser } from '../types';
 interface LoginResponse {
   success: boolean;
   Message: string;
-  user: {
-    _id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    role: string;
-    phone_number?: string;
-    permission_component?: any[];
-  };
+  user: AuthUser;
   Token: string;
 }
 
@@ -31,16 +23,9 @@ export const authService = {
       credentials
     );
     
-    // Map API response to AuthUser format
-    const apiUser = response.data.user;
-    const authUser: AuthUser = {
-      email: apiUser.email,
-      name: `${apiUser.first_name} ${apiUser.last_name}`,
-      role: apiUser.role
-    };
-    
     // Store auth data in Zustand
-    useAuthStore.getState().setAuth(authUser, response.data.Token);
+    const { user, Token } = response.data;
+    useAuthStore.getState().setAuth(user, Token);
     
     return response.data;
   },
