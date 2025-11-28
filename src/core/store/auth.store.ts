@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthStore>()(
           user,
           token,
           refreshToken,
-          role: 'admin',
+          role: (user.role as UserRole) || 'user',
           isAuthenticated: true,
           isLoading: false,
         });

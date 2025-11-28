@@ -14,6 +14,7 @@ export interface SignupCredentials {
 export interface AuthUser {
   email: string;
   name: string;
+  role?: string;
 }
 
 export interface AuthSession {
